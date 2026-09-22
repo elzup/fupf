@@ -2,40 +2,44 @@
 
 # fupf glyph
 
-`4↑4 = 4^4 = 256` 通りのパターン図形を可視化するプレビューです。
+English | [日本語](README.ja.md)
 
-![fupf glyph の 16² pos 表示](docs/fupf-ss.png)
+A preview that visualizes all `4↑4 = 4^4 = 256` pattern glyphs.
 
-サイト内の Clock demo では、現在の HH・MM・SS をそれぞれ 256 パターンからほぼ等間隔にサンプルして表示します。
+![fupf glyph in 16² pos mode](docs/fupf-ss.png)
 
-## ファイル
+The Clock demo on the site samples the current HH, MM, and SS at roughly even intervals from the 256 patterns and displays them.
 
-- `src/` — React + TypeScript のソースコード
-  - `lib/renderers/` — 各モードの SVG 生成ロジック
-  - `components/` — React コンポーネント
-- `index.html` — Vite エントリーポイント
+## Files
 
-## モード
+- `src/` — React + TypeScript source
+  - `lib/renderers/` — SVG generation logic for each mode
+  - `components/` — React components
+- `index.html` — Vite entry point
 
-- **ボーダー**: 4辺 × 2bit の線スタイル
-- **タイル**: `4^4 map type`
-- **ポリゴン**: `4^4 map type`
-- **4隅パス**: `4^4 graph type`
-- **丸点+線**: `2^4 * 4^2 type`
+## Modes
+
+Labels in parentheses are the names shown in the UI.
+
+- **Border** (ボーダー): line style per side, 4 sides × 2 bits
+- **Tile** (タイル): `4^4 map type`
+- **Polygon** (ポリゴン): `4^4 map type`
+- **Corner path** (4隅パス): `4^4 graph type`
+- **Dot + line** (丸点+線): `2^4 * 4^2 type`
 - **Aster**: `2^8 type`
-- **ダイス**: `4^4 box type`（サイコロ展開図から1枚欠けた十字。上右下左の各マスで四隅から1つ選び閉路に結ぶ。辺の配色は単色/45°/位置/グラデを選択可）
-- **16² pos**: `16^2 pos type`（4×4 グリッドの 16 位置から開始・終了を選び、有向な線を引く。上位4bit=開始位置、下位4bit=終了位置）
-- **あみだ**: `4^3 * 4 amida type`（4本の縦棒に対し、上・中・下の各段で「横線なし／1–2／2–3／3–4」を選び、開始位置4択から経路を辿る。通らなかった横線を強調し、横線にも経路にも触れない縦棒は通常色／別色／非表示を選択可）
+- **Dice** (ダイス): `4^4 box type` — a cross shape (a die net with one face missing). For each of the top/right/bottom/left cells, pick one of its four corners and connect them into a closed loop. Edge coloring can be solid / 45° / position / gradient.
+- **16² pos**: `16^2 pos type` — pick a start and an end from the 16 positions of a 4×4 grid and draw a directed line. Upper 4 bits = start, lower 4 bits = end.
+- **Amida** (あみだ): `4^3 * 4 amida type` — four vertical bars; in each of the top/middle/bottom rows choose "no rung / 1–2 / 2–3 / 3–4", then trace the path from one of four start positions. Rungs not taken are highlighted, and bars touched by neither a rung nor the path can be drawn normally, in another color, or hidden.
 
-## 開発
+## Development
 
 ```bash
-ni        # 依存関係をインストール
-nr dev    # 開発サーバー起動
-nr test   # テスト実行
-nr build  # 本番ビルド（dist/ に出力）
+ni        # install dependencies
+nr dev    # start dev server
+nr test   # run tests
+nr build  # production build (outputs to dist/)
 ```
 
-## 公開
+## Deployment
 
-GitHub Pages で公開しています: https://elzup.github.io/fupf/
+Published on GitHub Pages: https://elzup.github.io/fupf/
