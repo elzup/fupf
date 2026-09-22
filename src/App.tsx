@@ -2,6 +2,7 @@ import { Header } from './components/Header'
 import { Sidebar } from './components/Sidebar'
 import { Grid } from './components/Grid'
 import { ClockDemo } from './components/ClockDemo'
+import { TextDemo } from './components/TextDemo'
 import { usePersistentState } from './hooks/usePersistentState'
 import type { AppState } from './lib/types'
 
@@ -30,6 +31,7 @@ export default function App() {
         }
       />
       <ClockDemo state={state} />
+      <TextDemo state={state} />
       <main>
         <Sidebar state={state} onUpdate={handleUpdate} />
         <Grid
