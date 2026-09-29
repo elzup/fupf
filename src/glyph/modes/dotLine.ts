@@ -1,3 +1,9 @@
+import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+
+export interface DotLineOptions extends SizeOption {
+  monochrome: boolean
+}
+
 export function dotLineSvg(index: number, size = 40, monochrome = false): string {
   // 上位4bit: 4隅の丸点有無（bit7=左上, bit6=右上, bit5=左下, bit4=右下）
   // 下位4bit: 線分（bit3-2=始点, bit1-0=終点）
@@ -47,4 +53,18 @@ export function dotLineNotation(index: number): string {
   const lineEnd = index & 3
   const dots = dotBits.toString(2).padStart(4, '0')
   return `${dots} ${lineStart.toString(2).padStart(2, '0')}-${lineEnd.toString(2).padStart(2, '0')}`
+}
+
+export function renderDotLine(
+  index: number,
+  options: Partial<DotLineOptions> = {},
+): GlyphResult {
+  return {
+    svg: dotLineSvg(
+      index,
+      options.size ?? DEFAULT_GLYPH_SIZE,
+      options.monochrome ?? false,
+    ),
+    notation: dotLineNotation(index),
+  }
 }

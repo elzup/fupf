@@ -13,7 +13,8 @@ The Clock demo on the site samples the current HH, MM, and SS at roughly even in
 ## Files
 
 - `src/` — React + TypeScript source
-  - `lib/renderers/` — SVG generation logic for each mode
+  - `glyph/` — framework-free SVG generation (`renderGlyph`), one file per mode under `glyph/modes/`
+  - `lib/` — app state and the mapping from UI state to glyph options
   - `components/` — React components
 - `index.html` — Vite entry point
 

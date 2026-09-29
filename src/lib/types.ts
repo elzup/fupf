@@ -1,27 +1,23 @@
-export type Mode =
-  | 'edges'
-  | 'symbols'
-  | 'triSplit'
-  | 'path'
-  | 'dotLine'
-  | 'aster'
-  | 'box'
-  | 'pos16'
-  | 'amida'
+import type {
+  AmidaRailMode,
+  AsterFillColor,
+  AsterFillMode,
+  BoxEdgeColor,
+  PolygonVariant,
+} from '../glyph/types'
+import type { GlyphMode } from '../glyph'
 
-export type PolygonVariant = 'normal' | 'rhombus' | 'inverse'
-export type AsterFillMode = 'none' | 'alpha' | 'solid'
-export type AsterFillColor = 'segment' | 'run'
-export type BoxEdgeColor = 'single' | 'angle' | 'xy' | 'grad'
-export type AmidaRailMode = 'normal' | 'colored' | 'hidden'
-export type NotationStyle = 'default' | 'bin' | 'hex' | 'bar' | 'dot'
-
-export interface PatternState {
-  a: number
-  b: number
-  c: number
-  d: number
+export type {
+  AmidaRailMode,
+  AsterFillColor,
+  AsterFillMode,
+  BoxEdgeColor,
+  PolygonVariant,
 }
+export type { PatternState } from '../glyph/bits'
+
+export type Mode = GlyphMode
+export type NotationStyle = 'default' | 'bin' | 'hex' | 'bar' | 'dot'
 
 export interface AppState {
   currentMode: Mode
@@ -45,14 +41,3 @@ export interface AppState {
   pos16ShowBoundary: boolean
 }
 
-export interface SvgResult {
-  svg: string
-}
-
-export interface PathSvgResult extends SvgResult {
-  separators: string[]
-}
-
-export interface AsterSvgResult extends SvgResult {
-  directions: string[]
-}

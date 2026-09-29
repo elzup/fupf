@@ -1,5 +1,16 @@
-import { fmt2bit, stateFromIndex } from '../state'
-import type { AmidaRailMode } from '../types'
+import { fmt2bit, stateFromIndex } from '../bits'
+import {
+  DEFAULT_GLYPH_SIZE,
+  type AmidaRailMode,
+  type GlyphResult,
+  type SizeOption,
+} from '../types'
+
+export interface AmidaOptions extends SizeOption {
+  /** 横線にも経路にも触れない縦線の描き方 */
+  railMode: AmidaRailMode
+  monochrome: boolean
+}
 
 export interface AmidaTrace {
   start: number
@@ -119,4 +130,19 @@ export function amidaNotation(index: number): string {
 export function amidaDetail(index: number): string {
   const { rungs, start, end } = traceAmida(index)
   return `横線 上:${RUNG_LABELS[rungs[0]]} 中:${RUNG_LABELS[rungs[1]]} 下:${RUNG_LABELS[rungs[2]]} / 開始:${start + 1} → 終了:${end + 1}`
+}
+
+export function renderAmida(
+  index: number,
+  options: Partial<AmidaOptions> = {},
+): GlyphResult {
+  return {
+    svg: amidaSvg(
+      index,
+      options.size ?? DEFAULT_GLYPH_SIZE,
+      options.monochrome ?? false,
+      options.railMode ?? 'normal',
+    ),
+    notation: amidaNotation(index),
+  }
 }

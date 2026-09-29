@@ -13,7 +13,8 @@
 ## ファイル
 
 - `src/` — React + TypeScript のソースコード
-  - `lib/renderers/` — 各モードの SVG 生成ロジック
+  - `glyph/` — フレームワーク非依存の SVG 生成 (`renderGlyph`)。モードごとの実装は `glyph/modes/`
+  - `lib/` — アプリの状態と、UI の状態から glyph の options への変換
   - `components/` — React コンポーネント
 - `index.html` — Vite エントリーポイント
 

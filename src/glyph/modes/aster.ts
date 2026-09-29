@@ -1,5 +1,45 @@
-import { ASTER_COLORS, ASTER_DIRECTIONS } from '../constants'
-import type { AsterFillColor, AsterFillMode, AsterSvgResult } from '../types'
+import {
+  DEFAULT_GLYPH_SIZE,
+  type AsterFillColor,
+  type AsterFillMode,
+  type GlyphResult,
+  type SizeOption,
+} from '../types'
+
+export interface AsterOptions extends SizeOption {
+  fillMode: AsterFillMode
+  fillColor: AsterFillColor
+  cross: boolean
+  monochrome: boolean
+}
+
+interface AsterSvgResult {
+  svg: string
+  directions: string[]
+}
+
+// Aster 8方向の配色（上から時計回りの色相環）
+export const ASTER_COLORS = [
+  '#f87171',
+  '#fb923c',
+  '#facc15',
+  '#a3e635',
+  '#34d399',
+  '#22d3ee',
+  '#818cf8',
+  '#e879f9',
+]
+
+export const ASTER_DIRECTIONS = [
+  '上',
+  '右上',
+  '右',
+  '右下',
+  '下',
+  '左下',
+  '左',
+  '左上',
+]
 
 export function asterSvg(
   index: number,
@@ -87,4 +127,16 @@ export function asterSvg(
 export function asterNotation(index: number): string {
   const bits = index.toString(2).padStart(8, '0')
   return bits.match(/.{2}/g)?.join('-') ?? bits
+}
+
+export function renderAster(
+  index: number,
+  options: Partial<AsterOptions> = {},
+): GlyphResult {
+  const { svg } = asterSvg(index, options.size ?? DEFAULT_GLYPH_SIZE, options)
+  return { svg, notation: asterNotation(index) }
+}
+
+export function asterDirections(index: number): string[] {
+  return ASTER_DIRECTIONS.filter((_, i) => (index >> (7 - i)) & 1)
 }

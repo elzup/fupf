@@ -1,4 +1,13 @@
-export interface Pos16RenderOptions {
+import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+
+export interface Pos16Options extends SizeOption {
+  monochrome: boolean
+  showLine: boolean
+  showNeighborhood: boolean
+  showBoundary: boolean
+}
+
+interface Pos16RenderOptions {
   monochrome: boolean
   showLine: boolean
   showNeighborhood: boolean
@@ -281,4 +290,14 @@ export function pos16Detail(index: number): string {
   const start = (index >> 4) & 0x0f
   const end = index & 0x0f
   return `${start}→${end}`
+}
+
+export function renderPos16(
+  index: number,
+  options: Partial<Pos16Options> = {},
+): GlyphResult {
+  return {
+    svg: pos16Svg(index, options.size ?? DEFAULT_GLYPH_SIZE, options),
+    notation: pos16Notation(index),
+  }
 }

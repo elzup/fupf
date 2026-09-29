@@ -1,4 +1,13 @@
-import type { PolygonVariant } from '../types'
+import {
+  DEFAULT_GLYPH_SIZE,
+  type GlyphResult,
+  type PolygonVariant,
+  type SizeOption,
+} from '../types'
+
+export interface TriSplitOptions extends SizeOption {
+  variant: PolygonVariant
+}
 
 export function triSplitSvg(
   index: number,
@@ -74,4 +83,18 @@ export function triSplitNotation(index: number): string {
     qs.push(`${(index >> highBit) & 1}${(index >> lowBit) & 1}`)
   }
   return qs.join('-')
+}
+
+export function renderTriSplit(
+  index: number,
+  options: Partial<TriSplitOptions> = {},
+): GlyphResult {
+  return {
+    svg: triSplitSvg(
+      index,
+      options.size ?? DEFAULT_GLYPH_SIZE,
+      options.variant ?? 'normal',
+    ),
+    notation: triSplitNotation(index),
+  }
 }

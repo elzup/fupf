@@ -1,4 +1,4 @@
-import type { NotationStyle } from '../types'
+import type { NotationStyle } from './types'
 
 export function styleNotation(
   index: number,

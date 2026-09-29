@@ -1,4 +1,10 @@
-import type { PatternState } from '../types'
+import { stateFromIndex, type PatternState } from '../bits'
+import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+
+export interface SymbolsOptions extends SizeOption {
+  /** 0: なし / \ X, 1: 点の大きさ, 2: — | +, 3: マルバツ */
+  symbolSet: number
+}
 
 const SYMBOL_SETS = [
   {
@@ -49,7 +55,7 @@ const MARUBATSU_SYMBOL_SET = 3
 const CIRCLE_BITS = [1, 2, 2, 1] as const
 const CROSS_BITS = [2, 1, 1, 2] as const
 
-export function symbolGridHtml(
+export function symbolGridSvg(
   state: PatternState,
   currentSymbolSet: number,
   size = 40,
@@ -151,4 +157,19 @@ export function renderSymbolPreview(
   }
   const render = SYMBOL_SETS[symbolSetIndex].render
   return `<svg viewBox="0 0 ${size} ${size}" width="18" height="18">${render(value, 0, 0, size, strokeWidth)}</svg>`
+}
+
+export function renderSymbols(
+  index: number,
+  options: Partial<SymbolsOptions> = {},
+): GlyphResult {
+  const state = stateFromIndex(index)
+  return {
+    svg: symbolGridSvg(
+      state,
+      options.symbolSet ?? 0,
+      options.size ?? DEFAULT_GLYPH_SIZE,
+    ),
+    notation: symbolNotation(state),
+  }
 }

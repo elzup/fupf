@@ -1,5 +1,5 @@
-import { ASTER_COLORS, ASTER_DIRECTIONS } from '../lib/constants'
-import { renderSymbolPreview } from '../lib/renderers'
+import { ASTER_COLORS, ASTER_DIRECTIONS } from '../glyph/modes/aster'
+import { renderSymbolPreview } from '../glyph/modes/symbols'
 import type { Mode } from '../lib/types'
 
 interface LegendProps {

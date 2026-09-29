@@ -1,5 +1,17 @@
-import { EDGE_STYLES } from '../constants'
-import type { PatternState } from '../types'
+import { stateFromIndex, type PatternState } from '../bits'
+import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+
+export type EdgesOptions = SizeOption
+
+export const EDGE_STYLES: Record<
+  number,
+  { width: number; dash: string; wave: boolean }
+> = {
+  0: { width: 0, dash: '', wave: false },
+  1: { width: 2, dash: '', wave: false },
+  2: { width: 2, dash: '4 3', wave: false },
+  3: { width: 2, dash: '', wave: true },
+}
 
 function edgePath(
   x1: number,
@@ -70,4 +82,16 @@ export function glyphSvg(
 export function edgeNotation({ a, b, c, d }: PatternState): string {
   const fmt = (v: number) => v.toString(2).padStart(2, '0')
   return `${fmt(a)}-${fmt(b)}-${fmt(c)}-${fmt(d)}`
+}
+
+export function renderEdges(
+  index: number,
+  options: Partial<EdgesOptions> = {},
+): GlyphResult {
+  const state = stateFromIndex(index)
+  const { a, b, c, d } = state
+  return {
+    svg: glyphSvg(a, b, c, d, options.size ?? DEFAULT_GLYPH_SIZE),
+    notation: edgeNotation(state),
+  }
 }

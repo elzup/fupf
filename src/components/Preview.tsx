@@ -1,30 +1,11 @@
 import { CORNER_NAMES } from '../lib/constants'
 import type { AppState, Mode } from '../lib/types'
-import {
-  amidaDetail,
-  amidaNotation,
-  amidaSvg,
-  asterNotation,
-  asterSvg,
-  boxNotation,
-  boxSvg,
-  dotLineNotation,
-  dotLineSvg,
-  edgeNotation,
-  glyphSvg,
-  notationIsGlyph,
-  pathNotation,
-  pathSvg,
-  pos16Detail,
-  pos16Notation,
-  pos16Svg,
-  styleNotation,
-  symbolGridHtml,
-  symbolNotation,
-  triSplitNotation,
-  triSplitSvg,
-} from '../lib/renderers'
-import { stateFromIndex } from '../lib/state'
+import { stateFromIndex } from '../glyph/bits'
+import { amidaDetail } from '../glyph/modes/amida'
+import { asterDirections } from '../glyph/modes/aster'
+import { pos16Detail } from '../glyph/modes/pos16'
+import { notationIsGlyph, styleNotation } from '../lib/notation'
+import { renderPattern } from '../lib/renderPattern'
 
 interface PreviewProps {
   selectedIndex: number
@@ -46,42 +27,26 @@ interface PreviewProps {
 
 export function Preview(props: PreviewProps) {
   const state = stateFromIndex(props.selectedIndex)
-  let graphic: string
-  let note: string
+  const { graphic, note } = renderPattern(props.selectedIndex, 160, props)
   let label: string
   let detail: string
 
   switch (props.currentMode) {
     case 'edges':
-      graphic = glyphSvg(state.a, state.b, state.c, state.d, 160)
-      note = edgeNotation(state)
       label = '辺の状態'
       detail = `上${state.a} 右${state.b} 下${state.c} 左${state.d}`
       break
     case 'symbols':
-      graphic = symbolGridHtml(state, props.currentSymbolSet, 160)
-      note = symbolNotation(state)
       label = 'セル配置'
       detail = `左上${state.a} 右上${state.b} 左下${state.c} 右下${state.d}`
       break
-    case 'path': {
-      const { svg, separators } = pathSvg(
-        state,
-        160,
-        props.highlightDuplicates,
-        props.monochrome,
-      )
-      graphic = svg
-      note = pathNotation(state, separators)
+    case 'path':
       label = '通過座標'
       detail = [state.a, state.b, state.c, state.d]
         .map((v) => CORNER_NAMES[v])
         .join(' → ')
       break
-    }
     case 'dotLine':
-      graphic = dotLineSvg(props.selectedIndex, 160, props.monochrome)
-      note = dotLineNotation(props.selectedIndex)
       label = '構成'
       {
         const dotBits = (props.selectedIndex >> 4) & 0x0f
@@ -94,21 +59,12 @@ export function Preview(props: PreviewProps) {
       }
       break
     case 'aster': {
-      const { svg, directions } = asterSvg(props.selectedIndex, 160, {
-        fillMode: props.asterFillMode,
-        fillColor: props.asterFillColor,
-        cross: props.asterCross,
-        monochrome: props.monochrome,
-      })
-      graphic = svg
-      note = asterNotation(props.selectedIndex)
+      const directions = asterDirections(props.selectedIndex)
       label = '放射方向'
       detail = directions.length ? directions.join(' ') : 'なし'
       break
     }
     case 'box':
-      graphic = boxSvg(props.selectedIndex, 160, props.boxEdgeColor, props.monochrome)
-      note = boxNotation(props.selectedIndex)
       label = '各マスの選択隅'
       {
         const armNames = ['上', '右', '下', '左']
@@ -118,8 +74,6 @@ export function Preview(props: PreviewProps) {
       }
       break
     case 'triSplit':
-      graphic = triSplitSvg(props.selectedIndex, 160, props.polygonVariant)
-      note = triSplitNotation(props.selectedIndex)
       label = '象限の塗り状態'
       {
         const qs: string[] = []
@@ -135,30 +89,14 @@ export function Preview(props: PreviewProps) {
       }
       break
     case 'pos16':
-      graphic = pos16Svg(props.selectedIndex, 160, {
-        monochrome: props.monochrome,
-        showLine: props.pos16ShowLine,
-        showNeighborhood: props.pos16ShowNeighborhood,
-        showBoundary: props.pos16ShowBoundary,
-      })
-      note = pos16Notation(props.selectedIndex)
       label = '4x4 位置→位置'
       detail = pos16Detail(props.selectedIndex)
       break
     case 'amida':
-      graphic = amidaSvg(
-        props.selectedIndex,
-        160,
-        props.monochrome,
-        props.amidaRailMode,
-      )
-      note = amidaNotation(props.selectedIndex)
       label = '横線と経路'
       detail = amidaDetail(props.selectedIndex)
       break
     default:
-      graphic = ''
-      note = ''
       label = ''
       detail = ''
   }

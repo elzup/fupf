@@ -1,4 +1,16 @@
-import type { PathSvgResult, PatternState } from '../types'
+import { stateFromIndex, type PatternState } from '../bits'
+import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+
+export interface PathOptions extends SizeOption {
+  /** 同じ座標・区間を複数回通るとき線や点を太くする */
+  highlight: boolean
+  monochrome: boolean
+}
+
+interface PathSvgResult {
+  svg: string
+  separators: string[]
+}
 
 function cornerPoint(code: number, size: number): [number, number] {
   const pad = size * 0.2
@@ -121,4 +133,18 @@ export function pathNotation(
 ): string {
   const fmt = (v: number) => v.toString(2).padStart(2, '0')
   return `${fmt(a)}${separators[0]}${fmt(b)}${separators[1]}${fmt(c)}${separators[2]}${fmt(d)}`
+}
+
+export function renderPath(
+  index: number,
+  options: Partial<PathOptions> = {},
+): GlyphResult {
+  const state = stateFromIndex(index)
+  const { svg, separators } = pathSvg(
+    state,
+    options.size ?? DEFAULT_GLYPH_SIZE,
+    options.highlight ?? false,
+    options.monochrome ?? false,
+  )
+  return { svg, notation: pathNotation(state, separators) }
 }

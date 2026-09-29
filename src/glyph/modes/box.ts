@@ -1,5 +1,24 @@
-import { BOX_ARM_ORDER, BOX_CELLS } from '../constants'
-import type { BoxEdgeColor } from '../types'
+import {
+  DEFAULT_GLYPH_SIZE,
+  type BoxEdgeColor,
+  type GlyphResult,
+  type SizeOption,
+} from '../types'
+
+export interface BoxOptions extends SizeOption {
+  edgeColor: BoxEdgeColor
+  monochrome: boolean
+}
+
+export const BOX_CELLS: Record<string, [number, number]> = {
+  top: [0, 1],
+  left: [1, 0],
+  center: [1, 1],
+  right: [1, 2],
+  bottom: [2, 1],
+}
+
+export const BOX_ARM_ORDER = ['top', 'right', 'bottom', 'left'] as const
 
 function boxCorner(
   r: number,
@@ -96,4 +115,19 @@ export function boxNotation(index: number): string {
   for (let k = 0; k < 4; k++)
     arms.push(((index >> (6 - k * 2)) & 3).toString(2).padStart(2, '0'))
   return arms.join('-')
+}
+
+export function renderBox(
+  index: number,
+  options: Partial<BoxOptions> = {},
+): GlyphResult {
+  return {
+    svg: boxSvg(
+      index,
+      options.size ?? DEFAULT_GLYPH_SIZE,
+      options.edgeColor ?? 'single',
+      options.monochrome ?? false,
+    ),
+    notation: boxNotation(index),
+  }
 }

@@ -1,8 +1,5 @@
 import { popcount } from '../lib/state'
-import {
-  notationIsGlyph,
-  styleNotation,
-} from '../lib/renderers'
+import { notationIsGlyph, styleNotation } from '../lib/notation'
 import { renderPattern } from '../lib/renderPattern'
 import type { AppState, Mode } from '../lib/types'
 

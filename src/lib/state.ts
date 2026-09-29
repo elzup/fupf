@@ -1,10 +1,4 @@
-import type {
-  AmidaRailMode,
-  AppState,
-  Mode,
-  PatternState,
-  PolygonVariant,
-} from './types'
+import type { AmidaRailMode, AppState, Mode, PolygonVariant } from './types'
 import { POS16_OPTIONS_VERSION } from './constants'
 
 export function popcount(n: number): number {
@@ -17,18 +11,7 @@ export function popcount(n: number): number {
   return c
 }
 
-export function stateFromIndex(index: number): PatternState {
-  return {
-    a: (index >> 6) & 3,
-    b: (index >> 4) & 3,
-    c: (index >> 2) & 3,
-    d: index & 3,
-  }
-}
-
-export function fmt2bit(v: number): string {
-  return v.toString(2).padStart(2, '0')
-}
+export { fmt2bit, stateFromIndex } from '../glyph/bits'
 
 export function boxCornerCode(index: number, k: number): number {
   // 上=bit7-6, 右=bit5-4, 下=bit3-2, 左=bit1-0
