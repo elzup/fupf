@@ -1,4 +1,4 @@
-[![oparts](https://img.shields.io/badge/∅-oparts-6a5acd)](https://github.com/elzup/oparts-spec)
+[![ooparts](https://img.shields.io/badge/∅-ooparts-6a5acd)](https://github.com/elzup/ooparts-spec)
 
 # fupf glyph
 
