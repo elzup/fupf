@@ -39,7 +39,11 @@ ni        # install dependencies
 nr dev    # start dev server
 nr test   # run tests
 nr build  # production build (outputs to dist/)
+nr fmt    # format with oxfmt
+nr lint   # lint with oxlint
 ```
+
+`ni` also enables the git pre-commit hook in `.githooks/` (lint, format check, type check, tests).
 
 ## Deployment
 

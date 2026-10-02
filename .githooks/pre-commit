@@ -1,0 +1,7 @@
+#!/bin/sh
+# core.hooksPath で有効化される (package.json の prepare)
+set -e
+npm run --silent lint
+npm run --silent fmt:check
+npm run --silent typecheck
+npm run --silent test:run

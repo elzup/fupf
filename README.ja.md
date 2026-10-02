@@ -37,7 +37,11 @@ ni        # 依存関係をインストール
 nr dev    # 開発サーバー起動
 nr test   # テスト実行
 nr build  # 本番ビルド（dist/ に出力）
+nr fmt    # oxfmt で整形
+nr lint   # oxlint で lint
 ```
+
+`ni` を実行すると `.githooks/` の pre-commit hook (lint・整形チェック・型チェック・テスト) も有効になります。
 
 ## 公開
 
