@@ -1,4 +1,4 @@
-import { stateFromIndex, type PatternState } from '../bits'
+import { fmt2bit, stateFromIndex, type PatternState } from '../bits'
 import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
 
 export type EdgesOptions = SizeOption
@@ -80,8 +80,7 @@ export function glyphSvg(
 }
 
 export function edgeNotation({ a, b, c, d }: PatternState): string {
-  const fmt = (v: number) => v.toString(2).padStart(2, '0')
-  return `${fmt(a)}-${fmt(b)}-${fmt(c)}-${fmt(d)}`
+  return `${fmt2bit(a)}-${fmt2bit(b)}-${fmt2bit(c)}-${fmt2bit(d)}`
 }
 
 export function renderEdges(

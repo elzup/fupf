@@ -21,7 +21,7 @@ export function boxCornerCode(index: number, k: number): number {
 export function normalizeSamplingPageBits(bits: number[]): number[] {
   return [...new Set(bits)]
     .filter((bit) => Number.isInteger(bit) && bit >= 0 && bit <= 7)
-    .sort((a, b) => b - a)
+    .toSorted((a, b) => b - a)
 }
 
 export function isValidMode(value: unknown): value is Mode {

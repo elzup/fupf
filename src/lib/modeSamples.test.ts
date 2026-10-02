@@ -15,8 +15,12 @@ describe('mode samples', () => {
   })
 
   it('registers an option preset for every mode', () => {
-    expect(Object.keys(MODE_SAMPLE_PRESETS).sort()).toEqual([...MODES].sort())
-    expect(Object.keys(MODE_SAMPLE_LABELS).sort()).toEqual([...MODES].sort())
+    expect(Object.keys(MODE_SAMPLE_PRESETS).toSorted()).toEqual(
+      [...MODES].toSorted()
+    )
+    expect(Object.keys(MODE_SAMPLE_LABELS).toSorted()).toEqual(
+      [...MODES].toSorted()
+    )
     expect(
       MODES.every(
         (mode) =>

@@ -1,4 +1,4 @@
-import { stateFromIndex, type PatternState } from '../bits'
+import { fmt2bit, stateFromIndex, type PatternState } from '../bits'
 import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
 
 export interface PathOptions extends SizeOption {
@@ -52,7 +52,7 @@ export function pathSvg(
 
   const segmentCounts: Record<string, number> = {}
   for (let i = 0; i < 3; i++) {
-    const key = [sequence[i], sequence[i + 1]].sort().join('-')
+    const key = [sequence[i], sequence[i + 1]].toSorted().join('-')
     segmentCounts[key] = (segmentCounts[key] || 0) + 1
   }
 
@@ -76,7 +76,7 @@ export function pathSvg(
     const isAxisAligned = x1 === x2 || y1 === y2
     separators.push(isAxisAligned ? '-' : '~')
 
-    const key = [sequence[i], sequence[i + 1]].sort().join('-')
+    const key = [sequence[i], sequence[i + 1]].toSorted().join('-')
     const segCount = segmentCounts[key] || 1
     const strokeWidth = highlight
       ? baseStrokeWidth * (1 + (segCount - 1) * 0.8)
@@ -131,8 +131,7 @@ export function pathNotation(
   { a, b, c, d }: PatternState,
   separators: string[]
 ): string {
-  const fmt = (v: number) => v.toString(2).padStart(2, '0')
-  return `${fmt(a)}${separators[0]}${fmt(b)}${separators[1]}${fmt(c)}${separators[2]}${fmt(d)}`
+  return `${fmt2bit(a)}${separators[0]}${fmt2bit(b)}${separators[1]}${fmt2bit(c)}${separators[2]}${fmt2bit(d)}`
 }
 
 export function renderPath(
