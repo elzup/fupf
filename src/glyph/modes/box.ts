@@ -25,7 +25,7 @@ function boxCorner(
   c: number,
   corner: number,
   cell: number,
-  inset: number,
+  inset: number
 ): [number, number] {
   const x0 = c * cell
   const y0 = r * cell
@@ -51,7 +51,7 @@ export function boxSvg(
   index: number,
   size = 40,
   boxEdgeColor: BoxEdgeColor = 'single',
-  monochrome = false,
+  monochrome = false
 ): string {
   const cell = size / 3
   const inset = cell * 0.2
@@ -62,7 +62,7 @@ export function boxSvg(
   const frame = Object.values(BOX_CELLS)
     .map(
       ([r, c]) =>
-        `<rect x="${c * cell}" y="${r * cell}" width="${cell}" height="${cell}" fill="none" stroke="#3f3f46" stroke-width="${frameWidth}"/>`,
+        `<rect x="${c * cell}" y="${r * cell}" width="${cell}" height="${cell}" fill="none" stroke="#3f3f46" stroke-width="${frameWidth}"/>`
     )
     .join('')
 
@@ -92,7 +92,7 @@ export function boxSvg(
         const h1 = (i / 4) * 360
         const h2 = ((i + 1) / 4) * 360
         defs.push(
-          `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="hsl(${h1}, 70%, 60%)"/><stop offset="1" stop-color="hsl(${h2}, 70%, 60%)"/></linearGradient>`,
+          `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="hsl(${h1}, 70%, 60%)"/><stop offset="1" stop-color="hsl(${h2}, 70%, 60%)"/></linearGradient>`
         )
         stroke = `url(#${id})`
       } else {
@@ -119,14 +119,14 @@ export function boxNotation(index: number): string {
 
 export function renderBox(
   index: number,
-  options: Partial<BoxOptions> = {},
+  options: Partial<BoxOptions> = {}
 ): GlyphResult {
   return {
     svg: boxSvg(
       index,
       options.size ?? DEFAULT_GLYPH_SIZE,
       options.edgeColor ?? 'single',
-      options.monochrome ?? false,
+      options.monochrome ?? false
     ),
     notation: boxNotation(index),
   }

@@ -50,10 +50,10 @@ describe('amidaSvg', () => {
     const usedRungSvg = amidaSvg(0b01000000, 40)
 
     expect(unusedRungSvg).toContain(
-      'data-amida-rung-used="false" stroke="#f472b6"',
+      'data-amida-rung-used="false" stroke="#f472b6"'
     )
     expect(usedRungSvg).toContain(
-      'data-amida-rung-used="true" stroke="#a1a1aa"',
+      'data-amida-rung-used="true" stroke="#a1a1aa"'
     )
   })
 
@@ -62,7 +62,7 @@ describe('amidaSvg', () => {
 
     expect(svg.match(/stroke="#818cf8"/g)).toHaveLength(3)
     expect(svg).toContain(
-      'data-amida-rail="0" data-amida-rail-isolated="false"',
+      'data-amida-rail="0" data-amida-rail-isolated="false"'
     )
   })
 
@@ -93,7 +93,7 @@ describe('amida notation', () => {
 
   it('describes the rung positions and route result', () => {
     expect(amidaDetail(0b01101100)).toBe(
-      '横線 上:1–2 中:2–3 下:3–4 / 開始:1 → 終了:4',
+      '横線 上:1–2 中:2–3 下:3–4 / 開始:1 → 終了:4'
     )
   })
 })

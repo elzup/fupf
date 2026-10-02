@@ -581,7 +581,11 @@ aside h2 {
 
 .bit-section-input:checked + .bit-section-face {
   color: #cffafe;
-  background: linear-gradient(180deg, rgb(34 211 238 / 22%), rgb(34 211 238 / 7%));
+  background: linear-gradient(
+    180deg,
+    rgb(34 211 238 / 22%),
+    rgb(34 211 238 / 7%)
+  );
   box-shadow: inset 0 1px rgb(103 232 249 / 20%);
 }
 
@@ -641,7 +645,9 @@ aside h2 {
   border-radius: 6px;
   padding: 6px 4px 4px;
   cursor: pointer;
-  transition: transform 0.1s, border-color 0.1s;
+  transition:
+    transform 0.1s,
+    border-color 0.1s;
   min-width: 0;
 }
 

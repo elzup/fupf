@@ -37,15 +37,11 @@ export function isValidMode(value: unknown): value is Mode {
       'box',
       'pos16',
       'amida',
-    ].includes(
-      value,
-    )
+    ].includes(value)
   )
 }
 
-export function isValidPolygonVariant(
-  value: unknown,
-): value is PolygonVariant {
+export function isValidPolygonVariant(value: unknown): value is PolygonVariant {
   return (
     typeof value === 'string' &&
     ['normal', 'rhombus', 'inverse'].includes(value)
@@ -54,8 +50,7 @@ export function isValidPolygonVariant(
 
 function isValidAmidaRailMode(value: unknown): value is AmidaRailMode {
   return (
-    typeof value === 'string' &&
-    ['normal', 'colored', 'hidden'].includes(value)
+    typeof value === 'string' && ['normal', 'colored', 'hidden'].includes(value)
   )
 }
 
@@ -99,7 +94,7 @@ export function loadState(partial: unknown): Partial<AppState> {
   if (
     Array.isArray(s.samplingPageBits) &&
     s.samplingPageBits.every(
-      (bit): bit is number => Number.isInteger(bit) && bit >= 0 && bit <= 7,
+      (bit): bit is number => Number.isInteger(bit) && bit >= 0 && bit <= 7
     )
   ) {
     result.samplingPageBits = normalizeSamplingPageBits(s.samplingPageBits)

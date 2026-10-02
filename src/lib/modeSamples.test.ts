@@ -20,13 +20,14 @@ describe('mode samples', () => {
     expect(
       MODES.every(
         (mode) =>
-          MODE_SAMPLE_LABELS[mode].length === MODE_SAMPLE_PRESETS[mode].length,
-      ),
+          MODE_SAMPLE_LABELS[mode].length === MODE_SAMPLE_PRESETS[mode].length
+      )
     ).toBe(true)
-    expect(MODE_SAMPLE_PRESETS.symbols.map((preset) => preset.currentSymbolSet))
-      .toEqual([0, 1, 2, 3])
     expect(
-      MODE_SAMPLE_PRESETS.triSplit.map((preset) => preset.polygonVariant),
+      MODE_SAMPLE_PRESETS.symbols.map((preset) => preset.currentSymbolSet)
+    ).toEqual([0, 1, 2, 3])
+    expect(
+      MODE_SAMPLE_PRESETS.triSplit.map((preset) => preset.polygonVariant)
     ).toEqual(['normal', 'rhombus'])
     expect(MODE_SAMPLE_PRESETS.pos16).toEqual([
       {
@@ -55,7 +56,8 @@ describe('mode samples', () => {
   })
 
   it.each(MODES)('renders the %s mode sample', (mode) => {
-    expect(renderModeSamples(mode).every((sample) => sample.includes('<svg')))
-      .toBe(true)
+    expect(
+      renderModeSamples(mode).every((sample) => sample.includes('<svg'))
+    ).toBe(true)
   })
 })

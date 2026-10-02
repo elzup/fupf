@@ -39,9 +39,7 @@ export function Grid(props: GridProps) {
       const expected = (currentPage >> pageBitPosition) & 1
       return ((index >> bit) & 1) === expected
     })
-  const cells = pagingBits.length
-    ? allCells.filter(matchesPageBits)
-    : allCells
+  const cells = pagingBits.length ? allCells.filter(matchesPageBits) : allCells
   const useMatrixLayout = !pagingBits.length
   const togglePagingBit = (bit: number, checked: boolean) => {
     const nextBits = checked
@@ -81,7 +79,7 @@ export function Grid(props: GridProps) {
               type="button"
               onClick={() =>
                 props.onSamplingPageChange(
-                  (currentPage + pageCount - 1) % pageCount,
+                  (currentPage + pageCount - 1) % pageCount
                 )
               }
             >

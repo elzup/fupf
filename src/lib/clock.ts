@@ -23,18 +23,12 @@ export function clockSamplesAt(now: Date): ClockSample[] {
     {
       label: 'MM',
       value: now.getMinutes(),
-      patternIndex: sampleClockPattern(
-        now.getMinutes(),
-        LAST_MINUTE_OR_SECOND,
-      ),
+      patternIndex: sampleClockPattern(now.getMinutes(), LAST_MINUTE_OR_SECOND),
     },
     {
       label: 'SS',
       value: now.getSeconds(),
-      patternIndex: sampleClockPattern(
-        now.getSeconds(),
-        LAST_MINUTE_OR_SECOND,
-      ),
+      patternIndex: sampleClockPattern(now.getSeconds(), LAST_MINUTE_OR_SECOND),
     },
   ]
 }

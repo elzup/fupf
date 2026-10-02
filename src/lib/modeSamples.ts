@@ -23,10 +23,7 @@ export const MODE_SAMPLE_INDICES: Record<Mode, number> = {
 export const MODE_SAMPLE_PRESETS: Record<Mode, ModeSamplePreset[]> = {
   edges: [{}],
   symbols: [0, 1, 2, 3].map((currentSymbolSet) => ({ currentSymbolSet })),
-  triSplit: [
-    { polygonVariant: 'normal' },
-    { polygonVariant: 'rhombus' },
-  ],
+  triSplit: [{ polygonVariant: 'normal' }, { polygonVariant: 'rhombus' }],
   path: [{ highlightDuplicates: false }],
   dotLine: [{}],
   aster: [
@@ -69,6 +66,6 @@ export function renderModeSamples(mode: Mode): string[] {
         ...DEFAULT_STATE,
         ...preset,
         currentMode: mode,
-      }).graphic,
+      }).graphic
   )
 }

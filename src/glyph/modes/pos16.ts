@@ -36,7 +36,7 @@ const OVERLAP_FILL = '#a1a1aa'
 export function pos16Svg(
   index: number,
   size = 40,
-  partialOptions: Partial<Pos16RenderOptions> = {},
+  partialOptions: Partial<Pos16RenderOptions> = {}
 ): string {
   const options = { ...DEFAULT_OPTIONS, ...partialOptions }
   const start = (index >> 4) & 0x0f
@@ -47,7 +47,7 @@ export function pos16Svg(
     start,
     end,
     geometry,
-    options.showNeighborhood,
+    options.showNeighborhood
   )
   const boundary = options.showBoundary
     ? renderNeighborhoodBoundary(start, end, geometry, accentColor)
@@ -86,7 +86,7 @@ function renderBackgrounds(
   start: number,
   end: number,
   geometry: Pos16Geometry,
-  showNeighborhood: boolean,
+  showNeighborhood: boolean
 ): string {
   return Array.from({ length: 16 }, (_, index) => {
     const [x, y] = positionAt(index, geometry)
@@ -98,8 +98,8 @@ function renderBackgrounds(
       ? isOverlap
         ? OVERLAP_FILL
         : isNeighborhood
-        ? NEIGHBORHOOD_FILL
-        : BASE_FILL
+          ? NEIGHBORHOOD_FILL
+          : BASE_FILL
       : BASE_FILL
     const dataAttribute =
       showNeighborhood && isNeighborhood
@@ -122,7 +122,7 @@ function renderMarkers(
   start: number,
   end: number,
   geometry: Pos16Geometry,
-  accentColor: string,
+  accentColor: string
 ): string {
   return Array.from({ length: 16 }, (_, index) => {
     const [x, y] = positionAt(index, geometry)
@@ -160,7 +160,7 @@ function renderConnectingLine(
   end: number,
   geometry: Pos16Geometry,
   accentColor: string,
-  size: number,
+  size: number
 ): string {
   const [startX, startY] = positionAt(start, geometry)
   if (start === end) {
@@ -187,7 +187,7 @@ function renderConnectingLine(
     lineEndY,
     Math.atan2(deltaY, deltaX),
     Math.min(size * 0.06, geometry.halfBlock * 0.4),
-    accentColor,
+    accentColor
   )
   const line = `<line x1="${lineStartX}" y1="${lineStartY}" x2="${lineEndX}" y2="${lineEndY}" stroke="${accentColor}" stroke-width="${geometry.lineWidth}" stroke-linecap="round"/>`
   return `<g data-pos16-line="true">${line}${arrow}</g>`
@@ -198,7 +198,7 @@ function renderArrow(
   endY: number,
   angle: number,
   length: number,
-  color: string,
+  color: string
 ): string {
   const spread = Math.PI / 6
   const point1X = endX - length * Math.cos(angle - spread)
@@ -212,7 +212,7 @@ function renderNeighborhoodBoundary(
   start: number,
   end: number,
   geometry: Pos16Geometry,
-  color: string,
+  color: string
 ): string {
   const sides = [
     { row: -1, col: 0, edge: 'top' },
@@ -222,19 +222,19 @@ function renderNeighborhoodBoundary(
   ] as const
   const segments = Array.from({ length: 16 }, (_, index) => index)
     .filter(
-      (index) => isInNeighborhood(index, start) || isInNeighborhood(index, end),
+      (index) => isInNeighborhood(index, start) || isInNeighborhood(index, end)
     )
     .flatMap((index) => {
       const row = Math.floor(index / 4)
       const col = index % 4
       return sides
         .filter(({ row: rowOffset, col: colOffset }) =>
-          isOutsideNeighborhood(row + rowOffset, col + colOffset, start, end),
+          isOutsideNeighborhood(row + rowOffset, col + colOffset, start, end)
         )
         .map(({ edge }) => boundarySegment(row, col, edge, geometry))
     })
   return `<path data-pos16-boundary="true" d="${segments.join(
-    '',
+    ''
   )}" fill="none" stroke="${color}" stroke-width="${
     geometry.lineWidth
   }" stroke-linecap="round" stroke-linejoin="round"/>`
@@ -244,7 +244,7 @@ function isOutsideNeighborhood(
   row: number,
   col: number,
   start: number,
-  end: number,
+  end: number
 ): boolean {
   if (row < 0 || row >= 4 || col < 0 || col >= 4) return true
   const index = row * 4 + col
@@ -255,7 +255,7 @@ function boundarySegment(
   row: number,
   col: number,
   edge: 'top' | 'right' | 'bottom' | 'left',
-  geometry: Pos16Geometry,
+  geometry: Pos16Geometry
 ): string {
   const left = geometry.pad + col * geometry.cell
   const top = geometry.pad + row * geometry.cell
@@ -294,7 +294,7 @@ export function pos16Detail(index: number): string {
 
 export function renderPos16(
   index: number,
-  options: Partial<Pos16Options> = {},
+  options: Partial<Pos16Options> = {}
 ): GlyphResult {
   return {
     svg: pos16Svg(index, options.size ?? DEFAULT_GLYPH_SIZE, options),

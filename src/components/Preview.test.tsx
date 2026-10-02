@@ -18,7 +18,7 @@ describe('Preview', () => {
 
   it('renders symbols preview', () => {
     const { container } = render(
-      <Preview {...baseProps} currentMode="symbols" />,
+      <Preview {...baseProps} currentMode="symbols" />
     )
     expect(container.querySelector('.preview-box')).toBeInTheDocument()
   })
@@ -30,7 +30,7 @@ describe('Preview', () => {
 
   it('renders dotLine preview', () => {
     const { container } = render(
-      <Preview {...baseProps} currentMode="dotLine" />,
+      <Preview {...baseProps} currentMode="dotLine" />
     )
     expect(container.querySelector('.preview-box')).toBeInTheDocument()
   })
@@ -47,7 +47,7 @@ describe('Preview', () => {
 
   it('renders triSplit preview', () => {
     const { container } = render(
-      <Preview {...baseProps} currentMode="triSplit" />,
+      <Preview {...baseProps} currentMode="triSplit" />
     )
     expect(container.querySelector('.preview-box')).toBeInTheDocument()
   })
@@ -60,7 +60,7 @@ describe('Preview', () => {
   it('renders amida preview', () => {
     const { container } = render(<Preview {...baseProps} currentMode="amida" />)
     expect(
-      container.querySelector('[data-amida-route="true"]'),
+      container.querySelector('[data-amida-route="true"]')
     ).toBeInTheDocument()
   })
 })

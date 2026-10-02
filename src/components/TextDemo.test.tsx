@@ -14,7 +14,7 @@ describe('FupfText', () => {
 
   it.each(MODES)('renders SVG glyphs in %s mode', (mode) => {
     const { container } = render(
-      <FupfText text="ab" state={{ ...DEFAULT_STATE, currentMode: mode }} />,
+      <FupfText text="ab" state={{ ...DEFAULT_STATE, currentMode: mode }} />
     )
 
     expect(container.querySelectorAll('.fupf-glyph svg')).toHaveLength(2)

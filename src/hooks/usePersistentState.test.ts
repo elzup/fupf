@@ -17,7 +17,7 @@ describe('usePersistentState', () => {
   it('loads persisted state from localStorage', () => {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ currentMode: 'aster', selectedIndex: 42 }),
+      JSON.stringify({ currentMode: 'aster', selectedIndex: 42 })
     )
     const { result } = renderHook(() => usePersistentState())
     expect(result.current[0].currentMode).toBe('aster')
@@ -31,7 +31,7 @@ describe('usePersistentState', () => {
         pos16ShowLine: true,
         pos16ShowNeighborhood: true,
         pos16ShowBoundary: false,
-      }),
+      })
     )
     const { result } = renderHook(() => usePersistentState())
     expect(result.current[0].pos16ShowLine).toBe(false)
@@ -47,7 +47,7 @@ describe('usePersistentState', () => {
         pos16ShowLine: true,
         pos16ShowNeighborhood: true,
         pos16ShowBoundary: false,
-      }),
+      })
     )
     const { result } = renderHook(() => usePersistentState())
     expect(result.current[0].pos16ShowLine).toBe(true)

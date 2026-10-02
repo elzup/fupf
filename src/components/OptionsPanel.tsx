@@ -45,7 +45,9 @@ export function OptionsPanel(props: OptionsPanelProps) {
           <input
             type="checkbox"
             checked={props.highlightDuplicates}
-            onChange={(e) => props.onHighlightDuplicatesChange(e.target.checked)}
+            onChange={(e) =>
+              props.onHighlightDuplicatesChange(e.target.checked)
+            }
           />
           <span>同じ位置を強調（線を太く）</span>
         </label>

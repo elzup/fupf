@@ -52,9 +52,10 @@ export function Preview(props: PreviewProps) {
         const dotBits = (props.selectedIndex >> 4) & 0x0f
         const lineStart = (props.selectedIndex >> 2) & 3
         const lineEnd = props.selectedIndex & 3
-        const dotNames = ['左上', '右上', '左下', '右下']
-          .filter((_, idx) => (dotBits >> (3 - idx)) & 1)
-          .join(' ') || 'なし'
+        const dotNames =
+          ['左上', '右上', '左下', '右下']
+            .filter((_, idx) => (dotBits >> (3 - idx)) & 1)
+            .join(' ') || 'なし'
         detail = `点:${dotNames} / 線:${CORNER_NAMES[lineStart]}→${CORNER_NAMES[lineEnd]}`
       }
       break
@@ -69,7 +70,10 @@ export function Preview(props: PreviewProps) {
       {
         const armNames = ['上', '右', '下', '左']
         detail = armNames
-          .map((n, k) => `${n}:${CORNER_NAMES[(props.selectedIndex >> (6 - k * 2)) & 3]}`)
+          .map(
+            (n, k) =>
+              `${n}:${CORNER_NAMES[(props.selectedIndex >> (6 - k * 2)) & 3]}`
+          )
           .join(' ')
       }
       break
@@ -82,7 +86,7 @@ export function Preview(props: PreviewProps) {
           const highBit = 7 - q * 2
           const lowBit = 6 - q * 2
           qs.push(
-            `${qNames[q]}:${(props.selectedIndex >> highBit) & 1}${(props.selectedIndex >> lowBit) & 1}`,
+            `${qNames[q]}:${(props.selectedIndex >> highBit) & 1}${(props.selectedIndex >> lowBit) & 1}`
           )
         }
         detail = qs.join(' ')
@@ -101,7 +105,11 @@ export function Preview(props: PreviewProps) {
       detail = ''
   }
 
-  const styledNote = styleNotation(props.selectedIndex, note, props.notationStyle)
+  const styledNote = styleNotation(
+    props.selectedIndex,
+    note,
+    props.notationStyle
+  )
   const isGlyph = notationIsGlyph(props.notationStyle)
 
   return (

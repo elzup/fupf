@@ -1,9 +1,4 @@
-import type {
-  AmidaRailMode,
-  AppState,
-  Mode,
-  PolygonVariant,
-} from './types'
+import type { AmidaRailMode, AppState, Mode, PolygonVariant } from './types'
 
 export const STORAGE_KEY = 'fupf-state'
 export const POS16_OPTIONS_VERSION = 1

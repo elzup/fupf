@@ -3,7 +3,7 @@ import type { NotationStyle } from './types'
 export function styleNotation(
   index: number,
   modeNote: string,
-  notationStyle: NotationStyle,
+  notationStyle: NotationStyle
 ): string {
   const bits = index.toString(2).padStart(8, '0')
   if (notationStyle === 'bin') return bits.match(/.{2}/g)?.join('-') ?? bits

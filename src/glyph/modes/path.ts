@@ -33,7 +33,7 @@ export function pathSvg(
   { a, b, c, d }: PatternState,
   size = 40,
   highlight = false,
-  monochrome = false,
+  monochrome = false
 ): PathSvgResult {
   const sequence = [a, b, c, d]
   const points = sequence.map((code) => cornerPoint(code, size))
@@ -67,7 +67,7 @@ export function pathSvg(
         const loopRadius = baseDotRadius * 2
         const thickness = baseStrokeWidth * visitCounts[sequence[i]]
         segments.push(
-          `<circle cx="${x1}" cy="${y1}" r="${loopRadius}" fill="none" stroke="${color}" stroke-width="${thickness}"/>`,
+          `<circle cx="${x1}" cy="${y1}" r="${loopRadius}" fill="none" stroke="${color}" stroke-width="${thickness}"/>`
         )
       }
       continue
@@ -90,7 +90,7 @@ export function pathSvg(
     const dash = dashes[i]
     const lineAttrs = `stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round"${dash ? ` stroke-dasharray="${dash}"` : ''}`
     segments.push(
-      `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" fill="none" ${lineAttrs}/>`,
+      `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" fill="none" ${lineAttrs}/>`
     )
 
     const angle = Math.atan2(y2 - y1, x2 - x1)
@@ -100,7 +100,7 @@ export function pathSvg(
     const ax2 = x2 - arrowLen * Math.cos(angle + arrowAngle)
     const ay2 = y2 - arrowLen * Math.sin(angle + arrowAngle)
     segments.push(
-      `<polygon points="${x2},${y2} ${ax1},${ay1} ${ax2},${ay2}" fill="${color}"/>`,
+      `<polygon points="${x2},${y2} ${ax1},${ay1} ${ax2},${ay2}" fill="${color}"/>`
     )
   }
 
@@ -129,7 +129,7 @@ export function pathSvg(
 
 export function pathNotation(
   { a, b, c, d }: PatternState,
-  separators: string[],
+  separators: string[]
 ): string {
   const fmt = (v: number) => v.toString(2).padStart(2, '0')
   return `${fmt(a)}${separators[0]}${fmt(b)}${separators[1]}${fmt(c)}${separators[2]}${fmt(d)}`
@@ -137,14 +137,14 @@ export function pathNotation(
 
 export function renderPath(
   index: number,
-  options: Partial<PathOptions> = {},
+  options: Partial<PathOptions> = {}
 ): GlyphResult {
   const state = stateFromIndex(index)
   const { svg, separators } = pathSvg(
     state,
     options.size ?? DEFAULT_GLYPH_SIZE,
     options.highlight ?? false,
-    options.monochrome ?? false,
+    options.monochrome ?? false
   )
   return { svg, notation: pathNotation(state, separators) }
 }

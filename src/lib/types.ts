@@ -40,4 +40,3 @@ export interface AppState {
   pos16ShowNeighborhood: boolean
   pos16ShowBoundary: boolean
 }
-

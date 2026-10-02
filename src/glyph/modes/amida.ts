@@ -34,7 +34,7 @@ function nextColumn(column: number, rung: number): number {
 
 function isIsolatedRail(trace: AmidaTrace, column: number): boolean {
   const hasRung = trace.rungs.some(
-    (rung) => rung > 0 && (rung - 1 === column || rung === column),
+    (rung) => rung > 0 && (rung - 1 === column || rung === column)
   )
   return !hasRung && !trace.columns.includes(column)
 }
@@ -42,10 +42,13 @@ function isIsolatedRail(trace: AmidaTrace, column: number): boolean {
 export function traceAmida(index: number): AmidaTrace {
   const { a, b, c, d } = stateFromIndex(index)
   const rungs = [a, b, c]
-  const columns = rungs.reduce<number[]>((route, rung) => {
-    const currentColumn = route[route.length - 1]
-    return [...route, nextColumn(currentColumn, rung)]
-  }, [d])
+  const columns = rungs.reduce<number[]>(
+    (route, rung) => {
+      const currentColumn = route[route.length - 1]
+      return [...route, nextColumn(currentColumn, rung)]
+    },
+    [d]
+  )
 
   return {
     start: d,
@@ -59,7 +62,7 @@ export function amidaSvg(
   index: number,
   size = 40,
   monochrome = false,
-  railMode: AmidaRailMode = 'normal',
+  railMode: AmidaRailMode = 'normal'
 ): string {
   const trace = traceAmida(index)
   const horizontalPad = size * 0.14
@@ -68,7 +71,7 @@ export function amidaSvg(
   const railGap = (size - horizontalPad * 2) / 3
   const railXs = Array.from(
     { length: 4 },
-    (_, column) => horizontalPad + railGap * column,
+    (_, column) => horizontalPad + railGap * column
   )
   const rungYs = [size * 0.28, size * 0.5, size * 0.72]
   const baseWidth = Math.max(0.8, size * 0.025)
@@ -109,7 +112,7 @@ export function amidaSvg(
         ? [...points, ...rowPoints]
         : [...points, ...rowPoints, [railXs[afterColumn], rungYs[row]]]
     },
-    [[railXs[trace.start], top]],
+    [[railXs[trace.start], top]]
   )
   const points = [...routePoints, [railXs[trace.end], bottom]]
     .map(([x, y]) => `${x},${y}`)
@@ -134,14 +137,14 @@ export function amidaDetail(index: number): string {
 
 export function renderAmida(
   index: number,
-  options: Partial<AmidaOptions> = {},
+  options: Partial<AmidaOptions> = {}
 ): GlyphResult {
   return {
     svg: amidaSvg(
       index,
       options.size ?? DEFAULT_GLYPH_SIZE,
       options.monochrome ?? false,
-      options.railMode ?? 'normal',
+      options.railMode ?? 'normal'
     ),
     notation: amidaNotation(index),
   }

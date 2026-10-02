@@ -3,7 +3,10 @@ import { DEFAULT_STATE, STORAGE_KEY } from '../lib/constants'
 import type { AppState } from '../lib/types'
 import { loadState } from '../lib/state'
 
-export function usePersistentState(): [AppState, (update: Partial<AppState>) => void] {
+export function usePersistentState(): [
+  AppState,
+  (update: Partial<AppState>) => void,
+] {
   const [state, setState] = useState<AppState>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)

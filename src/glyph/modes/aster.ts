@@ -49,7 +49,7 @@ export function asterSvg(
     fillColor?: AsterFillColor
     cross?: boolean
     monochrome?: boolean
-  } = {},
+  } = {}
 ): AsterSvgResult {
   const fillMode = options.fillMode ?? 'solid'
   const fillColor = options.fillColor ?? 'run'
@@ -83,10 +83,10 @@ export function asterSvg(
   if (cross) {
     const guideWidth = Math.max(0.5, size * 0.012)
     parts.push(
-      `<line x1="${cx}" y1="${pad}" x2="${cx}" y2="${size - pad}" stroke="#3f3f46" stroke-width="${guideWidth}"/>`,
+      `<line x1="${cx}" y1="${pad}" x2="${cx}" y2="${size - pad}" stroke="#3f3f46" stroke-width="${guideWidth}"/>`
     )
     parts.push(
-      `<line x1="${pad}" y1="${cy}" x2="${size - pad}" y2="${cy}" stroke="#3f3f46" stroke-width="${guideWidth}"/>`,
+      `<line x1="${pad}" y1="${cy}" x2="${size - pad}" y2="${cy}" stroke="#3f3f46" stroke-width="${guideWidth}"/>`
     )
   }
 
@@ -100,7 +100,7 @@ export function asterSvg(
         const [x1, y1] = pointAt(i)
         const [x2, y2] = pointAt(next)
         parts.push(
-          `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z" fill="${fill}" fill-opacity="${fillOpacity}" stroke="none"/>`,
+          `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z" fill="${fill}" fill-opacity="${fillOpacity}" stroke="none"/>`
         )
       }
     }
@@ -114,7 +114,7 @@ export function asterSvg(
     const spokeColor = monochrome ? '#e4e4e7' : ASTER_COLORS[i]
     const [x2, y2] = pointAt(i)
     parts.push(
-      `<line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="${spokeColor}" stroke-width="${lineWidth}" stroke-linecap="round"/>`,
+      `<line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="${spokeColor}" stroke-width="${lineWidth}" stroke-linecap="round"/>`
     )
   }
 
@@ -131,7 +131,7 @@ export function asterNotation(index: number): string {
 
 export function renderAster(
   index: number,
-  options: Partial<AsterOptions> = {},
+  options: Partial<AsterOptions> = {}
 ): GlyphResult {
   const { svg } = asterSvg(index, options.size ?? DEFAULT_GLYPH_SIZE, options)
   return { svg, notation: asterNotation(index) }

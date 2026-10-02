@@ -13,7 +13,7 @@ describe('App', () => {
     expect(screen.getByText('fupf glyph')).toBeInTheDocument()
     expect(screen.getByText('選択中のパターン')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: '16² pos' })).toHaveClass(
-      'active',
+      'active'
     )
     expect(document.querySelectorAll('.cell').length).toBe(256)
     expect(screen.getByLabelText('bit7')).toBeInTheDocument()
@@ -21,26 +21,26 @@ describe('App', () => {
     expect(screen.queryByRole('button', { name: '次ページ' })).toBeNull()
     expect(document.querySelectorAll('.mode-sample')).toHaveLength(17)
     expect(
-      document.querySelectorAll('.mode-sample[data-mode="symbols"]'),
+      document.querySelectorAll('.mode-sample[data-mode="symbols"]')
     ).toHaveLength(4)
     expect(
-      document.querySelectorAll('.mode-sample[data-mode="triSplit"]'),
+      document.querySelectorAll('.mode-sample[data-mode="triSplit"]')
     ).toHaveLength(2)
     expect(
-      document.querySelectorAll('.mode-sample[data-mode="aster"]'),
+      document.querySelectorAll('.mode-sample[data-mode="aster"]')
     ).toHaveLength(3)
     expect(
-      document.querySelectorAll('.mode-sample[data-mode="box"]'),
+      document.querySelectorAll('.mode-sample[data-mode="box"]')
     ).toHaveLength(2)
     expect(
-      document.querySelectorAll('.mode-sample[data-mode="pos16"]'),
+      document.querySelectorAll('.mode-sample[data-mode="pos16"]')
     ).toHaveLength(2)
     expect(
-      document.querySelector('.mode-sample[data-mode="aster"]'),
+      document.querySelector('.mode-sample[data-mode="aster"]')
     ).toHaveAttribute('data-pattern-index', '122')
     expect(document.querySelector('.mode-sample')).toHaveAttribute(
       'data-pattern-index',
-      '99',
+      '99'
     )
   })
 
@@ -65,12 +65,10 @@ describe('App', () => {
   it('applies a mode sample option preset', () => {
     render(<App />)
 
-    fireEvent.click(
-      screen.getByRole('button', { name: 'ポリゴン: ひし形' }),
-    )
+    fireEvent.click(screen.getByRole('button', { name: 'ポリゴン: ひし形' }))
 
     expect(screen.getByRole('button', { name: 'ポリゴン' })).toHaveClass(
-      'active',
+      'active'
     )
     expect(screen.getByLabelText('ひし形')).toBeChecked()
   })
@@ -93,9 +91,11 @@ describe('App', () => {
     fireEvent.click(colored)
 
     expect(colored).toBeChecked()
-    expect(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')).toMatchObject({
-      amidaRailMode: 'colored',
-    })
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')).toMatchObject(
+      {
+        amidaRailMode: 'colored',
+      }
+    )
   })
 
   it('labels the empty and diagonal symbol set clearly', () => {
@@ -157,7 +157,7 @@ describe('App', () => {
     expect(radio).toBeChecked()
     expect(document.querySelector('#cell-10 .notation')?.textContent).toBe('0A')
     expect(document.querySelector('#cell-255 .notation')?.textContent).toBe(
-      'FF',
+      'FF'
     )
   })
 
@@ -177,11 +177,11 @@ describe('App', () => {
     expect(document.querySelectorAll('.cell').length).toBe(64)
     expect(screen.getByText('1 / 4')).toBeInTheDocument()
     expect(
-      document.querySelector('.grid-controls .bit-section-switch'),
+      document.querySelector('.grid-controls .bit-section-switch')
     ).toBeInTheDocument()
     expect(document.querySelectorAll('.bit-section')).toHaveLength(8)
     expect(
-      document.querySelector('.grid-controls .grid-pager'),
+      document.querySelector('.grid-controls .grid-pager')
     ).toBeInTheDocument()
     expect(document.getElementById('cell-0')).not.toBeNull()
 

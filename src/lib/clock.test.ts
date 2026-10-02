@@ -11,14 +11,14 @@ describe('sampleClockPattern', () => {
 
   it('samples the 256 patterns at nearly equal intervals', () => {
     const indices = Array.from({ length: 60 }, (_, value) =>
-      sampleClockPattern(value, 59),
+      sampleClockPattern(value, 59)
     )
     const intervals = indices.slice(1).map((index, position) => {
       return index - indices[position]
     })
 
     expect(Math.max(...intervals) - Math.min(...intervals)).toBeLessThanOrEqual(
-      1,
+      1
     )
   })
 })

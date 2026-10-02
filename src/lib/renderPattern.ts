@@ -25,7 +25,7 @@ interface RenderedPattern {
 
 function toGlyphOptions(
   size: number,
-  options: PatternRenderOptions,
+  options: PatternRenderOptions
 ): GlyphOptions {
   const { monochrome } = options
   switch (options.currentMode) {
@@ -77,7 +77,7 @@ function toGlyphOptions(
 export function renderPattern(
   index: number,
   size: number,
-  options: PatternRenderOptions,
+  options: PatternRenderOptions
 ): RenderedPattern {
   const { svg, notation } = renderGlyph(index, toGlyphOptions(size, options))
   return { graphic: svg, note: notation }

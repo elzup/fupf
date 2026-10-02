@@ -12,7 +12,7 @@ export interface TriSplitOptions extends SizeOption {
 export function triSplitSvg(
   index: number,
   size = 40,
-  variant: PolygonVariant = 'normal',
+  variant: PolygonVariant = 'normal'
 ): string {
   // 4象限 × 2三角形 = 8bit
   const pad = size * 0.08
@@ -40,35 +40,35 @@ export function triSplitSvg(
     if (!isFlipped) {
       if (highFilled) {
         triangles.push(
-          `<polygon points="${qx1},${qy1} ${qx1},${qy2} ${qx2},${qy2}" fill="#e4e4e7"/>`,
+          `<polygon points="${qx1},${qy1} ${qx1},${qy2} ${qx2},${qy2}" fill="#e4e4e7"/>`
         )
       }
       if (lowFilled) {
         triangles.push(
-          `<polygon points="${qx1},${qy1} ${qx2},${qy2} ${qx2},${qy1}" fill="#a1a1aa"/>`,
+          `<polygon points="${qx1},${qy1} ${qx2},${qy2} ${qx2},${qy1}" fill="#a1a1aa"/>`
         )
       }
       triangles.push(
-        `<line x1="${qx1}" y1="${qy1}" x2="${qx2}" y2="${qy2}" stroke="#3f3f46" stroke-width="0.5"/>`,
+        `<line x1="${qx1}" y1="${qy1}" x2="${qx2}" y2="${qy2}" stroke="#3f3f46" stroke-width="0.5"/>`
       )
     } else {
       if (highFilled) {
         triangles.push(
-          `<polygon points="${qx2},${qy1} ${qx1},${qy2} ${qx2},${qy2}" fill="#e4e4e7"/>`,
+          `<polygon points="${qx2},${qy1} ${qx1},${qy2} ${qx2},${qy2}" fill="#e4e4e7"/>`
         )
       }
       if (lowFilled) {
         triangles.push(
-          `<polygon points="${qx1},${qy1} ${qx2},${qy1} ${qx1},${qy2}" fill="#a1a1aa"/>`,
+          `<polygon points="${qx1},${qy1} ${qx2},${qy1} ${qx1},${qy2}" fill="#a1a1aa"/>`
         )
       }
       triangles.push(
-        `<line x1="${qx2}" y1="${qy1}" x2="${qx1}" y2="${qy2}" stroke="#3f3f46" stroke-width="0.5"/>`,
+        `<line x1="${qx2}" y1="${qy1}" x2="${qx1}" y2="${qy2}" stroke="#3f3f46" stroke-width="0.5"/>`
       )
     }
 
     triangles.push(
-      `<rect x="${qx1}" y="${qy1}" width="${qx2 - qx1}" height="${qy2 - qy1}" fill="none" stroke="#3f3f46" stroke-width="0.5"/>`,
+      `<rect x="${qx1}" y="${qy1}" width="${qx2 - qx1}" height="${qy2 - qy1}" fill="none" stroke="#3f3f46" stroke-width="0.5"/>`
     )
   })
 
@@ -87,13 +87,13 @@ export function triSplitNotation(index: number): string {
 
 export function renderTriSplit(
   index: number,
-  options: Partial<TriSplitOptions> = {},
+  options: Partial<TriSplitOptions> = {}
 ): GlyphResult {
   return {
     svg: triSplitSvg(
       index,
       options.size ?? DEFAULT_GLYPH_SIZE,
-      options.variant ?? 'normal',
+      options.variant ?? 'normal'
     ),
     notation: triSplitNotation(index),
   }

@@ -26,10 +26,7 @@ describe('pathSvg', () => {
 
 describe('pathNotation', () => {
   it('formats state with separators', () => {
-    const notation = pathNotation(
-      { a: 0, b: 1, c: 2, d: 3 },
-      ['-', '~', '-'],
-    )
+    const notation = pathNotation({ a: 0, b: 1, c: 2, d: 3 }, ['-', '~', '-'])
     expect(notation).toBe('00-01~10-11')
   })
 })

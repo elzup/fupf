@@ -22,14 +22,14 @@ describe('renderGlyph', () => {
 
   it('uses 40 as the default size', () => {
     expect(renderGlyph(0, { mode: 'dotLine' }).svg).toContain(
-      'viewBox="0 0 40 40"',
+      'viewBox="0 0 40 40"'
     )
   })
 
   it('matches the per-mode render function', () => {
     const options = { size: 64, showBoundary: true }
     expect(renderGlyph(0xa5, { mode: 'pos16', ...options })).toEqual(
-      renderPos16(0xa5, options),
+      renderPos16(0xa5, options)
     )
   })
 })

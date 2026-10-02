@@ -14,13 +14,27 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
         <h2>線スタイル凡例</h2>
         <div className="legend-item">
           <svg viewBox="0 0 40 16">
-            <line x1="2" y1="8" x2="38" y2="8" stroke="#71717a" strokeWidth="2" />
+            <line
+              x1="2"
+              y1="8"
+              x2="38"
+              y2="8"
+              stroke="#71717a"
+              strokeWidth="2"
+            />
           </svg>
           <span>00 — 無し（非表示）</span>
         </div>
         <div className="legend-item">
           <svg viewBox="0 0 40 16">
-            <line x1="2" y1="8" x2="38" y2="8" stroke="#e4e4e7" strokeWidth="2" />
+            <line
+              x1="2"
+              y1="8"
+              x2="38"
+              y2="8"
+              stroke="#e4e4e7"
+              strokeWidth="2"
+            />
           </svg>
           <span>01 — 実線</span>
         </div>
@@ -51,7 +65,10 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
           </svg>
           <span>11 — 波線</span>
         </div>
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
           各辺の値はハイフン区切りで表示されます。
         </div>
       </div>
@@ -129,10 +146,16 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
           <span className="legend-symbol">=</span>
           <span>同一点（線なし）</span>
         </div>
-        <div className="legend-item" style={{ marginTop: 12, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 12, color: 'var(--muted)' }}
+        >
           番号付き丸が通過順。矢印が進行方向です。
         </div>
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
           「同じ位置を強調」ON で、繰り返し通過した角や線が太くなります。
         </div>
       </div>
@@ -203,13 +226,22 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
             </span>
           </div>
         ))}
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
           bit7=上から時計回り。8bit = 256通り
         </div>
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
           「塗りつぶし」で連続する方向の間を扇形で塗ります（配色は区間ごと／連続の始点色）。塗りに覆われる棒は非表示。
         </div>
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
           色は共通オプションの「モノクロ」で白黒に切替可。
         </div>
       </div>
@@ -255,8 +287,12 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
           />
           <span>上→右→下→左→上 の順で閉路に結ぶ</span>
         </div>
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
-          4^4 = 256通り。辺の配色: 単色 / 45°（斜め=ピンク）/ 位置(xy) / グラデ（閉路一周）。モノクロ切替対応。
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
+          4^4 = 256通り。辺の配色: 単色 / 45°（斜め=ピンク）/ 位置(xy) /
+          グラデ（閉路一周）。モノクロ切替対応。
         </div>
       </div>
     )
@@ -302,7 +338,10 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
           />
           <span>開始位置 → 終了位置の有向線</span>
         </div>
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
           上位4bit=開始位置、下位4bit=終了位置。16×16=256通り。
         </div>
       </div>
@@ -336,10 +375,16 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
           />
           <span>選んだ開始位置から辿る経路</span>
         </div>
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
           横線4択³ × 開始位置4択 = 4³ × 4 = 256通り。
         </div>
-        <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
           横線にも経路にも触れない縦棒は、通常色／別色／非表示を選択できます。
         </div>
       </div>
@@ -373,7 +418,10 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
         />
         <span>下位bit側の三角形</span>
       </div>
-      <div className="legend-item" style={{ marginTop: 8, color: 'var(--muted)' }}>
+      <div
+        className="legend-item"
+        style={{ marginTop: 8, color: 'var(--muted)' }}
+      >
         4象限 × 2三角形 = 8bit = 256通り
       </div>
     </div>

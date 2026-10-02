@@ -47,12 +47,15 @@ function ClockGlyph({
   const { graphic } = renderPattern(
     sample.patternIndex,
     CLOCK_GLYPH_SIZE,
-    state,
+    state
   )
   const paddedValue = sample.value.toString().padStart(2, '0')
 
   return (
-    <figure className="clock-item" aria-label={`${sample.label} ${paddedValue}`}>
+    <figure
+      className="clock-item"
+      aria-label={`${sample.label} ${paddedValue}`}
+    >
       <div
         className="clock-glyph"
         data-pattern-index={sample.patternIndex}

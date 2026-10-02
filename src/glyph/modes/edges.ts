@@ -18,7 +18,7 @@ function edgePath(
   y1: number,
   x2: number,
   y2: number,
-  style: number,
+  style: number
 ): string {
   if (style === 0) return ''
   const attrs = `fill="none" stroke="currentColor" stroke-width="${EDGE_STYLES[style].width}"`
@@ -53,7 +53,7 @@ export function glyphSvg(
   right: number,
   bottom: number,
   left: number,
-  size = 40,
+  size = 40
 ): string {
   const pad = Math.max(8, size * 0.08)
   const inner = size - pad * 2
@@ -86,7 +86,7 @@ export function edgeNotation({ a, b, c, d }: PatternState): string {
 
 export function renderEdges(
   index: number,
-  options: Partial<EdgesOptions> = {},
+  options: Partial<EdgesOptions> = {}
 ): GlyphResult {
   const state = stateFromIndex(index)
   const { a, b, c, d } = state

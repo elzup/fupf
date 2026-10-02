@@ -58,7 +58,7 @@ const CROSS_BITS = [2, 1, 1, 2] as const
 export function symbolGridSvg(
   state: PatternState,
   currentSymbolSet: number,
-  size = 40,
+  size = 40
 ): string {
   const strokeWidth = Math.max(1.5, size * 0.045)
   if (currentSymbolSet === MARUBATSU_SYMBOL_SET) {
@@ -85,7 +85,7 @@ function wrapSymbolSvg(content: string, size: number): string {
 function renderMarubatsu(
   { a, b, c, d }: PatternState,
   size: number,
-  strokeWidth: number,
+  strokeWidth: number
 ): string {
   const values = [a, b, c, d]
   const idBase = `marubatsu-${values.join('')}-${size}`
@@ -95,7 +95,7 @@ function renderMarubatsu(
   const crossRects = renderQuadrantRects(values, size, CROSS_BITS)
   const definitions = `${renderClipPath(
     circleClipId,
-    circleRects,
+    circleRects
   )}${renderClipPath(crossClipId, crossRects)}`
   const attributes = `stroke="#e4e4e7" stroke-width="${strokeWidth}" fill="none" stroke-linecap="round"`
   const center = size / 2
@@ -120,7 +120,7 @@ function renderMarubatsu(
 function renderQuadrantRects(
   values: number[],
   size: number,
-  quadrantBits: readonly [number, number, number, number],
+  quadrantBits: readonly [number, number, number, number]
 ): string {
   const cellSize = size / 2
   return values
@@ -145,13 +145,13 @@ export function renderSymbolPreview(
   value: number,
   symbolSetIndex: number,
   size = 18,
-  strokeWidth = 2,
+  strokeWidth = 2
 ): string {
   if (symbolSetIndex === MARUBATSU_SYMBOL_SET) {
     const symbols = renderMarubatsu(
       { a: value, b: value, c: value, d: value },
       size,
-      strokeWidth,
+      strokeWidth
     )
     return `<svg viewBox="0 0 ${size} ${size}" width="18" height="18">${symbols}</svg>`
   }
@@ -161,14 +161,14 @@ export function renderSymbolPreview(
 
 export function renderSymbols(
   index: number,
-  options: Partial<SymbolsOptions> = {},
+  options: Partial<SymbolsOptions> = {}
 ): GlyphResult {
   const state = stateFromIndex(index)
   return {
     svg: symbolGridSvg(
       state,
       options.symbolSet ?? 0,
-      options.size ?? DEFAULT_GLYPH_SIZE,
+      options.size ?? DEFAULT_GLYPH_SIZE
     ),
     notation: symbolNotation(state),
   }

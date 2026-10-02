@@ -35,10 +35,7 @@ function ModeButton({
       >
         {MODE_LABELS[mode]}
       </button>
-      <span
-        className="mode-samples"
-        data-sample-count={samples.length}
-      >
+      <span className="mode-samples" data-sample-count={samples.length}>
         {samples.map((graphic, index) => (
           <button
             key={index}

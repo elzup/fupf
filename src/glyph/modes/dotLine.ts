@@ -4,7 +4,11 @@ export interface DotLineOptions extends SizeOption {
   monochrome: boolean
 }
 
-export function dotLineSvg(index: number, size = 40, monochrome = false): string {
+export function dotLineSvg(
+  index: number,
+  size = 40,
+  monochrome = false
+): string {
   // 上位4bit: 4隅の丸点有無（bit7=左上, bit6=右上, bit5=左下, bit4=右下）
   // 下位4bit: 線分（bit3-2=始点, bit1-0=終点）
   const dotBits = (index >> 4) & 0x0f
@@ -57,13 +61,13 @@ export function dotLineNotation(index: number): string {
 
 export function renderDotLine(
   index: number,
-  options: Partial<DotLineOptions> = {},
+  options: Partial<DotLineOptions> = {}
 ): GlyphResult {
   return {
     svg: dotLineSvg(
       index,
       options.size ?? DEFAULT_GLYPH_SIZE,
-      options.monochrome ?? false,
+      options.monochrome ?? false
     ),
     notation: dotLineNotation(index),
   }
