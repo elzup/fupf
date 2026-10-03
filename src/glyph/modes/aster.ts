@@ -4,7 +4,7 @@ import {
   type AsterFillMode,
   type GlyphResult,
   type SizeOption,
-} from '../types'
+} from '../types.js'
 
 export interface AsterOptions extends SizeOption {
   fillMode: AsterFillMode

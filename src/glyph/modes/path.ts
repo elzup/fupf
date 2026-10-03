@@ -1,5 +1,9 @@
-import { fmt2bit, stateFromIndex, type PatternState } from '../bits'
-import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+import { fmt2bit, stateFromIndex, type PatternState } from '../bits.js'
+import {
+  DEFAULT_GLYPH_SIZE,
+  type GlyphResult,
+  type SizeOption,
+} from '../types.js'
 
 export interface PathOptions extends SizeOption {
   /** 同じ座標・区間を複数回通るとき線や点を太くする */

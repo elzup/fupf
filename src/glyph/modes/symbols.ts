@@ -1,5 +1,9 @@
-import { stateFromIndex, type PatternState } from '../bits'
-import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+import { stateFromIndex, type PatternState } from '../bits.js'
+import {
+  DEFAULT_GLYPH_SIZE,
+  type GlyphResult,
+  type SizeOption,
+} from '../types.js'
 
 export interface SymbolsOptions extends SizeOption {
   /** 0: なし / \ X, 1: 点の大きさ, 2: — | +, 3: マルバツ */

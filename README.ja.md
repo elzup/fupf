@@ -30,6 +30,22 @@
 - **16² pos**: `16^2 pos type`（4×4 グリッドの 16 位置から開始・終了を選び、有向な線を引く。上位4bit=開始位置、下位4bit=終了位置）
 - **あみだ**: `4^3 * 4 amida type`（4本の縦棒に対し、上・中・下の各段で「横線なし／1–2／2–3／3–4」を選び、開始位置4択から経路を辿る。通らなかった横線を強調し、横線にも経路にも触れない縦棒は通常色／別色／非表示を選択可）
 
+## ライブラリ
+
+SVG 生成部分は npm パッケージ `fupf` として公開しています (依存ゼロ、ESM と CJS、型定義付き)。
+
+```bash
+npm install fupf
+```
+
+```ts
+import { renderGlyph } from 'fupf'
+
+const { svg, notation } = renderGlyph(0xa5, { mode: 'pos16', size: 64 })
+```
+
+モードごとの関数 (`renderPos16`、`renderAmida` など) も個別に export しています。options は `mode` に応じて型チェックされます。1 モードだけ import した場合のバンドルは gzip 後 0.5〜1.4 kB、全モードで約 6 kB です。
+
 ## 開発
 
 ```bash

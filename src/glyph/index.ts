@@ -1,13 +1,13 @@
-import { renderAmida, type AmidaOptions } from './modes/amida'
-import { renderAster, type AsterOptions } from './modes/aster'
-import { renderBox, type BoxOptions } from './modes/box'
-import { renderDotLine, type DotLineOptions } from './modes/dotLine'
-import { renderEdges, type EdgesOptions } from './modes/edges'
-import { renderPath, type PathOptions } from './modes/path'
-import { renderPos16, type Pos16Options } from './modes/pos16'
-import { renderSymbols, type SymbolsOptions } from './modes/symbols'
-import { renderTriSplit, type TriSplitOptions } from './modes/triSplit'
-import type { GlyphResult } from './types'
+import { renderAmida, type AmidaOptions } from './modes/amida.js'
+import { renderAster, type AsterOptions } from './modes/aster.js'
+import { renderBox, type BoxOptions } from './modes/box.js'
+import { renderDotLine, type DotLineOptions } from './modes/dotLine.js'
+import { renderEdges, type EdgesOptions } from './modes/edges.js'
+import { renderPath, type PathOptions } from './modes/path.js'
+import { renderPos16, type Pos16Options } from './modes/pos16.js'
+import { renderSymbols, type SymbolsOptions } from './modes/symbols.js'
+import { renderTriSplit, type TriSplitOptions } from './modes/triSplit.js'
+import type { GlyphResult } from './types.js'
 
 interface GlyphOptionsMap {
   edges: EdgesOptions
@@ -63,4 +63,4 @@ export type {
   SymbolsOptions,
   TriSplitOptions,
 }
-export * from './types'
+export * from './types.js'

@@ -1,5 +1,9 @@
-import { fmt2bit, stateFromIndex, type PatternState } from '../bits'
-import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+import { fmt2bit, stateFromIndex, type PatternState } from '../bits.js'
+import {
+  DEFAULT_GLYPH_SIZE,
+  type GlyphResult,
+  type SizeOption,
+} from '../types.js'
 
 export type EdgesOptions = SizeOption
 

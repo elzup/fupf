@@ -3,7 +3,7 @@ import {
   type GlyphResult,
   type PolygonVariant,
   type SizeOption,
-} from '../types'
+} from '../types.js'
 
 export interface TriSplitOptions extends SizeOption {
   variant: PolygonVariant

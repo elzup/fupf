@@ -1,10 +1,10 @@
-import { fmt2bit, stateFromIndex } from '../bits'
+import { fmt2bit, stateFromIndex } from '../bits.js'
 import {
   DEFAULT_GLYPH_SIZE,
   type AmidaRailMode,
   type GlyphResult,
   type SizeOption,
-} from '../types'
+} from '../types.js'
 
 export interface AmidaOptions extends SizeOption {
   /** 横線にも経路にも触れない縦線の描き方 */

@@ -32,6 +32,22 @@ Labels in parentheses are the names shown in the UI.
 - **16² pos**: `16^2 pos type` — pick a start and an end from the 16 positions of a 4×4 grid and draw a directed line. Upper 4 bits = start, lower 4 bits = end.
 - **Amida** (あみだ): `4^3 * 4 amida type` — four vertical bars; in each of the top/middle/bottom rows choose "no rung / 1–2 / 2–3 / 3–4", then trace the path from one of four start positions. Rungs not taken are highlighted, and bars touched by neither a rung nor the path can be drawn normally, in another color, or hidden.
 
+## Library
+
+The SVG renderer is published on npm as `fupf` (zero dependencies, ESM + CJS, typed).
+
+```bash
+npm install fupf
+```
+
+```ts
+import { renderGlyph } from 'fupf'
+
+const { svg, notation } = renderGlyph(0xa5, { mode: 'pos16', size: 64 })
+```
+
+Each mode is also exported on its own (`renderPos16`, `renderAmida`, ...). Options depend on `mode` and are type-checked. Importing a single mode bundles to about 0.5–1.4 kB gzip; all modes are about 6 kB.
+
 ## Development
 
 ```bash

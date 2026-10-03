@@ -1,4 +1,8 @@
-import { DEFAULT_GLYPH_SIZE, type GlyphResult, type SizeOption } from '../types'
+import {
+  DEFAULT_GLYPH_SIZE,
+  type GlyphResult,
+  type SizeOption,
+} from '../types.js'
 
 export interface Pos16Options extends SizeOption {
   monochrome: boolean

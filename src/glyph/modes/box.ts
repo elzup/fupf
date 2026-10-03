@@ -3,7 +3,7 @@ import {
   type BoxEdgeColor,
   type GlyphResult,
   type SizeOption,
-} from '../types'
+} from '../types.js'
 
 export interface BoxOptions extends SizeOption {
   edgeColor: BoxEdgeColor

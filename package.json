@@ -1,8 +1,36 @@
 {
   "name": "fupf",
   "version": "0.0.1",
-  "private": true,
+  "description": "Render 256 (4^4) pattern glyphs as SVG strings. Zero dependencies, framework-free.",
+  "keywords": [
+    "byte",
+    "glyph",
+    "pattern",
+    "svg",
+    "visualization"
+  ],
+  "homepage": "https://elzup.github.io/fupf/",
+  "bugs": {
+    "url": "https://github.com/elzup/fupf/issues"
+  },
+  "license": "MIT",
+  "author": "elzup",
+  "repository": "elzup/fupf",
+  "files": [
+    "lib/"
+  ],
   "type": "module",
+  "sideEffects": false,
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
+  },
   "scripts": {
     "dev": "portless run --name fupf vite",
     "build": "tsc && vite build",
@@ -14,11 +42,13 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "typecheck": "tsc --noEmit",
-    "prepare": "git config core.hooksPath .githooks"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "prepare": "git config core.hooksPath .githooks",
+    "build:lib": "npm run clean:lib && npm run build:esm && npm run build:cjs && npm run build:types",
+    "clean:lib": "rm -rf lib",
+    "build:esm": "tsc -p tsconfig.lib.json",
+    "build:cjs": "tsc -p tsconfig.lib.json --module commonjs --moduleResolution node10 --outDir lib/cjs && echo \"{\\\"type\\\": \\\"commonjs\\\"}\" > lib/cjs/package.json",
+    "build:types": "tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly --outDir lib/types",
+    "prepublishOnly": "npm run build:lib && npm run test:run"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.6",
@@ -30,6 +60,8 @@
     "jsdom": "^24.1.0",
     "oxfmt": "^0.70.0",
     "oxlint": "^1.85.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5.5.3",
     "vite": "^5.3.3",
     "vitest": "^2.0.2"
