@@ -32,14 +32,14 @@
 
 ## ライブラリ
 
-SVG 生成部分は npm パッケージ `fupf` として公開しています (依存ゼロ、ESM と CJS、型定義付き)。
+SVG 生成部分は npm パッケージ `fupf-glyph` として公開しています (依存ゼロ、ESM と CJS、型定義付き)。
 
 ```bash
-npm install fupf
+npm install fupf-glyph
 ```
 
 ```ts
-import { renderGlyph } from 'fupf'
+import { renderGlyph } from 'fupf-glyph'
 
 const { svg, notation } = renderGlyph(0xa5, { mode: 'pos16', size: 64 })
 ```

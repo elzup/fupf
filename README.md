@@ -34,14 +34,14 @@ Labels in parentheses are the names shown in the UI.
 
 ## Library
 
-The SVG renderer is published on npm as `fupf` (zero dependencies, ESM + CJS, typed).
+The SVG renderer is published on npm as `fupf-glyph` (zero dependencies, ESM + CJS, typed).
 
 ```bash
-npm install fupf
+npm install fupf-glyph
 ```
 
 ```ts
-import { renderGlyph } from 'fupf'
+import { renderGlyph } from 'fupf-glyph'
 
 const { svg, notation } = renderGlyph(0xa5, { mode: 'pos16', size: 64 })
 ```

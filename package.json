@@ -1,5 +1,5 @@
 {
-  "name": "fupf",
+  "name": "fupf-glyph",
   "version": "0.0.1",
   "description": "Render 256 (4^4) pattern glyphs as SVG strings. Zero dependencies, framework-free.",
   "keywords": [
@@ -15,7 +15,10 @@
   },
   "license": "MIT",
   "author": "elzup",
-  "repository": "elzup/fupf",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elzup/fupf.git"
+  },
   "files": [
     "lib/"
   ],
