@@ -2,10 +2,11 @@ import { stateFromIndex, type PatternState } from '../bits.js'
 import {
   DEFAULT_GLYPH_SIZE,
   type GlyphResult,
-  type SizeOption,
+  type BaseGlyphOptions,
 } from '../types.js'
+import { inkStyle, resolvePalette, type GlyphPalette } from '../palette.js'
 
-export interface SymbolsOptions extends SizeOption {
+export interface SymbolsOptions extends BaseGlyphOptions {
   /** 0: なし / \ X, 1: 点の大きさ, 2: — | +, 3: マルバツ */
   symbolSet: number
 }
@@ -15,7 +16,7 @@ const SYMBOL_SETS = [
     name: 'なし / \\ X',
     render: (v: number, x: number, y: number, s: number, w: number) => {
       const m = s * 0.18
-      const attrs = `stroke="#e4e4e7" stroke-width="${w}" fill="none" stroke-linecap="round"`
+      const attrs = `stroke="currentColor" stroke-width="${w}" fill="none" stroke-linecap="round"`
       if (v === 0) return ''
       if (v === 1)
         return `<line x1="${x + m}" y1="${y + s - m}" x2="${x + s - m}" y2="${y + m}" ${attrs}/>`
@@ -32,7 +33,7 @@ const SYMBOL_SETS = [
       const radii = [0, s * 0.08, s * 0.16, s * 0.24]
       const r = radii[v]
       if (r === 0) return ''
-      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#e4e4e7"/>`
+      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="currentColor"/>`
     },
   },
   {
@@ -40,7 +41,7 @@ const SYMBOL_SETS = [
     render: (v: number, x: number, y: number, s: number, w: number) => {
       const cx = x + s / 2
       const cy = y + s / 2
-      const attrs = `stroke="#e4e4e7" stroke-width="${w}" fill="none" stroke-linecap="butt"`
+      const attrs = `stroke="currentColor" stroke-width="${w}" fill="none" stroke-linecap="butt"`
       if (v === 0) return ''
       if (v === 1)
         return `<line x1="${x}" y1="${cy}" x2="${x + s}" y2="${cy}" ${attrs}/>`
@@ -62,12 +63,13 @@ const CROSS_BITS = [2, 1, 1, 2] as const
 export function symbolGridSvg(
   state: PatternState,
   currentSymbolSet: number,
-  size = 40
+  size = 40,
+  palette = resolvePalette({}, 'symbols')
 ): string {
   const strokeWidth = Math.max(1.5, size * 0.045)
   if (currentSymbolSet === MARUBATSU_SYMBOL_SET) {
     const symbols = renderMarubatsu(state, size, strokeWidth)
-    return wrapSymbolSvg(symbols, size)
+    return wrapSymbolSvg(symbols, size, palette)
   }
 
   const { a, b, c, d } = state
@@ -79,11 +81,15 @@ export function symbolGridSvg(
     render(c, 0, cellSize, cellSize, strokeWidth),
     render(d, cellSize, cellSize, cellSize, strokeWidth),
   ].join('')
-  return wrapSymbolSvg(cells, size)
+  return wrapSymbolSvg(cells, size, palette)
 }
 
-function wrapSymbolSvg(content: string, size: number): string {
-  return `<svg viewBox="0 0 ${size} ${size}" preserveAspectRatio="xMidYMid meet" style="color:#e4e4e7">${content}</svg>`
+function wrapSymbolSvg(
+  content: string,
+  size: number,
+  palette: GlyphPalette
+): string {
+  return `<svg viewBox="0 0 ${size} ${size}" preserveAspectRatio="xMidYMid meet"${inkStyle(palette.fg)}>${content}</svg>`
 }
 
 function renderMarubatsu(
@@ -101,7 +107,7 @@ function renderMarubatsu(
     circleClipId,
     circleRects
   )}${renderClipPath(crossClipId, crossRects)}`
-  const attributes = `stroke="#e4e4e7" stroke-width="${strokeWidth}" fill="none" stroke-linecap="round"`
+  const attributes = `stroke="currentColor" stroke-width="${strokeWidth}" fill="none" stroke-linecap="round"`
   const center = size / 2
   const margin = size * 0.12
   const circle = circleRects
@@ -157,10 +163,10 @@ export function renderSymbolPreview(
       size,
       strokeWidth
     )
-    return `<svg viewBox="0 0 ${size} ${size}" width="18" height="18">${symbols}</svg>`
+    return `<svg viewBox="0 0 ${size} ${size}" width="18" height="18"${inkStyle(resolvePalette({}, 'symbols').fg)}>${symbols}</svg>`
   }
   const render = SYMBOL_SETS[symbolSetIndex].render
-  return `<svg viewBox="0 0 ${size} ${size}" width="18" height="18">${render(value, 0, 0, size, strokeWidth)}</svg>`
+  return `<svg viewBox="0 0 ${size} ${size}" width="18" height="18"${inkStyle(resolvePalette({}, 'symbols').fg)}>${render(value, 0, 0, size, strokeWidth)}</svg>`
 }
 
 export function renderSymbols(
@@ -172,7 +178,8 @@ export function renderSymbols(
     svg: symbolGridSvg(
       state,
       options.symbolSet ?? 0,
-      options.size ?? DEFAULT_GLYPH_SIZE
+      options.size ?? DEFAULT_GLYPH_SIZE,
+      resolvePalette(options, 'symbols')
     ),
     notation: symbolNotation(state),
   }

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { resolvePalette } from '../palette'
 import { asterNotation, asterSvg } from './aster'
 
 describe('asterSvg', () => {
@@ -14,9 +15,14 @@ describe('asterSvg', () => {
   })
 
   it('uses monochrome color when enabled', () => {
-    const result = asterSvg(0b10000000, 40, { monochrome: true })
-    expect(result.svg).toContain('#e4e4e7')
-    expect(result.svg).not.toContain('#f87171')
+    const result = asterSvg(
+      0b10000000,
+      40,
+      {},
+      resolvePalette({ monochrome: true })
+    )
+    expect(result.svg).toContain('currentColor')
+    expect(result.svg).not.toContain('#ef4444')
   })
 })
 

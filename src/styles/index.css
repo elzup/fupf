@@ -143,6 +143,7 @@ h1 {
   flex: 0 0 auto;
   padding: 3px;
   background: var(--bg);
+  color: var(--text);
   border: 1px solid var(--grid-line);
   border-radius: 6px;
   cursor: pointer;

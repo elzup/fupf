@@ -2,10 +2,11 @@ import {
   DEFAULT_GLYPH_SIZE,
   type BoxEdgeColor,
   type GlyphResult,
-  type SizeOption,
+  type BaseGlyphOptions,
 } from '../types.js'
+import { fillAttr, resolvePalette, strokeAttr, type Paint } from '../palette.js'
 
-export interface BoxOptions extends SizeOption {
+export interface BoxOptions extends BaseGlyphOptions {
   edgeColor: BoxEdgeColor
   monochrome: boolean
 }
@@ -51,7 +52,7 @@ export function boxSvg(
   index: number,
   size = 40,
   boxEdgeColor: BoxEdgeColor = 'single',
-  monochrome = false
+  palette = resolvePalette({}, 'box')
 ): string {
   const cell = size / 3
   const inset = cell * 0.2
@@ -62,7 +63,7 @@ export function boxSvg(
   const frame = Object.values(BOX_CELLS)
     .map(
       ([r, c]) =>
-        `<rect x="${c * cell}" y="${r * cell}" width="${cell}" height="${cell}" fill="none" stroke="#3f3f46" stroke-width="${frameWidth}"/>`
+        `<rect x="${c * cell}" y="${r * cell}" width="${cell}" height="${cell}" fill="none" ${strokeAttr(palette.guide)} stroke-width="${frameWidth}"/>`
     )
     .join('')
 
@@ -75,18 +76,18 @@ export function boxSvg(
   const segs = points
     .map(([x1, y1], i) => {
       const [x2, y2] = points[(i + 1) % 4]
-      let stroke: string
-      if (monochrome) {
-        stroke = '#e4e4e7'
+      let stroke: Paint
+      if (palette.monochrome) {
+        stroke = palette.fg
       } else if (boxEdgeColor === 'angle') {
         const is45 =
           Math.abs(Math.abs(x2 - x1) - Math.abs(y2 - y1)) < size * 0.01
-        stroke = is45 ? '#f472b6' : '#22d3ee'
+        stroke = is45 ? palette.accents[1] : palette.accents[0]
       } else if (boxEdgeColor === 'xy') {
         const mx = (x1 + x2) / 2
         const my = (y1 + y2) / 2
         const hue = ((mx / size) * 180 + (my / size) * 180) % 360
-        stroke = `hsl(${hue.toFixed(0)}, 70%, 60%)`
+        stroke = { color: `hsl(${hue.toFixed(0)}, 70%, 60%)` }
       } else if (boxEdgeColor === 'grad') {
         const id = `bg-${size}-${index}-${i}`
         const h1 = (i / 4) * 360
@@ -94,17 +95,20 @@ export function boxSvg(
         defs.push(
           `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="hsl(${h1}, 70%, 60%)"/><stop offset="1" stop-color="hsl(${h2}, 70%, 60%)"/></linearGradient>`
         )
-        stroke = `url(#${id})`
+        stroke = { color: `url(#${id})` }
       } else {
-        stroke = '#22d3ee'
+        stroke = palette.accents[0]
       }
-      return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-width="${lineWidth}" stroke-linecap="round"/>`
+      return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" ${strokeAttr(stroke)} stroke-width="${lineWidth}" stroke-linecap="round"/>`
     })
     .join('')
   const defsEl = defs.length ? `<defs>${defs.join('')}</defs>` : ''
 
   const dots = points
-    .map(([x, y]) => `<circle cx="${x}" cy="${y}" r="${dotR}" fill="#e4e4e7"/>`)
+    .map(
+      ([x, y]) =>
+        `<circle cx="${x}" cy="${y}" r="${dotR}" ${fillAttr(palette.fg)}/>`
+    )
     .join('')
 
   return `<svg viewBox="0 0 ${size} ${size}" preserveAspectRatio="xMidYMid meet">${defsEl}${frame}${segs}${dots}</svg>`
@@ -126,7 +130,7 @@ export function renderBox(
       index,
       options.size ?? DEFAULT_GLYPH_SIZE,
       options.edgeColor ?? 'single',
-      options.monochrome ?? false
+      resolvePalette(options, 'box')
     ),
     notation: boxNotation(index),
   }

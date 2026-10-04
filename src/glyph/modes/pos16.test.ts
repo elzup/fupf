@@ -1,3 +1,4 @@
+import { resolvePalette } from '../palette'
 import { describe, expect, it } from 'vitest'
 import { pos16Notation, pos16Svg } from './pos16'
 
@@ -40,32 +41,37 @@ describe('pos16Svg', () => {
   })
 
   it('uses monochrome palette when enabled', () => {
-    const svg = pos16Svg(0b00010010, 40, { monochrome: true })
-    expect(svg).toContain('#e4e4e7')
-    expect(svg).not.toContain('#22d3ee')
+    const svg = pos16Svg(
+      0b00010010,
+      40,
+      {},
+      resolvePalette({ monochrome: true })
+    )
+    expect(svg).toContain('currentColor')
+    expect(svg).not.toContain('#06b6d4')
   })
 
   it('renders distinguishable start and end markers', () => {
     const svg = pos16Svg(0b00010010, 40)
     // 開始位置は円リング、終了位置は塗り潰し円
     expect(svg).toContain('fill="none"')
-    expect(svg).toContain('fill="#22d3ee"')
+    expect(svg).toContain('fill="#06b6d4"')
   })
 
   it('highlights 3x3 neighborhood around start and end', () => {
     // start=5(中央付近), end=10(中央付近) で両方の近傍が複数マスに広がる
     const svg = pos16Svg(0b01011010, 40)
     // 明暗を強調: ベース・近傍・重畳の3色が使われる
-    expect(svg).toContain('#18181b')
-    expect(svg).toContain('#52525b')
-    expect(svg).toContain('#a1a1aa')
+    expect(svg).toContain('fill="none"')
+    expect(svg).toContain('fill-opacity="0.35"')
+    expect(svg).toContain('fill-opacity="0.45"')
     expect(svg).toContain('data-pos16-neighborhood="true"')
   })
 
   it('can hide the 3x3 neighborhood fill', () => {
     const svg = pos16Svg(0b01011010, 40, { showNeighborhood: false })
     expect(svg).not.toContain('data-pos16-neighborhood="true"')
-    expect(svg).not.toContain('#52525b')
+    expect(svg).not.toContain('fill-opacity="0.35"')
   })
 
   it('draws the boundary of the neighborhood union when enabled', () => {

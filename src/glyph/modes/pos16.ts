@@ -1,10 +1,17 @@
 import {
   DEFAULT_GLYPH_SIZE,
   type GlyphResult,
-  type SizeOption,
+  type BaseGlyphOptions,
 } from '../types.js'
+import {
+  fillAttr,
+  resolvePalette,
+  strokeAttr,
+  type GlyphPalette,
+  type Paint,
+} from '../palette.js'
 
-export interface Pos16Options extends SizeOption {
+export interface Pos16Options extends BaseGlyphOptions {
   monochrome: boolean
   showLine: boolean
   showNeighborhood: boolean
@@ -12,7 +19,6 @@ export interface Pos16Options extends SizeOption {
 }
 
 interface Pos16RenderOptions {
-  monochrome: boolean
   showLine: boolean
   showNeighborhood: boolean
   showBoundary: boolean
@@ -27,36 +33,39 @@ interface Pos16Geometry {
 }
 
 const DEFAULT_OPTIONS: Pos16RenderOptions = {
-  monochrome: false,
   showLine: true,
   showNeighborhood: true,
   showBoundary: false,
 }
 
-const BASE_FILL = '#18181b'
-const NEIGHBORHOOD_FILL = '#52525b'
-const OVERLAP_FILL = '#a1a1aa'
-
 export function pos16Svg(
   index: number,
   size = 40,
-  partialOptions: Partial<Pos16RenderOptions> = {}
+  partialOptions: Partial<Pos16RenderOptions> = {},
+  palette = resolvePalette({}, 'pos16')
 ): string {
   const options = { ...DEFAULT_OPTIONS, ...partialOptions }
   const start = (index >> 4) & 0x0f
   const end = index & 0x0f
   const geometry = createGeometry(size)
-  const accentColor = options.monochrome ? '#e4e4e7' : '#22d3ee'
+  const accentColor = palette.accents[0]
   const backgrounds = renderBackgrounds(
     start,
     end,
     geometry,
-    options.showNeighborhood
+    options.showNeighborhood,
+    palette
   )
   const boundary = options.showBoundary
     ? renderNeighborhoodBoundary(start, end, geometry, accentColor)
     : ''
-  const markers = renderMarkers(start, end, geometry, accentColor)
+  const markers = renderMarkers(
+    start,
+    end,
+    geometry,
+    accentColor,
+    palette.muted
+  )
   const line = options.showLine
     ? renderConnectingLine(start, end, geometry, accentColor, size)
     : ''
@@ -90,7 +99,8 @@ function renderBackgrounds(
   start: number,
   end: number,
   geometry: Pos16Geometry,
-  showNeighborhood: boolean
+  showNeighborhood: boolean,
+  palette: GlyphPalette
 ): string {
   return Array.from({ length: 16 }, (_, index) => {
     const [x, y] = positionAt(index, geometry)
@@ -100,11 +110,11 @@ function renderBackgrounds(
     const isOverlap = isStartNeighbor && isEndNeighbor && start !== end
     const fill = showNeighborhood
       ? isOverlap
-        ? OVERLAP_FILL
+        ? palette.muted
         : isNeighborhood
-          ? NEIGHBORHOOD_FILL
-          : BASE_FILL
-      : BASE_FILL
+          ? palette.rail
+          : palette.bg
+      : palette.bg
     const dataAttribute =
       showNeighborhood && isNeighborhood
         ? ' data-pos16-neighborhood="true"'
@@ -116,7 +126,7 @@ function renderBackgrounds(
       geometry.blockSize
     }" height="${
       geometry.blockSize
-    }" rx="${radius}" fill="${fill}" stroke="#3f3f46" stroke-width="${
+    }" rx="${radius}" ${fillAttr(fill)} ${strokeAttr(palette.guide)} stroke-width="${
       geometry.cell * 0.025
     }"/>`
   }).join('')
@@ -126,36 +136,37 @@ function renderMarkers(
   start: number,
   end: number,
   geometry: Pos16Geometry,
-  accentColor: string
+  accentColor: Paint,
+  dotColor: Paint
 ): string {
   return Array.from({ length: 16 }, (_, index) => {
     const [x, y] = positionAt(index, geometry)
     if (index === start && start === end) {
       return `<circle cx="${x}" cy="${y}" r="${
         geometry.halfBlock * 0.9
-      }" fill="none" stroke="${accentColor}" stroke-width="${
+      }" fill="none" ${strokeAttr(accentColor)} stroke-width="${
         geometry.lineWidth
       }"/><circle cx="${x}" cy="${y}" r="${
         geometry.halfBlock * 0.5
-      }" fill="${accentColor}"/>`
+      }" ${fillAttr(accentColor)}/>`
     }
     if (index === start) {
       return `<circle cx="${x}" cy="${y}" r="${
         geometry.halfBlock * 0.75
-      }" fill="none" stroke="${accentColor}" stroke-width="${
+      }" fill="none" ${strokeAttr(accentColor)} stroke-width="${
         geometry.lineWidth
       }"/><circle cx="${x}" cy="${y}" r="${
         geometry.halfBlock * 0.3
-      }" fill="${accentColor}"/>`
+      }" ${fillAttr(accentColor)}/>`
     }
     if (index === end) {
       return `<circle cx="${x}" cy="${y}" r="${
         geometry.halfBlock * 0.65
-      }" fill="${accentColor}"/>`
+      }" ${fillAttr(accentColor)}/>`
     }
     return `<circle cx="${x}" cy="${y}" r="${
       geometry.halfBlock * 0.18
-    }" fill="#a1a1aa"/>`
+    }" ${fillAttr(dotColor)}/>`
   }).join('')
 }
 
@@ -163,14 +174,14 @@ function renderConnectingLine(
   start: number,
   end: number,
   geometry: Pos16Geometry,
-  accentColor: string,
+  accentColor: Paint,
   size: number
 ): string {
   const [startX, startY] = positionAt(start, geometry)
   if (start === end) {
     const loop = `<circle cx="${startX}" cy="${startY}" r="${
       geometry.halfBlock * 0.75
-    }" fill="none" stroke="${accentColor}" stroke-width="${
+    }" fill="none" ${strokeAttr(accentColor)} stroke-width="${
       geometry.lineWidth
     }" stroke-dasharray="${size * 0.03} ${size * 0.025}"/>`
     return `<g data-pos16-line="true">${loop}</g>`
@@ -193,7 +204,7 @@ function renderConnectingLine(
     Math.min(size * 0.06, geometry.halfBlock * 0.4),
     accentColor
   )
-  const line = `<line x1="${lineStartX}" y1="${lineStartY}" x2="${lineEndX}" y2="${lineEndY}" stroke="${accentColor}" stroke-width="${geometry.lineWidth}" stroke-linecap="round"/>`
+  const line = `<line x1="${lineStartX}" y1="${lineStartY}" x2="${lineEndX}" y2="${lineEndY}" ${strokeAttr(accentColor)} stroke-width="${geometry.lineWidth}" stroke-linecap="round"/>`
   return `<g data-pos16-line="true">${line}${arrow}</g>`
 }
 
@@ -202,21 +213,21 @@ function renderArrow(
   endY: number,
   angle: number,
   length: number,
-  color: string
+  color: Paint
 ): string {
   const spread = Math.PI / 6
   const point1X = endX - length * Math.cos(angle - spread)
   const point1Y = endY - length * Math.sin(angle - spread)
   const point2X = endX - length * Math.cos(angle + spread)
   const point2Y = endY - length * Math.sin(angle + spread)
-  return `<polygon points="${endX},${endY} ${point1X},${point1Y} ${point2X},${point2Y}" fill="${color}"/>`
+  return `<polygon points="${endX},${endY} ${point1X},${point1Y} ${point2X},${point2Y}" ${fillAttr(color)}/>`
 }
 
 function renderNeighborhoodBoundary(
   start: number,
   end: number,
   geometry: Pos16Geometry,
-  color: string
+  color: Paint
 ): string {
   const sides = [
     { row: -1, col: 0, edge: 'top' },
@@ -239,7 +250,7 @@ function renderNeighborhoodBoundary(
     })
   return `<path data-pos16-boundary="true" d="${segments.join(
     ''
-  )}" fill="none" stroke="${color}" stroke-width="${
+  )}" fill="none" ${strokeAttr(color)} stroke-width="${
     geometry.lineWidth
   }" stroke-linecap="round" stroke-linejoin="round"/>`
 }
@@ -295,7 +306,12 @@ export function renderPos16(
   options: Partial<Pos16Options> = {}
 ): GlyphResult {
   return {
-    svg: pos16Svg(index, options.size ?? DEFAULT_GLYPH_SIZE, options),
+    svg: pos16Svg(
+      index,
+      options.size ?? DEFAULT_GLYPH_SIZE,
+      options,
+      resolvePalette(options, 'pos16')
+    ),
     notation: pos16Notation(index),
   }
 }

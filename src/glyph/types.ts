@@ -1,3 +1,5 @@
+import type { ColorOptions } from './palette.js'
+
 export interface GlyphResult {
   svg: string
   notation: string
@@ -6,6 +8,8 @@ export interface GlyphResult {
 export interface SizeOption {
   size: number
 }
+
+export interface BaseGlyphOptions extends SizeOption, ColorOptions {}
 
 export const DEFAULT_GLYPH_SIZE = 40
 

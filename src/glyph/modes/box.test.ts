@@ -1,31 +1,32 @@
+import { resolvePalette } from '../palette'
 import { describe, expect, it } from 'vitest'
 import { boxNotation, boxSvg } from './box'
 
 describe('boxSvg', () => {
   it('returns svg string', () => {
-    const svg = boxSvg(0, 40, 'single', false)
+    const svg = boxSvg(0, 40, 'single')
     expect(svg).toContain('<svg')
     expect(svg).toContain('</svg>')
   })
 
   it('renders frame rects', () => {
-    const svg = boxSvg(0, 40, 'single', false)
+    const svg = boxSvg(0, 40, 'single')
     expect(svg.match(/<rect/g)?.length).toBe(5)
   })
 
   it('uses single color by default', () => {
-    const svg = boxSvg(0, 40, 'single', false)
-    expect(svg).toContain('#22d3ee')
+    const svg = boxSvg(0, 40, 'single')
+    expect(svg).toContain('#6366f1')
   })
 
   it('uses monochrome when enabled', () => {
-    const svg = boxSvg(0, 40, 'single', true)
-    expect(svg).toContain('#e4e4e7')
-    expect(svg).not.toContain('#22d3ee')
+    const svg = boxSvg(0, 40, 'single', resolvePalette({ monochrome: true }))
+    expect(svg).toContain('currentColor')
+    expect(svg).not.toContain('#06b6d4')
   })
 
   it('renders gradient definitions for grad mode', () => {
-    const svg = boxSvg(0, 40, 'grad', false)
+    const svg = boxSvg(0, 40, 'grad')
     expect(svg).toContain('<defs>')
     expect(svg).toContain('<linearGradient')
   })

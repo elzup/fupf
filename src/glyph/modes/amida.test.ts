@@ -1,3 +1,4 @@
+import { DEFAULT_PALETTE, resolvePalette } from '../palette'
 import { describe, expect, it } from 'vitest'
 import { amidaNotation, amidaSvg, traceAmida } from './amida'
 
@@ -42,7 +43,9 @@ describe('amidaSvg', () => {
   it('keeps vertical rails subdued', () => {
     const svg = amidaSvg(0, 40)
 
-    expect(svg.match(/stroke="#52525b"/g)).toHaveLength(4)
+    expect(
+      svg.match(/stroke="currentColor" stroke-opacity="0.35"/g)
+    ).toHaveLength(4)
   })
 
   it('makes horizontal rungs outside the selected route more visible', () => {
@@ -50,24 +53,24 @@ describe('amidaSvg', () => {
     const usedRungSvg = amidaSvg(0b01000000, 40)
 
     expect(unusedRungSvg).toContain(
-      'data-amida-rung-used="false" stroke="#f472b6"'
+      'data-amida-rung-used="false" stroke="#ec4899"'
     )
     expect(usedRungSvg).toContain(
-      'data-amida-rung-used="true" stroke="#a1a1aa"'
+      'data-amida-rung-used="true" stroke="currentColor" stroke-opacity="0.45"'
     )
   })
 
   it('can color only rails with neither a rung nor the selected route', () => {
-    const svg = amidaSvg(0, 40, false, 'colored')
+    const svg = amidaSvg(0, 40, DEFAULT_PALETTE, 'colored')
 
-    expect(svg.match(/stroke="#818cf8"/g)).toHaveLength(3)
+    expect(svg.match(/stroke="#6366f1"/g)).toHaveLength(3)
     expect(svg).toContain(
       'data-amida-rail="0" data-amida-rail-isolated="false"'
     )
   })
 
   it('can hide only isolated rails without hiding the selected route', () => {
-    const svg = amidaSvg(0, 40, false, 'hidden')
+    const svg = amidaSvg(0, 40, DEFAULT_PALETTE, 'hidden')
 
     expect(svg.match(/data-amida-rail=/g)).toHaveLength(1)
     expect(svg).toContain('data-amida-rail="0"')
@@ -75,14 +78,16 @@ describe('amidaSvg', () => {
   })
 
   it('does not treat a rail touched by an unused rung as isolated', () => {
-    const svg = amidaSvg(0b11000000, 40, false, 'hidden')
+    const svg = amidaSvg(0b11000000, 40, DEFAULT_PALETTE, 'hidden')
 
     expect(svg).toContain('data-amida-rail="2"')
     expect(svg).toContain('data-amida-rail="3"')
   })
 
   it('supports monochrome rendering', () => {
-    expect(amidaSvg(0, 40, true)).toContain('#e4e4e7')
+    expect(
+      amidaSvg(0, 40, resolvePalette({ monochrome: true }), 'colored')
+    ).not.toMatch(/#[0-9a-f]{6}/)
   })
 })
 

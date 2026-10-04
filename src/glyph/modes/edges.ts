@@ -2,10 +2,11 @@ import { fmt2bit, stateFromIndex, type PatternState } from '../bits.js'
 import {
   DEFAULT_GLYPH_SIZE,
   type GlyphResult,
-  type SizeOption,
+  type BaseGlyphOptions,
 } from '../types.js'
+import { fillAttr, resolvePalette, strokeAttr, type Paint } from '../palette.js'
 
-export type EdgesOptions = SizeOption
+export type EdgesOptions = BaseGlyphOptions
 
 export const EDGE_STYLES: Record<
   number,
@@ -22,10 +23,11 @@ function edgePath(
   y1: number,
   x2: number,
   y2: number,
-  style: number
+  style: number,
+  stroke: Paint
 ): string {
   if (style === 0) return ''
-  const attrs = `fill="none" stroke="currentColor" stroke-width="${EDGE_STYLES[style].width}"`
+  const attrs = `fill="none" ${strokeAttr(stroke)} stroke-width="${EDGE_STYLES[style].width}"`
   if (EDGE_STYLES[style].dash) {
     return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" ${attrs} stroke-dasharray="${EDGE_STYLES[style].dash}"/>`
   }
@@ -57,7 +59,8 @@ export function glyphSvg(
   right: number,
   bottom: number,
   left: number,
-  size = 40
+  size = 40,
+  palette = resolvePalette({}, 'edges')
 ): string {
   const pad = Math.max(8, size * 0.08)
   const inner = size - pad * 2
@@ -66,21 +69,21 @@ export function glyphSvg(
   const p3: [number, number] = [pad + inner, pad + inner]
   const p4: [number, number] = [pad, pad + inner]
   const edges = [
-    edgePath(...p1, ...p2, top),
-    edgePath(...p2, ...p3, right),
-    edgePath(...p3, ...p4, bottom),
-    edgePath(...p4, ...p1, left),
+    edgePath(...p1, ...p2, top, palette.fg),
+    edgePath(...p2, ...p3, right, palette.fg),
+    edgePath(...p3, ...p4, bottom, palette.fg),
+    edgePath(...p4, ...p1, left, palette.fg),
   ]
     .filter(Boolean)
     .join('')
+  const dots = [p1, p2, p3, p4]
+    .map(
+      ([x, y]) =>
+        `<circle cx="${x}" cy="${y}" r="1.5" ${fillAttr(palette.dim)}/>`
+    )
+    .join('')
 
-  return `<svg viewBox="0 0 ${size} ${size}" style="color:#e4e4e7">
-    ${edges}
-    <circle cx="${p1[0]}" cy="${p1[1]}" r="1.5" fill="#71717a"/>
-    <circle cx="${p2[0]}" cy="${p2[1]}" r="1.5" fill="#71717a"/>
-    <circle cx="${p3[0]}" cy="${p3[1]}" r="1.5" fill="#71717a"/>
-    <circle cx="${p4[0]}" cy="${p4[1]}" r="1.5" fill="#71717a"/>
-  </svg>`
+  return `<svg viewBox="0 0 ${size} ${size}">${edges}${dots}</svg>`
 }
 
 export function edgeNotation({ a, b, c, d }: PatternState): string {
@@ -94,7 +97,14 @@ export function renderEdges(
   const state = stateFromIndex(index)
   const { a, b, c, d } = state
   return {
-    svg: glyphSvg(a, b, c, d, options.size ?? DEFAULT_GLYPH_SIZE),
+    svg: glyphSvg(
+      a,
+      b,
+      c,
+      d,
+      options.size ?? DEFAULT_GLYPH_SIZE,
+      resolvePalette(options, 'edges')
+    ),
     notation: edgeNotation(state),
   }
 }

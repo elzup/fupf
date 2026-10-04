@@ -3,10 +3,16 @@ import {
   type AsterFillColor,
   type AsterFillMode,
   type GlyphResult,
-  type SizeOption,
+  type BaseGlyphOptions,
 } from '../types.js'
+import {
+  DEFAULT_PALETTE,
+  fillAttr,
+  resolvePalette,
+  strokeAttr,
+} from '../palette.js'
 
-export interface AsterOptions extends SizeOption {
+export interface AsterOptions extends BaseGlyphOptions {
   fillMode: AsterFillMode
   fillColor: AsterFillColor
   cross: boolean
@@ -18,16 +24,7 @@ interface AsterSvgResult {
 }
 
 // Aster 8方向の配色（上から時計回りの色相環）
-export const ASTER_COLORS = [
-  '#f87171',
-  '#fb923c',
-  '#facc15',
-  '#a3e635',
-  '#34d399',
-  '#22d3ee',
-  '#818cf8',
-  '#e879f9',
-]
+export const ASTER_COLORS = DEFAULT_PALETTE.spectrum.map(({ color }) => color)
 
 export function asterSvg(
   index: number,
@@ -36,13 +33,15 @@ export function asterSvg(
     fillMode?: AsterFillMode
     fillColor?: AsterFillColor
     cross?: boolean
-    monochrome?: boolean
-  } = {}
+  } = {},
+  palette = resolvePalette({}, 'aster')
 ): AsterSvgResult {
   const fillMode = options.fillMode ?? 'solid'
   const fillColor = options.fillColor ?? 'run'
   const cross = options.cross ?? true
-  const monochrome = options.monochrome ?? false
+  // 8 色より短い spectrum (例: 2 色交互) は繰り返して 8 方向に割り当てる
+  const spectrumAt = (i: number) =>
+    palette.spectrum[i % palette.spectrum.length]
 
   // 8方向の放射線。bit7=上、bit6=右上、...、bit0=左上（時計回り）
   const cx = size / 2
@@ -71,24 +70,24 @@ export function asterSvg(
   if (cross) {
     const guideWidth = Math.max(0.5, size * 0.012)
     parts.push(
-      `<line x1="${cx}" y1="${pad}" x2="${cx}" y2="${size - pad}" stroke="#3f3f46" stroke-width="${guideWidth}"/>`
+      `<line x1="${cx}" y1="${pad}" x2="${cx}" y2="${size - pad}" ${strokeAttr(palette.guide)} stroke-width="${guideWidth}"/>`
     )
     parts.push(
-      `<line x1="${pad}" y1="${cy}" x2="${size - pad}" y2="${cy}" stroke="#3f3f46" stroke-width="${guideWidth}"/>`
+      `<line x1="${pad}" y1="${cy}" x2="${size - pad}" y2="${cy}" ${strokeAttr(palette.guide)} stroke-width="${guideWidth}"/>`
     )
   }
 
   if (fillMode !== 'none') {
-    const fillOpacity = fillMode === 'solid' ? '1' : '0.32'
+    const fillOpacity = fillMode === 'solid' ? 1 : 0.32
     for (let i = 0; i < 8; i++) {
       const next = (i + 1) % 8
       if (on(i) && on(next)) {
         const colorIdx = fillColor === 'run' ? runStart(i) : i
-        const fill = monochrome ? '#e4e4e7' : ASTER_COLORS[colorIdx]
+        const fill = spectrumAt(colorIdx)
         const [x1, y1] = pointAt(i)
         const [x2, y2] = pointAt(next)
         parts.push(
-          `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z" fill="${fill}" fill-opacity="${fillOpacity}" stroke="none"/>`
+          `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z" ${fillAttr(fill, fillOpacity)} stroke="none"/>`
         )
       }
     }
@@ -99,10 +98,10 @@ export function asterSvg(
     const coveredByFill =
       fillMode !== 'none' && (on((i + 7) % 8) || on((i + 1) % 8))
     if (coveredByFill) continue
-    const spokeColor = monochrome ? '#e4e4e7' : ASTER_COLORS[i]
+    const spokeColor = spectrumAt(i)
     const [x2, y2] = pointAt(i)
     parts.push(
-      `<line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="${spokeColor}" stroke-width="${lineWidth}" stroke-linecap="round"/>`
+      `<line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" ${strokeAttr(spokeColor)} stroke-width="${lineWidth}" stroke-linecap="round"/>`
     )
   }
 
@@ -120,6 +119,11 @@ export function renderAster(
   index: number,
   options: Partial<AsterOptions> = {}
 ): GlyphResult {
-  const { svg } = asterSvg(index, options.size ?? DEFAULT_GLYPH_SIZE, options)
+  const { svg } = asterSvg(
+    index,
+    options.size ?? DEFAULT_GLYPH_SIZE,
+    options,
+    resolvePalette(options, 'aster')
+  )
   return { svg, notation: asterNotation(index) }
 }

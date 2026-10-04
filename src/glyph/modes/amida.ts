@@ -3,10 +3,11 @@ import {
   DEFAULT_GLYPH_SIZE,
   type AmidaRailMode,
   type GlyphResult,
-  type SizeOption,
+  type BaseGlyphOptions,
 } from '../types.js'
+import { fillAttr, resolvePalette, strokeAttr } from '../palette.js'
 
-export interface AmidaOptions extends SizeOption {
+export interface AmidaOptions extends BaseGlyphOptions {
   /** 横線にも経路にも触れない縦線の描き方 */
   railMode: AmidaRailMode
   monochrome: boolean
@@ -18,10 +19,6 @@ export interface AmidaTrace {
   rungs: number[]
   columns: number[]
 }
-
-const RAIL_COLOR = '#52525b'
-const USED_RUNG_COLOR = '#a1a1aa'
-const UNUSED_RUNG_COLOR = '#f472b6'
 
 function nextColumn(column: number, rung: number): number {
   if (rung === 0) return column
@@ -60,7 +57,7 @@ export function traceAmida(index: number): AmidaTrace {
 export function amidaSvg(
   index: number,
   size = 40,
-  monochrome = false,
+  palette = resolvePalette({}, 'amida'),
   railMode: AmidaRailMode = 'normal'
 ): string {
   const trace = traceAmida(index)
@@ -76,18 +73,14 @@ export function amidaSvg(
   const baseWidth = Math.max(0.8, size * 0.025)
   const routeWidth = Math.max(1.8, size * 0.065)
   const markerRadius = Math.max(1.5, size * 0.045)
-  const accentColor = monochrome ? '#e4e4e7' : '#22d3ee'
+  const accentColor = palette.accents[0]
   const rails = railXs
     .map((x, column) => {
       const isIsolated = isIsolatedRail(trace, column)
       if (isIsolated && railMode === 'hidden') return ''
       const railColor =
-        isIsolated && railMode === 'colored'
-          ? monochrome
-            ? '#e4e4e7'
-            : '#818cf8'
-          : RAIL_COLOR
-      return `<line data-amida-rail="${column}" data-amida-rail-isolated="${isIsolated}" x1="${x}" y1="${top}" x2="${x}" y2="${bottom}" stroke="${railColor}" stroke-width="${baseWidth}"/>`
+        isIsolated && railMode === 'colored' ? palette.alt : palette.rail
+      return `<line data-amida-rail="${column}" data-amida-rail-isolated="${isIsolated}" x1="${x}" y1="${top}" x2="${x}" y2="${bottom}" ${strokeAttr(railColor)} stroke-width="${baseWidth}"/>`
     })
     .join('')
   const rungs = trace.rungs
@@ -95,8 +88,8 @@ export function amidaSvg(
       if (rung === 0) return ''
       const leftColumn = rung - 1
       const isUsed = trace.columns[row] !== trace.columns[row + 1]
-      const stroke = isUsed ? USED_RUNG_COLOR : UNUSED_RUNG_COLOR
-      return `<line data-amida-rung="${row}" x1="${railXs[leftColumn]}" y1="${rungYs[row]}" x2="${railXs[leftColumn + 1]}" y2="${rungYs[row]}" data-amida-rung-used="${isUsed}" stroke="${stroke}" stroke-width="${baseWidth}"/>`
+      const stroke = isUsed ? palette.muted : palette.accents[1]
+      return `<line data-amida-rung="${row}" x1="${railXs[leftColumn]}" y1="${rungYs[row]}" x2="${railXs[leftColumn + 1]}" y2="${rungYs[row]}" data-amida-rung-used="${isUsed}" ${strokeAttr(stroke)} stroke-width="${baseWidth}"/>`
     })
     .join('')
 
@@ -117,9 +110,9 @@ export function amidaSvg(
     .map(([x, y]) => `${x},${y}`)
     .join(' ')
 
-  const route = `<polyline data-amida-route="true" points="${points}" fill="none" stroke="${accentColor}" stroke-width="${routeWidth}" stroke-linecap="round" stroke-linejoin="round"/>`
-  const startMarker = `<circle data-amida-start="${trace.start}" cx="${railXs[trace.start]}" cy="${top}" r="${markerRadius}" fill="#18181b" stroke="${accentColor}" stroke-width="${baseWidth}"/>`
-  const endMarker = `<circle data-amida-end="${trace.end}" cx="${railXs[trace.end]}" cy="${bottom}" r="${markerRadius}" fill="${accentColor}"/>`
+  const route = `<polyline data-amida-route="true" points="${points}" fill="none" ${strokeAttr(accentColor)} stroke-width="${routeWidth}" stroke-linecap="round" stroke-linejoin="round"/>`
+  const startMarker = `<circle data-amida-start="${trace.start}" cx="${railXs[trace.start]}" cy="${top}" r="${markerRadius}" ${fillAttr(palette.bg)} ${strokeAttr(accentColor)} stroke-width="${baseWidth}"/>`
+  const endMarker = `<circle data-amida-end="${trace.end}" cx="${railXs[trace.end]}" cy="${bottom}" r="${markerRadius}" ${fillAttr(accentColor)}/>`
 
   return `<svg viewBox="0 0 ${size} ${size}" preserveAspectRatio="xMidYMid meet"><g data-amida-rails="true">${rails}${rungs}</g>${route}${startMarker}${endMarker}</svg>`
 }
@@ -137,7 +130,7 @@ export function renderAmida(
     svg: amidaSvg(
       index,
       options.size ?? DEFAULT_GLYPH_SIZE,
-      options.monochrome ?? false,
+      resolvePalette(options, 'amida'),
       options.railMode ?? 'normal'
     ),
     notation: amidaNotation(index),

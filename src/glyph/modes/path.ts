@@ -2,10 +2,11 @@ import { fmt2bit, stateFromIndex, type PatternState } from '../bits.js'
 import {
   DEFAULT_GLYPH_SIZE,
   type GlyphResult,
-  type SizeOption,
+  type BaseGlyphOptions,
 } from '../types.js'
+import { fillAttr, resolvePalette, strokeAttr } from '../palette.js'
 
-export interface PathOptions extends SizeOption {
+export interface PathOptions extends BaseGlyphOptions {
   /** 同じ座標・区間を複数回通るとき線や点を太くする */
   highlight: boolean
   monochrome: boolean
@@ -37,13 +38,11 @@ export function pathSvg(
   { a, b, c, d }: PatternState,
   size = 40,
   highlight = false,
-  monochrome = false
+  palette = resolvePalette({}, 'path')
 ): PathSvgResult {
   const sequence = [a, b, c, d]
   const points = sequence.map((code) => cornerPoint(code, size))
-  const colors = monochrome
-    ? ['#e4e4e7', '#e4e4e7', '#e4e4e7']
-    : ['#22d3ee', '#f472b6', '#facc15']
+  const colors = palette.accents
   const baseStrokeWidth = Math.max(1.5, size * 0.06)
   const arrowLen = size * 0.1
   const baseDotRadius = Math.max(2, size * 0.04)
@@ -71,7 +70,7 @@ export function pathSvg(
         const loopRadius = baseDotRadius * 2
         const thickness = baseStrokeWidth * visitCounts[sequence[i]]
         segments.push(
-          `<circle cx="${x1}" cy="${y1}" r="${loopRadius}" fill="none" stroke="${color}" stroke-width="${thickness}"/>`
+          `<circle cx="${x1}" cy="${y1}" r="${loopRadius}" fill="none" ${strokeAttr(color)} stroke-width="${thickness}"/>`
         )
       }
       continue
@@ -92,7 +91,7 @@ export function pathSvg(
       `${size * 0.03} ${size * 0.05}`,
     ]
     const dash = dashes[i]
-    const lineAttrs = `stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round"${dash ? ` stroke-dasharray="${dash}"` : ''}`
+    const lineAttrs = `${strokeAttr(color)} stroke-width="${strokeWidth}" stroke-linecap="round"${dash ? ` stroke-dasharray="${dash}"` : ''}`
     segments.push(
       `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" fill="none" ${lineAttrs}/>`
     )
@@ -104,7 +103,7 @@ export function pathSvg(
     const ax2 = x2 - arrowLen * Math.cos(angle + arrowAngle)
     const ay2 = y2 - arrowLen * Math.sin(angle + arrowAngle)
     segments.push(
-      `<polygon points="${x2},${y2} ${ax1},${ay1} ${ax2},${ay2}" fill="${color}"/>`
+      `<polygon points="${x2},${y2} ${ax1},${ay1} ${ax2},${ay2}" ${fillAttr(color)}/>`
     )
   }
 
@@ -119,8 +118,8 @@ export function pathSvg(
         ? baseStrokeWidth * (1 + (count - 1) * 0.5)
         : baseStrokeWidth * 0.4
       return `
-        <circle cx="${x}" cy="${y}" r="${radius}" fill="#18181b" stroke="#e4e4e7" stroke-width="${strokeWidth}"/>
-        <text x="${x}" y="${y + fontSize * 0.05}" text-anchor="middle" dominant-baseline="middle" fill="#e4e4e7" font-size="${fontSize}" font-family="ui-monospace, monospace">${idx + 1}</text>
+        <circle cx="${x}" cy="${y}" r="${radius}" ${fillAttr(palette.bg)} ${strokeAttr(palette.fg)} stroke-width="${strokeWidth}"/>
+        <text x="${x}" y="${y + fontSize * 0.05}" text-anchor="middle" dominant-baseline="middle" ${fillAttr(palette.fg)} font-size="${fontSize}" font-family="ui-monospace, monospace">${idx + 1}</text>
       `
     })
     .join('')
@@ -147,7 +146,7 @@ export function renderPath(
     state,
     options.size ?? DEFAULT_GLYPH_SIZE,
     options.highlight ?? false,
-    options.monochrome ?? false
+    resolvePalette(options, 'path')
   )
   return { svg, notation: pathNotation(state, separators) }
 }

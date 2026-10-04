@@ -66,5 +66,15 @@ export type {
 export { stateFromIndex, type PatternState } from './bits.js'
 export { traceAmida, type AmidaTrace } from './modes/amida.js'
 export { ASTER_COLORS } from './modes/aster.js'
+export {
+  DEFAULT_PALETTE,
+  GLYPH_THEMES,
+  MODE_PALETTES,
+  resolvePalette,
+  type ColorOptions,
+  type GlyphPalette,
+  type GlyphThemeName,
+  type Paint,
+} from './palette.js'
 export { renderSymbolPreview } from './modes/symbols.js'
 export * from './types.js'

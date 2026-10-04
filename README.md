@@ -52,6 +52,21 @@ const { svg, notation } = renderGlyph(0xa5, { mode: 'pos16', size: 64 })
 
 Each mode is also exported on its own (`renderPos16`, `renderAmida`, ...). Options depend on `mode` and are type-checked. Importing a single mode bundles to about 0.5–1.4 kB gzip; all modes are about 6 kB.
 
+Glyphs are drawn like text: lines and fills use `currentColor`, so they follow the surrounding `color` on dark and light backgrounds alike. Lighter tones and guides are expressed with opacity; color-coded parts (path order, aster directions, ...) use mid-tone accents that read on both. Every mode also accepts:
+
+```ts
+renderGlyph(0x5a, { mode: 'triSplit', color: 'currentColor' }) // one color, no color coding
+renderGlyph(0x5a, { mode: 'path', color: '#16a34a' }) // pull every tone toward a fixed color
+renderGlyph(0x5a, { mode: 'aster', palette: { fg: { color: '#fafafa' } } }) // override part of DEFAULT_PALETTE
+renderGlyph(0x5a, { mode: 'box', palette: GLYPH_THEMES.ocean }) // one hue family across modes (ocean / sunset)
+renderGlyph(0x5a, {
+  mode: 'aster',
+  palette: { spectrum: [{ color: '#06b6d4' }, { color: '#ec4899' }] }, // shorter lists repeat over the 8 directions
+})
+```
+
+Some modes have their own defaults on top of `DEFAULT_PALETTE` (`MODE_PALETTES`: symbols and triSplit in cyan / pink, box in indigo / amber); a `palette` you pass wins over them.
+
 ## Development
 
 ```bash
