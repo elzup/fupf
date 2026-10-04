@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { pos16Detail, pos16Notation, pos16Svg } from './pos16'
+import { pos16Notation, pos16Svg } from './pos16'
 
 describe('pos16Svg', () => {
   it('returns svg string', () => {
@@ -94,12 +94,5 @@ describe('pos16Notation', () => {
     expect(pos16Notation(0b00000000)).toBe('0000-0000')
     expect(pos16Notation(0b11111111)).toBe('1111-1111')
     expect(pos16Notation(0b00010010)).toBe('0001-0010')
-  })
-})
-
-describe('pos16Detail', () => {
-  it('returns start→end detail', () => {
-    expect(pos16Detail(0b00010010)).toBe('1→2')
-    expect(pos16Detail(0b11111111)).toBe('15→15')
   })
 })

@@ -19,7 +19,6 @@ export interface AmidaTrace {
   columns: number[]
 }
 
-const RUNG_LABELS = ['なし', '1–2', '2–3', '3–4'] as const
 const RAIL_COLOR = '#52525b'
 const USED_RUNG_COLOR = '#a1a1aa'
 const UNUSED_RUNG_COLOR = '#f472b6'
@@ -128,11 +127,6 @@ export function amidaSvg(
 export function amidaNotation(index: number): string {
   const { rungs, start } = traceAmida(index)
   return `${rungs.map(fmt2bit).join('-')}|${fmt2bit(start)}`
-}
-
-export function amidaDetail(index: number): string {
-  const { rungs, start, end } = traceAmida(index)
-  return `横線 上:${RUNG_LABELS[rungs[0]]} 中:${RUNG_LABELS[rungs[1]]} 下:${RUNG_LABELS[rungs[2]]} / 開始:${start + 1} → 終了:${end + 1}`
 }
 
 export function renderAmida(

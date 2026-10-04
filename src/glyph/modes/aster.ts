@@ -15,7 +15,6 @@ export interface AsterOptions extends SizeOption {
 
 interface AsterSvgResult {
   svg: string
-  directions: string[]
 }
 
 // Aster 8方向の配色（上から時計回りの色相環）
@@ -28,17 +27,6 @@ export const ASTER_COLORS = [
   '#22d3ee',
   '#818cf8',
   '#e879f9',
-]
-
-export const ASTER_DIRECTIONS = [
-  '上',
-  '右上',
-  '右',
-  '右下',
-  '下',
-  '左下',
-  '左',
-  '左上',
 ]
 
 export function asterSvg(
@@ -120,7 +108,6 @@ export function asterSvg(
 
   return {
     svg: `<svg viewBox="0 0 ${size} ${size}" preserveAspectRatio="xMidYMid meet">${parts.join('')}</svg>`,
-    directions: ASTER_DIRECTIONS.filter((_, i) => on(i)),
   }
 }
 
@@ -135,8 +122,4 @@ export function renderAster(
 ): GlyphResult {
   const { svg } = asterSvg(index, options.size ?? DEFAULT_GLYPH_SIZE, options)
   return { svg, notation: asterNotation(index) }
-}
-
-export function asterDirections(index: number): string[] {
-  return ASTER_DIRECTIONS.filter((_, i) => (index >> (7 - i)) & 1)
 }

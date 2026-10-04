@@ -1,6 +1,6 @@
 {
   "name": "fupf-glyph",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Render 256 (4^4) pattern glyphs as SVG strings. Zero dependencies, framework-free.",
   "keywords": [
     "byte",

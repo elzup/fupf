@@ -63,4 +63,8 @@ export type {
   SymbolsOptions,
   TriSplitOptions,
 }
+export { stateFromIndex, type PatternState } from './bits.js'
+export { traceAmida, type AmidaTrace } from './modes/amida.js'
+export { ASTER_COLORS } from './modes/aster.js'
+export { renderSymbolPreview } from './modes/symbols.js'
 export * from './types.js'

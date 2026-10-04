@@ -290,12 +290,6 @@ export function pos16Notation(index: number): string {
     .padStart(4, '0')}`
 }
 
-export function pos16Detail(index: number): string {
-  const start = (index >> 4) & 0x0f
-  const end = index & 0x0f
-  return `${start}→${end}`
-}
-
 export function renderPos16(
   index: number,
   options: Partial<Pos16Options> = {}

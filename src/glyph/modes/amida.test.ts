@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { amidaDetail, amidaNotation, amidaSvg, traceAmida } from './amida'
+import { amidaNotation, amidaSvg, traceAmida } from './amida'
 
 describe('traceAmida', () => {
   it('keeps the selected column when all three rows have no rung', () => {
@@ -89,11 +89,5 @@ describe('amidaSvg', () => {
 describe('amida notation', () => {
   it('separates three rung codes from the selected start code', () => {
     expect(amidaNotation(0b01101100)).toBe('01-10-11|00')
-  })
-
-  it('describes the rung positions and route result', () => {
-    expect(amidaDetail(0b01101100)).toBe(
-      '横線 上:1–2 中:2–3 下:3–4 / 開始:1 → 終了:4'
-    )
   })
 })

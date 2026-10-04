@@ -1,5 +1,5 @@
-import { ASTER_COLORS, ASTER_DIRECTIONS } from '../glyph/modes/aster'
-import { renderSymbolPreview } from '../glyph/modes/symbols'
+import { ASTER_COLORS, renderSymbolPreview } from 'fupf-glyph'
+import { ASTER_DIRECTIONS } from '../lib/glyphDetails'
 import type { Mode } from '../lib/types'
 
 interface LegendProps {

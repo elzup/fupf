@@ -1,4 +1,4 @@
-import { renderGlyph, type GlyphOptions } from '../glyph'
+import { renderGlyph, type GlyphOptions } from 'fupf-glyph'
 import type { AppState } from './types'
 
 export type PatternRenderOptions = Pick<

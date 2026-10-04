@@ -4,8 +4,8 @@ import type {
   AsterFillMode,
   BoxEdgeColor,
   PolygonVariant,
-} from '../glyph/types'
-import type { GlyphMode } from '../glyph'
+  GlyphMode,
+} from 'fupf-glyph'
 
 export type {
   AmidaRailMode,
@@ -14,7 +14,7 @@ export type {
   BoxEdgeColor,
   PolygonVariant,
 }
-export type { PatternState } from '../glyph/bits'
+export type { PatternState } from 'fupf-glyph'
 
 export type Mode = GlyphMode
 export type NotationStyle = 'default' | 'bin' | 'hex' | 'bar' | 'dot'

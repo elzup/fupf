@@ -11,7 +11,11 @@ export function popcount(n: number): number {
   return c
 }
 
-export { fmt2bit, stateFromIndex } from '../glyph/bits'
+export { stateFromIndex } from 'fupf-glyph'
+
+export function fmt2bit(v: number): string {
+  return v.toString(2).padStart(2, '0')
+}
 
 export function boxCornerCode(index: number, k: number): number {
   // 上=bit7-6, 右=bit5-4, 下=bit3-2, 左=bit1-0

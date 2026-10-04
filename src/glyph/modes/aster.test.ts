@@ -2,20 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { asterNotation, asterSvg } from './aster'
 
 describe('asterSvg', () => {
-  it('returns svg and directions', () => {
-    const result = asterSvg(0b10000000, 40)
-    expect(result.svg).toContain('<svg')
-    expect(result.directions).toEqual(['上'])
-  })
-
-  it('returns empty directions for index 0', () => {
-    const result = asterSvg(0, 40)
-    expect(result.directions).toEqual([])
-  })
-
-  it('detects multiple directions', () => {
-    const result = asterSvg(0b11110000, 40)
-    expect(result.directions).toEqual(['上', '右上', '右', '右下'])
+  it('returns svg', () => {
+    expect(asterSvg(0b10000000, 40).svg).toContain('<svg')
   })
 
   it('renders cross guides when enabled', () => {

@@ -1,9 +1,7 @@
 import { CORNER_NAMES } from '../lib/constants'
 import type { AppState, Mode } from '../lib/types'
-import { stateFromIndex } from '../glyph/bits'
-import { amidaDetail } from '../glyph/modes/amida'
-import { asterDirections } from '../glyph/modes/aster'
-import { pos16Detail } from '../glyph/modes/pos16'
+import { stateFromIndex } from 'fupf-glyph'
+import { amidaDetail, asterDirections, pos16Detail } from '../lib/glyphDetails'
 import { notationIsGlyph, styleNotation } from '../lib/notation'
 import { renderPattern } from '../lib/renderPattern'
 
