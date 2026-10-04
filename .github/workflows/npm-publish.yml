@@ -1,0 +1,37 @@
+name: Publish fupf-glyph to npm
+
+# npm 側の Trusted Publisher 設定はこのファイル名 (npm-publish.yml) と完全一致させる
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  id-token: write # OIDC 必須
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24 # OIDC は npm >= 11.5.1 が必要
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      # registry-url を付けると書き込まれるダミーの _authToken が OIDC を skip させるので消す
+      - name: Strip placeholder token so OIDC engages
+        run: sed -i '/:_authToken=/d; /always-auth/d' "$NPM_CONFIG_USERCONFIG"
+      # タグを打ち間違えると別バージョンが公開されるので、タグと package.json の version を突き合わせる
+      - name: Check tag matches package version
+        if: github.ref_type == 'tag'
+        run: |
+          version="v$(node -p 'require("./package.json").version')"
+          if [ "$version" != "$GITHUB_REF_NAME" ]; then
+            echo "tag $GITHUB_REF_NAME does not match package.json $version"
+            exit 1
+          fi
+      - run: npm ci
+      # prepublishOnly で build:lib とテストが走る
+      - run: npm publish --provenance
