@@ -70,4 +70,46 @@ describe('usePersistentState', () => {
     const { result } = renderHook(() => usePersistentState())
     expect(result.current[0].currentMode).toBe('pos16')
   })
+
+  it('prefers URL settings and ignores stored ones when the URL has settings', () => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ currentMode: 'aster', monochrome: true, lang: 'en' })
+    )
+    window.history.replaceState(null, '', '/?mode=box&i=a5')
+    const { result } = renderHook(() => usePersistentState())
+    expect(result.current[0].currentMode).toBe('box')
+    expect(result.current[0].selectedIndex).toBe(0xa5)
+    expect(result.current[0].monochrome).toBe(false)
+    expect(result.current[0].lang).toBe('en')
+  })
+
+  it('keeps stored settings for a lang-only URL', () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ currentMode: 'aster' }))
+    window.history.replaceState(null, '', '/?lang=en')
+    const { result } = renderHook(() => usePersistentState())
+    expect(result.current[0].currentMode).toBe('aster')
+    expect(result.current[0].lang).toBe('en')
+  })
+
+  it('writes changed settings back to the URL', () => {
+    const { result } = renderHook(() => usePersistentState())
+    act(() => result.current[1]({ currentMode: 'amida', selectedIndex: 3 }))
+    expect(window.location.search).toBe('?mode=amida&i=03')
+  })
+
+  it('does not overwrite stored settings when opened from a shared URL', () => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ currentMode: 'aster', monochrome: true })
+    )
+    window.history.replaceState(null, '', '/?mode=box')
+    const { result } = renderHook(() => usePersistentState())
+    act(() => result.current[1]({ selectedIndex: 9, lang: 'en' }))
+    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}')
+    expect(stored.currentMode).toBe('aster')
+    expect(stored.monochrome).toBe(true)
+    expect(stored.selectedIndex).toBeUndefined()
+    expect(stored.lang).toBe('en')
+  })
 })
