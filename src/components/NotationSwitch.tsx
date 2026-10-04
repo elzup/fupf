@@ -1,3 +1,4 @@
+import { useMessages } from '../i18n'
 import { NOTATION_STYLES } from '../lib/constants'
 import type { NotationStyle } from '../lib/types'
 
@@ -18,11 +19,12 @@ export function NotationSwitch({
   onMonochromeChange,
   onEmphasizeSingleBitChange,
 }: NotationSwitchProps) {
+  const m = useMessages()
   return (
     <div className="notation-switch">
-      <span className="select-label">記法</span>
+      <span className="select-label">{m.notation.label}</span>
       <div className="radio-group" id="notationStyleRadio">
-        {NOTATION_STYLES.map(({ value, label }) => (
+        {NOTATION_STYLES.map((value) => (
           <span key={value}>
             <input
               type="radio"
@@ -32,7 +34,9 @@ export function NotationSwitch({
               checked={notationStyle === value}
               onChange={() => onNotationChange(value)}
             />
-            <label htmlFor={`notation-${value}`}>{label}</label>
+            <label htmlFor={`notation-${value}`}>
+              {m.notation.styles[value]}
+            </label>
           </span>
         ))}
       </div>
@@ -42,7 +46,7 @@ export function NotationSwitch({
           checked={monochrome}
           onChange={(e) => onMonochromeChange(e.target.checked)}
         />
-        <span>モノクロ</span>
+        <span>{m.notation.monochrome}</span>
       </label>
       <label className="toggle">
         <input
@@ -50,7 +54,7 @@ export function NotationSwitch({
           checked={emphasizeSingleBit}
           onChange={(e) => onEmphasizeSingleBitChange(e.target.checked)}
         />
-        <span>1bit 枠強調</span>
+        <span>{m.notation.emphasizeSingleBit}</span>
       </label>
     </div>
   )

@@ -1,4 +1,5 @@
 import { fmt2bit, normalizeSamplingPageBits } from '../lib/state'
+import { useMessages } from '../i18n'
 import { GridCell } from './GridCell'
 import type { AppState, Mode } from '../lib/types'
 
@@ -29,6 +30,7 @@ interface GridProps {
 const SAMPLING_BITS = [7, 6, 5, 4, 3, 2, 1, 0]
 
 export function Grid(props: GridProps) {
+  const m = useMessages()
   const allCells = Array.from({ length: 256 }, (_, i) => i)
   const pagingBits = props.samplingPageBits
   const pageCount = 1 << pagingBits.length
@@ -83,7 +85,7 @@ export function Grid(props: GridProps) {
                 )
               }
             >
-              前ページ
+              {m.grid.prevPage}
             </button>
             <span>
               {currentPage + 1} / {pageCount}
@@ -94,7 +96,7 @@ export function Grid(props: GridProps) {
                 props.onSamplingPageChange((currentPage + 1) % pageCount)
               }
             >
-              次ページ
+              {m.grid.nextPage}
             </button>
           </div>
         )}

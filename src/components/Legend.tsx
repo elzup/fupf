@@ -1,5 +1,5 @@
 import { ASTER_COLORS, renderSymbolPreview } from 'fupf-glyph'
-import { ASTER_DIRECTIONS } from '../lib/glyphDetails'
+import { useMessages } from '../i18n'
 import type { Mode } from '../lib/types'
 
 interface LegendProps {
@@ -8,10 +8,12 @@ interface LegendProps {
 }
 
 export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
+  const m = useMessages()
+  const l = m.legend
   if (currentMode === 'edges') {
     return (
       <div className="legend">
-        <h2>線スタイル凡例</h2>
+        <h2>{l.edges.title}</h2>
         <div className="legend-item">
           <svg viewBox="0 0 40 16">
             <line
@@ -23,7 +25,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               strokeWidth="2"
             />
           </svg>
-          <span>00 — 無し（非表示）</span>
+          <span>{l.edges.none}</span>
         </div>
         <div className="legend-item">
           <svg viewBox="0 0 40 16">
@@ -36,7 +38,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               strokeWidth="2"
             />
           </svg>
-          <span>01 — 実線</span>
+          <span>{l.edges.solid}</span>
         </div>
         <div className="legend-item">
           <svg viewBox="0 0 40 16">
@@ -50,7 +52,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               strokeDasharray="4 3"
             />
           </svg>
-          <span>10 — 破線</span>
+          <span>{l.edges.dashed}</span>
         </div>
         <div className="legend-item">
           <svg viewBox="0 0 40 16">
@@ -63,13 +65,13 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               strokeLinejoin="round"
             />
           </svg>
-          <span>11 — 波線</span>
+          <span>{l.edges.wave}</span>
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          各辺の値はハイフン区切りで表示されます。
+          {l.edges.note}
         </div>
       </div>
     )
@@ -78,7 +80,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
   if (currentMode === 'symbols') {
     return (
       <div className="legend">
-        <h2>タイル凡例</h2>
+        <h2>{l.symbols.title}</h2>
         {[0, 1, 2, 3].map((v) => (
           <div key={v} className="legend-item">
             <span
@@ -97,7 +99,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
   if (currentMode === 'path') {
     return (
       <div className="legend">
-        <h2>パス凡例</h2>
+        <h2>{l.path.title}</h2>
         <div className="legend-item">
           <span
             style={{
@@ -108,7 +110,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: 2,
             }}
           />
-          <span>1本目の線分</span>
+          <span>{l.path.first}</span>
         </div>
         <div className="legend-item">
           <span
@@ -120,7 +122,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: 2,
             }}
           />
-          <span>2本目の線分（破線）</span>
+          <span>{l.path.second}</span>
         </div>
         <div className="legend-item">
           <span
@@ -132,31 +134,31 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: 2,
             }}
           />
-          <span>3本目の線分（点線）</span>
+          <span>{l.path.third}</span>
         </div>
         <div className="legend-item">
           <span className="legend-symbol">-</span>
-          <span>水平／垂直</span>
+          <span>{l.path.straight}</span>
         </div>
         <div className="legend-item">
           <span className="legend-symbol">~</span>
-          <span>斜め</span>
+          <span>{l.path.diagonal}</span>
         </div>
         <div className="legend-item">
           <span className="legend-symbol">=</span>
-          <span>同一点（線なし）</span>
+          <span>{l.path.same}</span>
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 12, color: 'var(--muted)' }}
         >
-          番号付き丸が通過順。矢印が進行方向です。
+          {l.path.order}
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          「同じ位置を強調」ON で、繰り返し通過した角や線が太くなります。
+          {l.path.highlight}
         </div>
       </div>
     )
@@ -165,7 +167,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
   if (currentMode === 'dotLine') {
     return (
       <div className="legend">
-        <h2>丸点+線 凡例</h2>
+        <h2>{l.dotLine.title}</h2>
         <div className="legend-item">
           <span
             style={{
@@ -176,7 +178,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: '50%',
             }}
           />
-          <span>上位4bitで四隅の丸点ON/OFF</span>
+          <span>{l.dotLine.dots}</span>
         </div>
         <div className="legend-item">
           <span
@@ -188,7 +190,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: 2,
             }}
           />
-          <span>下位4bitで2bit→2bitの線</span>
+          <span>{l.dotLine.line}</span>
         </div>
         <div className="legend-item">
           <span
@@ -200,7 +202,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: '50%',
             }}
           />
-          <span>始点には二重円がつき、方向が分かります</span>
+          <span>{l.dotLine.start}</span>
         </div>
       </div>
     )
@@ -209,8 +211,8 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
   if (currentMode === 'aster') {
     return (
       <div className="legend">
-        <h2>Aster 凡例</h2>
-        {ASTER_DIRECTIONS.map((d, i) => (
+        <h2>{l.aster.title}</h2>
+        {m.asterDirections.map((d, i) => (
           <div key={d} className="legend-item">
             <span
               style={{
@@ -221,28 +223,26 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
                 borderRadius: 2,
               }}
             />
-            <span>
-              bit{7 - i}＝{d}
-            </span>
+            <span>{l.aster.bit(7 - i, d)}</span>
           </div>
         ))}
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          bit7=上から時計回り。8bit = 256通り
+          {l.aster.order}
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          「塗りつぶし」で連続する方向の間を扇形で塗ります（配色は区間ごと／連続の始点色）。塗りに覆われる棒は非表示。
+          {l.aster.fill}
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          色は共通オプションの「モノクロ」で白黒に切替可。
+          {l.aster.monochrome}
         </div>
       </div>
     )
@@ -251,7 +251,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
   if (currentMode === 'box') {
     return (
       <div className="legend">
-        <h2>ダイス 凡例</h2>
+        <h2>{l.box.title}</h2>
         <div className="legend-item">
           <span
             style={{
@@ -261,7 +261,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               border: '1px solid #3f3f46',
             }}
           />
-          <span>サイコロ展開図から1枚欠けた十字（中央＋上右下左）</span>
+          <span>{l.box.shape}</span>
         </div>
         <div className="legend-item">
           <span
@@ -273,7 +273,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: '50%',
             }}
           />
-          <span>各マスで四隅から1つ選択（2bit×4）</span>
+          <span>{l.box.corner}</span>
         </div>
         <div className="legend-item">
           <span
@@ -285,14 +285,13 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: 2,
             }}
           />
-          <span>上→右→下→左→上 の順で閉路に結ぶ</span>
+          <span>{l.box.loop}</span>
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          4^4 = 256通り。辺の配色: 単色 / 45°（斜め=ピンク）/ 位置(xy) /
-          グラデ（閉路一周）。モノクロ切替対応。
+          {l.box.note}
         </div>
       </div>
     )
@@ -301,7 +300,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
   if (currentMode === 'pos16') {
     return (
       <div className="legend">
-        <h2>16² pos 凡例</h2>
+        <h2>{l.pos16.title}</h2>
         <div className="legend-item">
           <span
             style={{
@@ -312,7 +311,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: '50%',
             }}
           />
-          <span>4×4 の 16 位置</span>
+          <span>{l.pos16.positions}</span>
         </div>
         <div className="legend-item">
           <span
@@ -324,7 +323,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: '50%',
             }}
           />
-          <span>選択された開始・終了位置</span>
+          <span>{l.pos16.selected}</span>
         </div>
         <div className="legend-item">
           <span
@@ -336,13 +335,13 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: 2,
             }}
           />
-          <span>開始位置 → 終了位置の有向線</span>
+          <span>{l.pos16.line}</span>
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          上位4bit=開始位置、下位4bit=終了位置。16×16=256通り。
+          {l.pos16.note}
         </div>
       </div>
     )
@@ -351,7 +350,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
   if (currentMode === 'amida') {
     return (
       <div className="legend">
-        <h2>あみだ 凡例</h2>
+        <h2>{l.amida.title}</h2>
         <div className="legend-item">
           <span
             style={{
@@ -361,7 +360,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               background: '#f472b6',
             }}
           />
-          <span>経路が通らなかった横線</span>
+          <span>{l.amida.unused}</span>
         </div>
         <div className="legend-item">
           <span
@@ -373,19 +372,19 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
               borderRadius: 2,
             }}
           />
-          <span>選んだ開始位置から辿る経路</span>
+          <span>{l.amida.route}</span>
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          横線4択³ × 開始位置4択 = 4³ × 4 = 256通り。
+          {l.amida.count}
         </div>
         <div
           className="legend-item"
           style={{ marginTop: 8, color: 'var(--muted)' }}
         >
-          横線にも経路にも触れない縦棒は、通常色／別色／非表示を選択できます。
+          {l.amida.rails}
         </div>
       </div>
     )
@@ -393,7 +392,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
 
   return (
     <div className="legend">
-      <h2>ポリゴン 凡例</h2>
+      <h2>{l.triSplit.title}</h2>
       <div className="legend-item">
         <span
           style={{
@@ -404,7 +403,7 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
             clipPath: 'polygon(0 0,0 100%,100% 100%)',
           }}
         />
-        <span>上位bit側の三角形</span>
+        <span>{l.triSplit.high}</span>
       </div>
       <div className="legend-item">
         <span
@@ -416,13 +415,13 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
             clipPath: 'polygon(0 0,100% 0,100% 100%)',
           }}
         />
-        <span>下位bit側の三角形</span>
+        <span>{l.triSplit.low}</span>
       </div>
       <div
         className="legend-item"
         style={{ marginTop: 8, color: 'var(--muted)' }}
       >
-        4象限 × 2三角形 = 8bit = 256通り
+        {l.triSplit.note}
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import type { AmidaRailMode, AppState, Mode, PolygonVariant } from './types'
 import { POS16_OPTIONS_VERSION } from './constants'
+import { isLang } from '../i18n'
 
 export function popcount(n: number): number {
   let c = 0
@@ -93,6 +94,7 @@ export function loadState(partial: unknown): Partial<AppState> {
     if (typeof s.pos16ShowBoundary === 'boolean')
       result.pos16ShowBoundary = s.pos16ShowBoundary
   }
+  if (isLang(s.lang)) result.lang = s.lang
   if (Number.isInteger(s.selectedIndex))
     result.selectedIndex = s.selectedIndex as number
   if (

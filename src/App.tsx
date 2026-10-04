@@ -1,9 +1,13 @@
 import { Header } from './components/Header'
+import { ModeSwitch } from './components/ModeSwitch'
 import { Sidebar } from './components/Sidebar'
 import { Grid } from './components/Grid'
 import { ClockDemo } from './components/ClockDemo'
+import { LangSwitch } from './components/LangSwitch'
 import { TextDemo } from './components/TextDemo'
+import { useEffect } from 'react'
 import { usePersistentState } from './hooks/usePersistentState'
+import { getMessages, MessagesContext } from './i18n'
 import type { AppState } from './lib/types'
 
 export default function App() {
@@ -13,24 +17,36 @@ export default function App() {
     updateState(update)
   }
 
+  useEffect(() => {
+    document.documentElement.lang = state.lang
+  }, [state.lang])
+
   return (
-    <>
+    <MessagesContext.Provider value={getMessages(state.lang)}>
       <Header
-        currentMode={state.currentMode}
         notationStyle={state.notationStyle}
         monochrome={state.monochrome}
         emphasizeSingleBit={state.emphasizeSingleBit}
-        onModeChange={(mode) => handleUpdate({ currentMode: mode })}
-        onModePresetChange={(mode, preset) =>
-          handleUpdate({ currentMode: mode, ...preset })
-        }
         onNotationChange={(value) => handleUpdate({ notationStyle: value })}
         onMonochromeChange={(value) => handleUpdate({ monochrome: value })}
         onEmphasizeSingleBitChange={(value) =>
           handleUpdate({ emphasizeSingleBit: value })
         }
       />
-      <ClockDemo state={state} />
+      <ModeSwitch
+        currentMode={state.currentMode}
+        onChange={(mode) => handleUpdate({ currentMode: mode })}
+        onPresetSelect={(mode, preset) =>
+          handleUpdate({ currentMode: mode, ...preset })
+        }
+      />
+      <div className="top-right">
+        <LangSwitch
+          lang={state.lang}
+          onChange={(value) => handleUpdate({ lang: value })}
+        />
+        <ClockDemo state={state} />
+      </div>
       <TextDemo state={state} />
       <main>
         <Sidebar state={state} onUpdate={handleUpdate} />
@@ -60,6 +76,6 @@ export default function App() {
           onSamplingPageChange={(page) => handleUpdate({ samplingPage: page })}
         />
       </main>
-    </>
+    </MessagesContext.Provider>
   )
 }

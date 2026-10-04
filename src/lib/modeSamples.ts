@@ -47,18 +47,6 @@ export const MODE_SAMPLE_PRESETS: Record<Mode, ModeSamplePreset[]> = {
   amida: [{ amidaRailMode: 'colored' }],
 }
 
-export const MODE_SAMPLE_LABELS: Record<Mode, string[]> = {
-  edges: ['標準'],
-  symbols: ['なし・斜線', '点の大きさ', '横線・縦線', 'マルバツ'],
-  triSplit: ['通常', 'ひし形'],
-  path: ['標準'],
-  dotLine: ['標準'],
-  aster: ['塗りなし・連続', '不透明・連続', '不透明・区間ごと'],
-  box: ['グラデ', '45°'],
-  pos16: ['境界表示', '9近傍＋接続線'],
-  amida: ['別色'],
-}
-
 export function renderModeSamples(mode: Mode): string[] {
   return MODE_SAMPLE_PRESETS[mode].map(
     (preset) =>

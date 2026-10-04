@@ -23,7 +23,7 @@ interface RenderedPattern {
   note: string
 }
 
-function toGlyphOptions(
+export function toGlyphOptions(
   size: number,
   options: PatternRenderOptions
 ): GlyphOptions {

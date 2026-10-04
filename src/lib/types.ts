@@ -14,6 +14,8 @@ export type {
   BoxEdgeColor,
   PolygonVariant,
 }
+import type { Lang } from '../i18n'
+
 export type { PatternState } from 'fupf-glyph'
 
 export type Mode = GlyphMode
@@ -39,4 +41,5 @@ export interface AppState {
   pos16ShowLine: boolean
   pos16ShowNeighborhood: boolean
   pos16ShowBoundary: boolean
+  lang: Lang
 }

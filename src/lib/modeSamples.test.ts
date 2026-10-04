@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest'
+import { en } from '../i18n/en'
+import { ja } from '../i18n/ja'
 import { MODES } from './constants'
 import {
   MODE_SAMPLE_INDEX,
   MODE_SAMPLE_INDICES,
-  MODE_SAMPLE_LABELS,
   MODE_SAMPLE_PRESETS,
   renderModeSamples,
 } from './modeSamples'
@@ -18,13 +19,14 @@ describe('mode samples', () => {
     expect(Object.keys(MODE_SAMPLE_PRESETS).toSorted()).toEqual(
       [...MODES].toSorted()
     )
-    expect(Object.keys(MODE_SAMPLE_LABELS).toSorted()).toEqual(
+    expect(Object.keys(ja.modeSamples).toSorted()).toEqual(
       [...MODES].toSorted()
     )
     expect(
       MODES.every(
         (mode) =>
-          MODE_SAMPLE_LABELS[mode].length === MODE_SAMPLE_PRESETS[mode].length
+          ja.modeSamples[mode].length === MODE_SAMPLE_PRESETS[mode].length &&
+          en.modeSamples[mode].length === MODE_SAMPLE_PRESETS[mode].length
       )
     ).toBe(true)
     expect(

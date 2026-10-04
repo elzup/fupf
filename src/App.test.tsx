@@ -1,13 +1,42 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import App from './App'
-import { STORAGE_KEY } from './lib/constants'
+import { MODES, STORAGE_KEY } from './lib/constants'
 
 afterEach(() => {
   localStorage.clear()
 })
 
 describe('App', () => {
+  it('switches mode when clicking the empty area of a mode card', () => {
+    render(<App />)
+    const card = screen
+      .getByRole('button', { name: 'あみだ' })
+      .closest('.mode-choice') as HTMLElement
+    fireEvent.click(card)
+    expect(card).toHaveClass('active')
+    expect(screen.getByRole('button', { name: 'あみだ' })).toHaveClass('active')
+  })
+
+  it('switches the UI language and keeps it', () => {
+    render(<App />)
+    fireEvent.click(screen.getByLabelText('English'))
+    expect(screen.getByText('Selected pattern')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Amida' })).toBeInTheDocument()
+    expect(document.documentElement.lang).toBe('en')
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}').lang).toBe(
+      'en'
+    )
+  })
+
+  it('shows each mode id on the mode cards', () => {
+    render(<App />)
+    const ids = [...document.querySelectorAll('.mode-switch .mode-id')].map(
+      (el) => el.textContent
+    )
+    expect(ids).toEqual(MODES)
+  })
+
   it('renders header and grid', () => {
     render(<App />)
     expect(screen.getByText('fupf glyph')).toBeInTheDocument()

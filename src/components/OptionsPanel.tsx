@@ -1,11 +1,10 @@
+import { useMessages } from '../i18n'
 import {
   AMIDA_RAIL_MODES,
   ASTER_FILL_COLORS,
   ASTER_FILL_MODES,
   BOX_EDGE_COLORS,
-  POLYGON_VARIANT_LABELS,
   POLYGON_VARIANTS,
-  SYMBOL_SET_LABELS,
 } from '../lib/constants'
 import type { AppState, Mode } from '../lib/types'
 
@@ -36,6 +35,8 @@ interface OptionsPanelProps {
 }
 
 export function OptionsPanel(props: OptionsPanelProps) {
+  const m = useMessages()
+  const o = m.options
   return (
     <div className="options-area">
       <div
@@ -49,16 +50,16 @@ export function OptionsPanel(props: OptionsPanelProps) {
               props.onHighlightDuplicatesChange(e.target.checked)
             }
           />
-          <span>同じ位置を強調（線を太く）</span>
+          <span>{o.highlightDuplicates}</span>
         </label>
       </div>
 
       <div
         className={`path-options ${props.currentMode === 'symbols' ? 'visible' : ''}`}
       >
-        <span className="select-label">記号セット</span>
+        <span className="select-label">{o.symbolSet}</span>
         <div className="radio-group">
-          {SYMBOL_SET_LABELS.map((label, idx) => (
+          {o.symbolSets.map((label, idx) => (
             <span key={idx}>
               <input
                 type="radio"
@@ -77,7 +78,7 @@ export function OptionsPanel(props: OptionsPanelProps) {
       <div
         className={`path-options ${props.currentMode === 'triSplit' ? 'visible' : ''}`}
       >
-        <span className="select-label">分割パターン</span>
+        <span className="select-label">{o.polygonVariant}</span>
         <div className="radio-group">
           {POLYGON_VARIANTS.map((variant) => (
             <span key={variant}>
@@ -90,7 +91,7 @@ export function OptionsPanel(props: OptionsPanelProps) {
                 onChange={() => props.onPolygonVariantChange(variant)}
               />
               <label htmlFor={`polygonVariant-${variant}`}>
-                {POLYGON_VARIANT_LABELS[variant]}
+                {o.polygonVariants[variant]}
               </label>
             </span>
           ))}
@@ -100,9 +101,9 @@ export function OptionsPanel(props: OptionsPanelProps) {
       <div
         className={`path-options ${props.currentMode === 'aster' ? 'visible' : ''}`}
       >
-        <span className="select-label">連続する方向の塗りつぶし</span>
+        <span className="select-label">{o.asterFillMode}</span>
         <div className="radio-group">
-          {ASTER_FILL_MODES.map(({ value, label }) => (
+          {ASTER_FILL_MODES.map((value) => (
             <span key={value}>
               <input
                 type="radio"
@@ -112,13 +113,15 @@ export function OptionsPanel(props: OptionsPanelProps) {
                 checked={props.asterFillMode === value}
                 onChange={() => props.onAsterFillModeChange(value)}
               />
-              <label htmlFor={`asterFill-${value}`}>{label}</label>
+              <label htmlFor={`asterFill-${value}`}>
+                {o.asterFillModes[value]}
+              </label>
             </span>
           ))}
         </div>
-        <span className="select-label">塗りの配色</span>
+        <span className="select-label">{o.asterFillColor}</span>
         <div className="radio-group">
-          {ASTER_FILL_COLORS.map(({ value, label }) => (
+          {ASTER_FILL_COLORS.map((value) => (
             <span key={value}>
               <input
                 type="radio"
@@ -128,7 +131,9 @@ export function OptionsPanel(props: OptionsPanelProps) {
                 checked={props.asterFillColor === value}
                 onChange={() => props.onAsterFillColorChange(value)}
               />
-              <label htmlFor={`asterFillColor-${value}`}>{label}</label>
+              <label htmlFor={`asterFillColor-${value}`}>
+                {o.asterFillColors[value]}
+              </label>
             </span>
           ))}
         </div>
@@ -138,16 +143,16 @@ export function OptionsPanel(props: OptionsPanelProps) {
             checked={props.asterCross}
             onChange={(e) => props.onAsterCrossChange(e.target.checked)}
           />
-          <span>十字の罫線を表示</span>
+          <span>{o.asterCross}</span>
         </label>
       </div>
 
       <div
         className={`path-options ${props.currentMode === 'box' ? 'visible' : ''}`}
       >
-        <span className="select-label">辺の配色</span>
+        <span className="select-label">{o.boxEdgeColor}</span>
         <div className="radio-group">
-          {BOX_EDGE_COLORS.map(({ value, label }) => (
+          {BOX_EDGE_COLORS.map((value) => (
             <span key={value}>
               <input
                 type="radio"
@@ -157,7 +162,9 @@ export function OptionsPanel(props: OptionsPanelProps) {
                 checked={props.boxEdgeColor === value}
                 onChange={() => props.onBoxEdgeColorChange(value)}
               />
-              <label htmlFor={`boxEdgeColor-${value}`}>{label}</label>
+              <label htmlFor={`boxEdgeColor-${value}`}>
+                {o.boxEdgeColors[value]}
+              </label>
             </span>
           ))}
         </div>
@@ -174,7 +181,7 @@ export function OptionsPanel(props: OptionsPanelProps) {
               props.onPos16ShowLineChange(event.target.checked)
             }
           />
-          <span>接続線を表示</span>
+          <span>{o.pos16ShowLine}</span>
         </label>
         <label className="toggle">
           <input
@@ -184,7 +191,7 @@ export function OptionsPanel(props: OptionsPanelProps) {
               props.onPos16ShowNeighborhoodChange(event.target.checked)
             }
           />
-          <span>9近傍を塗る</span>
+          <span>{o.pos16ShowNeighborhood}</span>
         </label>
         <label className="toggle">
           <input
@@ -194,16 +201,16 @@ export function OptionsPanel(props: OptionsPanelProps) {
               props.onPos16ShowBoundaryChange(event.target.checked)
             }
           />
-          <span>塗り領域の境界線を表示</span>
+          <span>{o.pos16ShowBoundary}</span>
         </label>
       </div>
 
       <div
         className={`path-options ${props.currentMode === 'amida' ? 'visible' : ''}`}
       >
-        <span className="select-label">独立した縦棒</span>
+        <span className="select-label">{o.amidaRailMode}</span>
         <div className="radio-group">
-          {AMIDA_RAIL_MODES.map(({ value, label }) => (
+          {AMIDA_RAIL_MODES.map((value) => (
             <span key={value}>
               <input
                 type="radio"
@@ -213,7 +220,9 @@ export function OptionsPanel(props: OptionsPanelProps) {
                 checked={props.amidaRailMode === value}
                 onChange={() => props.onAmidaRailModeChange(value)}
               />
-              <label htmlFor={`amidaRailMode-${value}`}>{label}</label>
+              <label htmlFor={`amidaRailMode-${value}`}>
+                {o.amidaRailModes[value]}
+              </label>
             </span>
           ))}
         </div>

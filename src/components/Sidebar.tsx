@@ -2,6 +2,7 @@ import { OptionsPanel } from './OptionsPanel'
 import { Preview } from './Preview'
 import { Legend } from './Legend'
 import type { AppState } from '../lib/types'
+import { useMessages } from '../i18n'
 
 interface SidebarProps {
   state: AppState
@@ -9,9 +10,10 @@ interface SidebarProps {
 }
 
 export function Sidebar({ state, onUpdate }: SidebarProps) {
+  const m = useMessages()
   return (
     <aside>
-      <h2>選択中のパターン</h2>
+      <h2>{m.preview.heading}</h2>
       <Preview
         selectedIndex={state.selectedIndex}
         currentMode={state.currentMode}

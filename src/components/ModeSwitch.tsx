@@ -1,7 +1,8 @@
-import { MODE_LABELS } from '../lib/constants'
+import type { MouseEvent } from 'react'
+import { useMessages } from '../i18n'
+import { MODES } from '../lib/constants'
 import {
   MODE_SAMPLE_INDICES,
-  MODE_SAMPLE_LABELS,
   MODE_SAMPLE_PRESETS,
   renderModeSamples,
   type ModeSamplePreset,
@@ -14,28 +15,41 @@ interface ModeSwitchProps {
   onPresetSelect: (mode: Mode, preset: ModeSamplePreset) => void
 }
 
-interface ModeButtonProps extends ModeSwitchProps {
+interface ModeCardProps extends ModeSwitchProps {
   mode: Mode
 }
 
-function ModeButton({
+function ModeCard({
   mode,
   currentMode,
   onChange,
   onPresetSelect,
-}: ModeButtonProps) {
+}: ModeCardProps) {
+  const m = useMessages()
+  const label = m.modes[mode]
   const samples = renderModeSamples(mode)
+  const isActive = currentMode === mode
+  // カードの余白クリックでも切り替える。内側のボタンは自前で処理するので二重に発火させない
+  const handleCardClick = (event: MouseEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest('button')) return
+    onChange(mode)
+  }
 
   return (
-    <div className="mode-choice">
+    <div
+      className={`mode-choice ${isActive ? 'active' : ''}`}
+      onClick={handleCardClick}
+    >
       <button
         type="button"
-        className={`mode-select-button ${currentMode === mode ? 'active' : ''}`}
+        className={`mode-select-button ${isActive ? 'active' : ''}`}
+        aria-label={label}
         onClick={() => onChange(mode)}
       >
-        {MODE_LABELS[mode]}
+        <span className="mode-label">{label}</span>
+        <code className="mode-id">{mode}</code>
       </button>
-      <span className="mode-samples" data-sample-count={samples.length}>
+      <span className="mode-samples">
         {samples.map((graphic, index) => (
           <button
             key={index}
@@ -43,8 +57,8 @@ function ModeButton({
             className="mode-sample"
             data-mode={mode}
             data-pattern-index={MODE_SAMPLE_INDICES[mode]}
-            aria-label={`${MODE_LABELS[mode]}: ${MODE_SAMPLE_LABELS[mode][index]}`}
-            title={MODE_SAMPLE_LABELS[mode][index]}
+            aria-label={`${label}: ${m.modeSamples[mode][index]}`}
+            title={m.modeSamples[mode][index]}
             onClick={() =>
               onPresetSelect(mode, MODE_SAMPLE_PRESETS[mode][index])
             }
@@ -58,25 +72,12 @@ function ModeButton({
 }
 
 export function ModeSwitch(props: ModeSwitchProps) {
+  const m = useMessages()
   return (
-    <div className="mode-switch">
-      <ModeButton mode="edges" {...props} />
-      <span className="mode-separator" />
-      <div className="mode-group">
-        {(['symbols', 'triSplit', 'path'] as const).map((mode) => (
-          <ModeButton key={mode} mode={mode} {...props} />
-        ))}
-      </div>
-      <span className="mode-separator" />
-      <ModeButton mode="dotLine" {...props} />
-      <span className="mode-separator" />
-      <ModeButton mode="aster" {...props} />
-      <span className="mode-separator" />
-      <ModeButton mode="box" {...props} />
-      <span className="mode-separator" />
-      <ModeButton mode="pos16" {...props} />
-      <span className="mode-separator" />
-      <ModeButton mode="amida" {...props} />
-    </div>
+    <nav className="mode-switch" aria-label={m.modeNav}>
+      {MODES.map((mode) => (
+        <ModeCard key={mode} mode={mode} {...props} />
+      ))}
+    </nav>
   )
 }

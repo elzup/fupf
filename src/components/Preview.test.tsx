@@ -63,4 +63,23 @@ describe('Preview', () => {
       container.querySelector('[data-amida-route="true"]')
     ).toBeInTheDocument()
   })
+
+  it('shows the mode id and a renderGlyph code sample for the current options', () => {
+    const { container } = render(
+      <Preview
+        {...baseProps}
+        currentMode="pos16"
+        selectedIndex={0xa5}
+        pos16ShowBoundary={true}
+      />
+    )
+    expect(container.querySelector('.info-row .mode-id')).toHaveTextContent(
+      'pos16'
+    )
+    const code = container.querySelector('.code-sample code')?.textContent
+    expect(code).toContain('renderGlyph(0xA5, {')
+    expect(code).toContain("  mode: 'pos16',")
+    expect(code).toContain('  showBoundary: true,')
+    expect(code).not.toContain('size:')
+  })
 })
