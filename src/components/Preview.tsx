@@ -1,4 +1,4 @@
-import type { AppState, Mode } from '../lib/types'
+import type { AppState, ColorScheme, Mode } from '../lib/types'
 import { useMessages } from '../i18n'
 import { glyphDetail } from '../lib/glyphDetails'
 import { notationIsGlyph, styleNotation } from '../lib/notation'
@@ -18,7 +18,7 @@ interface PreviewProps {
   boxEdgeColor: AppState['boxEdgeColor']
   amidaRailMode: AppState['amidaRailMode']
   notationStyle: AppState['notationStyle']
-  monochrome: boolean
+  colorScheme: ColorScheme
   pos16ShowLine: boolean
   pos16ShowNeighborhood: boolean
   pos16ShowBoundary: boolean

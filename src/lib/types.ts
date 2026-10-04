@@ -5,6 +5,7 @@ import type {
   BoxEdgeColor,
   PolygonVariant,
   GlyphMode,
+  GlyphThemeName,
 } from 'fupf-glyph'
 
 export type {
@@ -35,7 +36,7 @@ export interface AppState {
   boxEdgeColor: BoxEdgeColor
   amidaRailMode: AmidaRailMode
   notationStyle: NotationStyle
-  monochrome: boolean
+  colorScheme: ColorScheme
   emphasizeSingleBit: boolean
   pos16OptionsVersion: number
   pos16ShowLine: boolean
@@ -43,3 +44,6 @@ export interface AppState {
   pos16ShowBoundary: boolean
   lang: Lang
 }
+
+/** 全 mode 共通の配色。basic は mode ごとの既定色 */
+export type ColorScheme = 'basic' | 'mono' | GlyphThemeName

@@ -1,7 +1,7 @@
 import { popcount } from '../lib/state'
 import { notationIsGlyph, styleNotation } from '../lib/notation'
 import { renderPattern } from '../lib/renderPattern'
-import type { AppState, Mode } from '../lib/types'
+import type { AppState, ColorScheme, Mode } from '../lib/types'
 
 interface GridCellProps {
   index: number
@@ -15,7 +15,7 @@ interface GridCellProps {
   boxEdgeColor: AppState['boxEdgeColor']
   amidaRailMode: AppState['amidaRailMode']
   notationStyle: AppState['notationStyle']
-  monochrome: boolean
+  colorScheme: ColorScheme
   emphasizeSingleBit: boolean
   pos16ShowLine: boolean
   pos16ShowNeighborhood: boolean

@@ -94,7 +94,7 @@ describe('loadState', () => {
       boxEdgeColor: 'xy',
       amidaRailMode: 'colored',
       notationStyle: 'dot',
-      monochrome: true,
+      colorScheme: 'sunset',
       emphasizeSingleBit: true,
       pos16OptionsVersion: 1,
       pos16ShowLine: false,
@@ -104,11 +104,17 @@ describe('loadState', () => {
     expect(loadState(input)).toEqual(input)
   })
 
+  it('migrates the stored monochrome flag to the mono color scheme', () => {
+    expect(loadState({ monochrome: true })).toEqual({ colorScheme: 'mono' })
+    expect(loadState({ monochrome: false })).toEqual({})
+  })
+
   it('ignores invalid fields', () => {
     const input = {
       currentMode: 'invalid',
       selectedIndex: 'not-a-number',
       monochrome: 'yes',
+      colorScheme: 'neon',
       asterFillMode: 123,
     }
     expect(loadState(input)).toEqual({})

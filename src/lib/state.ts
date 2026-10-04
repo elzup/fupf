@@ -1,5 +1,11 @@
-import type { AmidaRailMode, AppState, Mode, PolygonVariant } from './types'
-import { POS16_OPTIONS_VERSION } from './constants'
+import type {
+  AmidaRailMode,
+  AppState,
+  ColorScheme,
+  Mode,
+  PolygonVariant,
+} from './types'
+import { COLOR_SCHEMES, POS16_OPTIONS_VERSION } from './constants'
 import { isLang } from '../i18n'
 
 export function popcount(n: number): number {
@@ -53,6 +59,10 @@ export function isValidPolygonVariant(value: unknown): value is PolygonVariant {
   )
 }
 
+function isValidColorScheme(value: unknown): value is ColorScheme {
+  return COLOR_SCHEMES.includes(value as ColorScheme)
+}
+
 function isValidAmidaRailMode(value: unknown): value is AmidaRailMode {
   return (
     typeof value === 'string' && ['normal', 'colored', 'hidden'].includes(value)
@@ -82,7 +92,9 @@ export function loadState(partial: unknown): Partial<AppState> {
     result.amidaRailMode = s.amidaRailMode
   if (typeof s.notationStyle === 'string')
     result.notationStyle = s.notationStyle as AppState['notationStyle']
-  if (typeof s.monochrome === 'boolean') result.monochrome = s.monochrome
+  if (isValidColorScheme(s.colorScheme)) result.colorScheme = s.colorScheme
+  // colorScheme 導入前の保存値・共有 URL (mono=1) はモノクロとして読む
+  else if (s.monochrome === true) result.colorScheme = 'mono'
   if (typeof s.emphasizeSingleBit === 'boolean')
     result.emphasizeSingleBit = s.emphasizeSingleBit
   if (s.pos16OptionsVersion === POS16_OPTIONS_VERSION) {

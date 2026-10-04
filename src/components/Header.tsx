@@ -1,13 +1,13 @@
 import { useMessages } from '../i18n'
 import { NotationSwitch } from './NotationSwitch'
-import type { NotationStyle } from '../lib/types'
+import type { ColorScheme, NotationStyle } from '../lib/types'
 
 interface HeaderProps {
   notationStyle: NotationStyle
-  monochrome: boolean
+  colorScheme: ColorScheme
   emphasizeSingleBit: boolean
   onNotationChange: (value: NotationStyle) => void
-  onMonochromeChange: (value: boolean) => void
+  onColorSchemeChange: (value: ColorScheme) => void
   onEmphasizeSingleBitChange: (value: boolean) => void
 }
 
@@ -22,10 +22,10 @@ export function Header(props: HeaderProps) {
       <div className="header-right">
         <NotationSwitch
           notationStyle={props.notationStyle}
-          monochrome={props.monochrome}
+          colorScheme={props.colorScheme}
           emphasizeSingleBit={props.emphasizeSingleBit}
           onNotationChange={props.onNotationChange}
-          onMonochromeChange={props.onMonochromeChange}
+          onColorSchemeChange={props.onColorSchemeChange}
           onEmphasizeSingleBitChange={props.onEmphasizeSingleBitChange}
         />
       </div>

@@ -1,5 +1,10 @@
-import { renderGlyph, type GlyphOptions } from 'fupf-glyph'
-import type { AppState } from './types'
+import {
+  GLYPH_THEMES,
+  renderGlyph,
+  type ColorOptions,
+  type GlyphOptions,
+} from 'fupf-glyph'
+import type { AppState, ColorScheme } from './types'
 
 export type PatternRenderOptions = Pick<
   AppState,
@@ -12,7 +17,7 @@ export type PatternRenderOptions = Pick<
   | 'asterCross'
   | 'boxEdgeColor'
   | 'amidaRailMode'
-  | 'monochrome'
+  | 'colorScheme'
   | 'pos16ShowLine'
   | 'pos16ShowNeighborhood'
   | 'pos16ShowBoundary'
@@ -23,11 +28,27 @@ interface RenderedPattern {
   note: string
 }
 
+// mono は文字色 1 色、テーマは palette ごと差し替えて全 mode の色相をそろえる
+export function colorOptionsFor(scheme: ColorScheme): Partial<ColorOptions> {
+  if (scheme === 'basic') return {}
+  if (scheme === 'mono') return { color: 'currentColor' }
+  return { palette: GLYPH_THEMES[scheme] }
+}
+
 export function toGlyphOptions(
   size: number,
   options: PatternRenderOptions
 ): GlyphOptions {
-  const { monochrome } = options
+  return {
+    ...modeOptions(size, options),
+    ...colorOptionsFor(options.colorScheme),
+  } as GlyphOptions
+}
+
+function modeOptions(
+  size: number,
+  options: PatternRenderOptions
+): GlyphOptions {
   switch (options.currentMode) {
     case 'edges':
       return { mode: 'edges', size }
@@ -40,10 +61,9 @@ export function toGlyphOptions(
         mode: 'path',
         size,
         highlight: options.highlightDuplicates,
-        monochrome,
       }
     case 'dotLine':
-      return { mode: 'dotLine', size, monochrome }
+      return { mode: 'dotLine', size }
     case 'aster':
       return {
         mode: 'aster',
@@ -51,15 +71,13 @@ export function toGlyphOptions(
         fillMode: options.asterFillMode,
         fillColor: options.asterFillColor,
         cross: options.asterCross,
-        monochrome,
       }
     case 'box':
-      return { mode: 'box', size, edgeColor: options.boxEdgeColor, monochrome }
+      return { mode: 'box', size, edgeColor: options.boxEdgeColor }
     case 'pos16':
       return {
         mode: 'pos16',
         size,
-        monochrome,
         showLine: options.pos16ShowLine,
         showNeighborhood: options.pos16ShowNeighborhood,
         showBoundary: options.pos16ShowBoundary,
@@ -69,7 +87,6 @@ export function toGlyphOptions(
         mode: 'amida',
         size,
         railMode: options.amidaRailMode,
-        monochrome,
       }
   }
 }

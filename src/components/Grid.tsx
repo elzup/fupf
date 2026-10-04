@@ -1,7 +1,7 @@
 import { fmt2bit, normalizeSamplingPageBits } from '../lib/state'
 import { useMessages } from '../i18n'
 import { GridCell } from './GridCell'
-import type { AppState, Mode } from '../lib/types'
+import type { AppState, ColorScheme, Mode } from '../lib/types'
 
 interface GridProps {
   currentMode: Mode
@@ -14,7 +14,7 @@ interface GridProps {
   boxEdgeColor: AppState['boxEdgeColor']
   amidaRailMode: AppState['amidaRailMode']
   notationStyle: AppState['notationStyle']
-  monochrome: boolean
+  colorScheme: ColorScheme
   emphasizeSingleBit: boolean
   pos16ShowLine: boolean
   pos16ShowNeighborhood: boolean

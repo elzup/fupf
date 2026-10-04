@@ -25,10 +25,10 @@ export default function App() {
     <MessagesContext.Provider value={getMessages(state.lang)}>
       <Header
         notationStyle={state.notationStyle}
-        monochrome={state.monochrome}
+        colorScheme={state.colorScheme}
         emphasizeSingleBit={state.emphasizeSingleBit}
         onNotationChange={(value) => handleUpdate({ notationStyle: value })}
-        onMonochromeChange={(value) => handleUpdate({ monochrome: value })}
+        onColorSchemeChange={(value) => handleUpdate({ colorScheme: value })}
         onEmphasizeSingleBitChange={(value) =>
           handleUpdate({ emphasizeSingleBit: value })
         }
@@ -61,7 +61,7 @@ export default function App() {
           boxEdgeColor={state.boxEdgeColor}
           amidaRailMode={state.amidaRailMode}
           notationStyle={state.notationStyle}
-          monochrome={state.monochrome}
+          colorScheme={state.colorScheme}
           emphasizeSingleBit={state.emphasizeSingleBit}
           pos16ShowLine={state.pos16ShowLine}
           pos16ShowNeighborhood={state.pos16ShowNeighborhood}

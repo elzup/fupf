@@ -26,7 +26,7 @@ export function Sidebar({ state, onUpdate }: SidebarProps) {
         boxEdgeColor={state.boxEdgeColor}
         amidaRailMode={state.amidaRailMode}
         notationStyle={state.notationStyle}
-        monochrome={state.monochrome}
+        colorScheme={state.colorScheme}
         pos16ShowLine={state.pos16ShowLine}
         pos16ShowNeighborhood={state.pos16ShowNeighborhood}
         pos16ShowBoundary={state.pos16ShowBoundary}

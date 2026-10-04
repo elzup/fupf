@@ -1,22 +1,22 @@
 import { useMessages } from '../i18n'
-import { NOTATION_STYLES } from '../lib/constants'
-import type { NotationStyle } from '../lib/types'
+import { COLOR_SCHEMES, NOTATION_STYLES } from '../lib/constants'
+import type { ColorScheme, NotationStyle } from '../lib/types'
 
 interface NotationSwitchProps {
   notationStyle: NotationStyle
-  monochrome: boolean
+  colorScheme: ColorScheme
   emphasizeSingleBit: boolean
   onNotationChange: (value: NotationStyle) => void
-  onMonochromeChange: (value: boolean) => void
+  onColorSchemeChange: (value: ColorScheme) => void
   onEmphasizeSingleBitChange: (value: boolean) => void
 }
 
 export function NotationSwitch({
   notationStyle,
-  monochrome,
+  colorScheme,
   emphasizeSingleBit,
   onNotationChange,
-  onMonochromeChange,
+  onColorSchemeChange,
   onEmphasizeSingleBitChange,
 }: NotationSwitchProps) {
   const m = useMessages()
@@ -40,14 +40,24 @@ export function NotationSwitch({
           </span>
         ))}
       </div>
-      <label className="toggle">
-        <input
-          type="checkbox"
-          checked={monochrome}
-          onChange={(e) => onMonochromeChange(e.target.checked)}
-        />
-        <span>{m.notation.monochrome}</span>
-      </label>
+      <span className="select-label">{m.notation.colorScheme}</span>
+      <div className="radio-group" id="colorSchemeRadio">
+        {COLOR_SCHEMES.map((value) => (
+          <span key={value}>
+            <input
+              type="radio"
+              name="colorScheme"
+              id={`color-${value}`}
+              value={value}
+              checked={colorScheme === value}
+              onChange={() => onColorSchemeChange(value)}
+            />
+            <label htmlFor={`color-${value}`}>
+              {m.notation.colorSchemes[value]}
+            </label>
+          </span>
+        ))}
+      </div>
       <label className="toggle">
         <input
           type="checkbox"

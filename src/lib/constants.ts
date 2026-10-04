@@ -4,6 +4,7 @@ import type {
   AsterFillColor,
   AsterFillMode,
   BoxEdgeColor,
+  ColorScheme,
   Mode,
   NotationStyle,
   PolygonVariant,
@@ -38,7 +39,7 @@ export const DEFAULT_STATE: AppState = {
   boxEdgeColor: 'single',
   amidaRailMode: 'normal',
   notationStyle: 'default',
-  monochrome: false,
+  colorScheme: 'basic',
   emphasizeSingleBit: false,
   pos16OptionsVersion: POS16_OPTIONS_VERSION,
   pos16ShowLine: false,
@@ -68,6 +69,8 @@ export const AMIDA_RAIL_MODES: AmidaRailMode[] = ['normal', 'colored', 'hidden']
 export const ASTER_FILL_MODES: AsterFillMode[] = ['none', 'alpha', 'solid']
 
 export const ASTER_FILL_COLORS: AsterFillColor[] = ['segment', 'run']
+
+export const COLOR_SCHEMES: ColorScheme[] = ['basic', 'mono', 'ocean', 'sunset']
 
 export const NOTATION_STYLES: NotationStyle[] = [
   'default',

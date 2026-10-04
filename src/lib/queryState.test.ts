@@ -12,10 +12,10 @@ describe('stateToQuery', () => {
       ...DEFAULT_STATE,
       currentMode: 'aster',
       selectedIndex: 0xa5,
-      monochrome: true,
+      colorScheme: 'ocean',
       samplingPageBits: [7, 3],
     })
-    expect(query).toBe('mode=aster&i=a5&mono=1&bits=7%2C3')
+    expect(query).toBe('mode=aster&i=a5&color=ocean&bits=7%2C3')
   })
 })
 
@@ -37,9 +37,18 @@ describe('queryToState', () => {
     )
   })
 
+  it('reads the legacy mono=1 as the mono color scheme', () => {
+    expect(queryToState('mono=1')).toEqual({ colorScheme: 'mono' })
+    expect(queryToState('mono=1&color=sunset')).toEqual({
+      colorScheme: 'sunset',
+    })
+  })
+
   it('ignores unknown keys and invalid values', () => {
     expect(
-      queryToState('mode=nope&i=zz&mono=yes&rail=hidden&lang=fr&foo=1')
+      queryToState(
+        'mode=nope&i=zz&mono=yes&color=neon&rail=hidden&lang=fr&foo=1'
+      )
     ).toEqual({ amidaRailMode: 'hidden' })
   })
 })

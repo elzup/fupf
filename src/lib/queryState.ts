@@ -36,7 +36,7 @@ const PARAMS: Partial<Record<keyof AppState, [string, Codec]>> = {
   selectedIndex: ['i', hexIndex],
   lang: ['lang', text],
   notationStyle: ['notation', text],
-  monochrome: ['mono', bool],
+  colorScheme: ['color', text],
   emphasizeSingleBit: ['bit1', bool],
   currentSymbolSet: ['symbols', int],
   highlightDuplicates: ['highlight', bool],
@@ -82,6 +82,8 @@ export function queryToState(search: string): Partial<AppState> {
     const decoded = codec.decode(value)
     if (decoded !== undefined) raw[key] = decoded
   }
+  // colorScheme 導入前の共有 URL (mono=1)。loadState がモノクロに読み替える
+  if (params.get('mono') === '1') raw.monochrome = true
   // loadState は pos16 の表示オプションを版番号付きでのみ受け付ける
   if (['line', 'neighborhood', 'boundary'].some((name) => params.has(name))) {
     raw.pos16OptionsVersion = POS16_OPTIONS_VERSION

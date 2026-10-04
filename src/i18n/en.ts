@@ -37,7 +37,13 @@ export const en: Messages = {
       bar: '_ |',
       dot: '· ●',
     },
-    monochrome: 'Monochrome',
+    colorScheme: 'Colors',
+    colorSchemes: {
+      basic: 'Basic',
+      mono: 'Mono',
+      ocean: 'Ocean',
+      sunset: 'Sunset',
+    },
     emphasizeSingleBit: 'Outline 1-bit',
   },
 
@@ -137,7 +143,7 @@ export const en: Messages = {
       order: 'bit7 = N, then clockwise. 8 bits = 256 patterns',
       fill: '"Fill" paints a wedge between adjacent directions (colored per segment or by the run start). Spokes covered by a fill are hidden.',
       monochrome:
-        'Use the shared "Monochrome" option to switch to black and white.',
+        'Use the shared "Colors" option to switch to mono or a theme.',
     },
     box: {
       title: 'Dice legend',
@@ -145,7 +151,7 @@ export const en: Messages = {
         'A cross: a die net with one face missing (center + top, right, bottom, left)',
       corner: 'Each cell picks one of its four corners (2 bits × 4)',
       loop: 'Connected in a loop: top → right → bottom → left → top',
-      note: '4^4 = 256 patterns. Edge color: single / 45° (diagonal = pink) / position (xy) / gradient (around the loop). Monochrome supported.',
+      note: '4^4 = 256 patterns. Edge color: single / 45° (diagonal = amber) / position (xy) / gradient (around the loop). Follows the shared "Colors" option.',
     },
     pos16: {
       title: '16² pos legend',

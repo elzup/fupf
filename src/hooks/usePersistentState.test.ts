@@ -80,7 +80,7 @@ describe('usePersistentState', () => {
     const { result } = renderHook(() => usePersistentState())
     expect(result.current[0].currentMode).toBe('box')
     expect(result.current[0].selectedIndex).toBe(0xa5)
-    expect(result.current[0].monochrome).toBe(false)
+    expect(result.current[0].colorScheme).toBe('basic')
     expect(result.current[0].lang).toBe('en')
   })
 
@@ -101,14 +101,14 @@ describe('usePersistentState', () => {
   it('does not overwrite stored settings when opened from a shared URL', () => {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ currentMode: 'aster', monochrome: true })
+      JSON.stringify({ currentMode: 'aster', colorScheme: 'ocean' })
     )
     window.history.replaceState(null, '', '/?mode=box')
     const { result } = renderHook(() => usePersistentState())
     act(() => result.current[1]({ selectedIndex: 9, lang: 'en' }))
     const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}')
     expect(stored.currentMode).toBe('aster')
-    expect(stored.monochrome).toBe(true)
+    expect(stored.colorScheme).toBe('ocean')
     expect(stored.selectedIndex).toBeUndefined()
     expect(stored.lang).toBe('en')
   })
