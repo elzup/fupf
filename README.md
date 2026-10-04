@@ -20,6 +20,10 @@ The Clock demo on the site samples the current HH, MM, and SS at roughly even in
 
 ## Modes
 
+![Mode cards with sample glyphs and mode ids](docs/fupf-modes.png)
+
+The id on the right of each card (`edges`, `pos16`, ...) is the `mode` value passed to `renderGlyph`.
+
 Labels in parentheses are the names shown in the UI.
 
 - **Border** (ボーダー): line style per side, 4 sides × 2 bits

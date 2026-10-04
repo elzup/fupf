@@ -20,6 +20,10 @@
 
 ## モード
 
+![各モードのサンプルと mode id](docs/fupf-modes.png)
+
+各カード右上の id (`edges`、`pos16` など) が、`renderGlyph` に渡す `mode` の値です。
+
 - **ボーダー**: 4辺 × 2bit の線スタイル
 - **タイル**: `4^4 map type`
 - **ポリゴン**: `4^4 map type`
