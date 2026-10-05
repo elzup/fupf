@@ -15,3 +15,8 @@ build/
 coverage/
 .metarc/
 /lib/
+
+# グローバル gitignore の .claude/ を打ち消し、共有する skill だけ追跡する (settings.local.json 等は無視のまま)
+!.claude/
+.claude/*
+!.claude/skills/
