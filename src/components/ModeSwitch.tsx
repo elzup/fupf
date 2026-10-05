@@ -7,10 +7,11 @@ import {
   renderModeSamples,
   type ModeSamplePreset,
 } from '../lib/modeSamples'
-import type { Mode } from '../lib/types'
+import type { ColorScheme, Mode } from '../lib/types'
 
 interface ModeSwitchProps {
   currentMode: Mode
+  colorScheme: ColorScheme
   onChange: (mode: Mode) => void
   onPresetSelect: (mode: Mode, preset: ModeSamplePreset) => void
 }
@@ -22,12 +23,13 @@ interface ModeCardProps extends ModeSwitchProps {
 function ModeCard({
   mode,
   currentMode,
+  colorScheme,
   onChange,
   onPresetSelect,
 }: ModeCardProps) {
   const m = useMessages()
   const label = m.modes[mode]
-  const samples = renderModeSamples(mode)
+  const samples = renderModeSamples(mode, colorScheme)
   const isActive = currentMode === mode
   // カードの余白クリックでも切り替える。内側のボタンは自前で処理するので二重に発火させない
   const handleCardClick = (event: MouseEvent<HTMLDivElement>) => {

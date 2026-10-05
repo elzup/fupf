@@ -65,6 +65,12 @@ describe('mode samples', () => {
     ])
   })
 
+  it.each(MODES)('draws %s samples in the chosen color scheme', (mode) => {
+    expect(renderModeSamples(mode, 'ocean')).not.toEqual(
+      renderModeSamples(mode)
+    )
+  })
+
   it.each(MODES)('renders the %s mode sample', (mode) => {
     expect(
       renderModeSamples(mode).every((sample) => sample.includes('<svg'))

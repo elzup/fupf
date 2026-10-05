@@ -1,6 +1,6 @@
 import { DEFAULT_STATE } from './constants'
 import { renderPattern, type PatternRenderOptions } from './renderPattern'
-import type { Mode } from './types'
+import type { ColorScheme, Mode } from './types'
 
 export type ModeSamplePreset = Partial<
   Omit<PatternRenderOptions, 'currentMode'>
@@ -49,13 +49,17 @@ export const MODE_SAMPLE_PRESETS: Record<Mode, ModeSamplePreset[]> = {
   nested: [{ nestedStyle: 'fill' }, { nestedStyle: 'border' }],
 }
 
-export function renderModeSamples(mode: Mode): string[] {
+export function renderModeSamples(
+  mode: Mode,
+  colorScheme: ColorScheme = DEFAULT_STATE.colorScheme
+): string[] {
   return MODE_SAMPLE_PRESETS[mode].map(
     (preset) =>
       renderPattern(MODE_SAMPLE_INDICES[mode], 32, {
         ...DEFAULT_STATE,
         ...preset,
         currentMode: mode,
+        colorScheme,
       }).graphic
   )
 }

@@ -82,14 +82,16 @@ export const MODE_PALETTES: Readonly<Record<string, Partial<GlyphPalette>>> = {
 
 /**
  * 全 mode を同じ色相でそろえるプリセット。`palette` に渡すと mode 別の既定より優先される。
- * fg / muted も含めて上書きするので、triSplit や symbols の mode 既定色も消える
+ * fg / muted も含めて上書きするので、triSplit や symbols の mode 既定色も消える。
+ * fg にも色相を持たせる: edges / nested のように fg だけで描く mode もテーマに追従させるため。
+ * accents[0] は basic の cyan と変える (dotLine が accents[0] だけで描くので同じだと見分けがつかない)
  */
 export const GLYPH_THEMES = {
   /** 寒色 (cyan → indigo) */
   ocean: {
-    fg: p('currentColor'),
-    muted: p('#0ea5e9'),
-    accents: [p('#06b6d4'), p('#3b82f6'), p('#8b5cf6')],
+    fg: p('#0ea5e9'),
+    muted: p('#6366f1'),
+    accents: [p('#3b82f6'), p('#06b6d4'), p('#8b5cf6')],
     alt: p('#14b8a6'),
     spectrum: [
       '#06b6d4',
@@ -104,8 +106,8 @@ export const GLYPH_THEMES = {
   },
   /** 暖色 (rose → amber) */
   sunset: {
-    fg: p('currentColor'),
-    muted: p('#f97316'),
+    fg: p('#f43f5e'),
+    muted: p('#f59e0b'),
     accents: [p('#f43f5e'), p('#f59e0b'), p('#d946ef')],
     alt: p('#ec4899'),
     spectrum: [

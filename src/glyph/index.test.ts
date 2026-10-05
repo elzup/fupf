@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { renderGlyph, renderPos16, type GlyphMode } from '.'
+import {
+  GLYPH_THEMES,
+  renderGlyph,
+  renderPos16,
+  type GlyphMode,
+  type GlyphThemeName,
+} from '.'
 
 const MODES: GlyphMode[] = [
   'edges',
@@ -33,6 +39,17 @@ describe('renderGlyph', () => {
     expect(svg).not.toMatch(/<svg[^>]*style="color:/)
     expect(svg).not.toContain('#e4e4e7')
     expect(svg).not.toContain('#06b6d4')
+  })
+
+  it.each(MODES)('changes the look of %s with each theme', (mode) => {
+    const draw = (palette?: (typeof GLYPH_THEMES)[GlyphThemeName]) =>
+      [0x63, 0xa5, 0xff]
+        .map((index) => renderGlyph(index, { mode, palette }).svg)
+        .join('')
+    const basic = draw()
+    const themed = Object.values(GLYPH_THEMES).map((palette) => draw(palette))
+    expect(themed.every((svg) => svg !== basic)).toBe(true)
+    expect(new Set(themed).size).toBe(themed.length)
   })
 
   it('expresses the light tone with opacity under color', () => {

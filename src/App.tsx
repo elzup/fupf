@@ -35,6 +35,7 @@ export default function App() {
       />
       <ModeSwitch
         currentMode={state.currentMode}
+        colorScheme={state.colorScheme}
         onChange={(mode) => handleUpdate({ currentMode: mode })}
         onPresetSelect={(mode, preset) =>
           handleUpdate({ currentMode: mode, ...preset })
