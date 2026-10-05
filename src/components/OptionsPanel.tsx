@@ -4,6 +4,7 @@ import {
   ASTER_FILL_COLORS,
   ASTER_FILL_MODES,
   BOX_EDGE_COLORS,
+  NESTED_STYLES,
   POLYGON_VARIANTS,
 } from '../lib/constants'
 import type { AppState, Mode } from '../lib/types'
@@ -18,6 +19,7 @@ interface OptionsPanelProps {
   asterCross: boolean
   boxEdgeColor: AppState['boxEdgeColor']
   amidaRailMode: AppState['amidaRailMode']
+  nestedStyle: AppState['nestedStyle']
   pos16ShowLine: boolean
   pos16ShowNeighborhood: boolean
   pos16ShowBoundary: boolean
@@ -29,6 +31,7 @@ interface OptionsPanelProps {
   onAsterCrossChange: (value: boolean) => void
   onBoxEdgeColorChange: (value: AppState['boxEdgeColor']) => void
   onAmidaRailModeChange: (value: AppState['amidaRailMode']) => void
+  onNestedStyleChange: (value: AppState['nestedStyle']) => void
   onPos16ShowLineChange: (value: boolean) => void
   onPos16ShowNeighborhoodChange: (value: boolean) => void
   onPos16ShowBoundaryChange: (value: boolean) => void
@@ -222,6 +225,29 @@ export function OptionsPanel(props: OptionsPanelProps) {
               />
               <label htmlFor={`amidaRailMode-${value}`}>
                 {o.amidaRailModes[value]}
+              </label>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div
+        className={`path-options ${props.currentMode === 'nested' ? 'visible' : ''}`}
+      >
+        <span className="select-label">{o.nestedStyle}</span>
+        <div className="radio-group">
+          {NESTED_STYLES.map((value) => (
+            <span key={value}>
+              <input
+                type="radio"
+                name="nestedStyle"
+                id={`nestedStyle-${value}`}
+                value={value}
+                checked={props.nestedStyle === value}
+                onChange={() => props.onNestedStyleChange(value)}
+              />
+              <label htmlFor={`nestedStyle-${value}`}>
+                {o.nestedStyles[value]}
               </label>
             </span>
           ))}

@@ -17,6 +17,7 @@ export type PatternRenderOptions = Pick<
   | 'asterCross'
   | 'boxEdgeColor'
   | 'amidaRailMode'
+  | 'nestedStyle'
   | 'colorScheme'
   | 'pos16ShowLine'
   | 'pos16ShowNeighborhood'
@@ -88,6 +89,8 @@ function modeOptions(
         size,
         railMode: options.amidaRailMode,
       }
+    case 'nested':
+      return { mode: 'nested', size, style: options.nestedStyle }
   }
 }
 

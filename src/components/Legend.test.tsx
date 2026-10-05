@@ -47,4 +47,9 @@ describe('Legend', () => {
     render(<Legend currentMode="amida" currentSymbolSet={0} />)
     expect(screen.getByText('あみだ 凡例')).toBeInTheDocument()
   })
+
+  it('renders nested legend', () => {
+    render(<Legend currentMode="nested" currentSymbolSet={0} />)
+    expect(screen.getByText('二重四角 凡例')).toBeInTheDocument()
+  })
 })

@@ -5,13 +5,14 @@ import type {
   BoxEdgeColor,
   ColorScheme,
   Mode,
+  NestedStyle,
   NotationStyle,
   PolygonVariant,
 } from '../lib/types'
 
 export const ja = {
   description:
-    '4要素 × 2bit = 8bit = 256通りのパターン図形を、ボーダー、タイル、ポリゴン、4隅パス、丸点+線、Aster、ダイス、16² pos、あみだで表現します。',
+    '4要素 × 2bit = 8bit = 256通りのパターン図形を、ボーダー、タイル、ポリゴン、4隅パス、丸点+線、Aster、ダイス、16² pos、あみだ、二重四角で表現します。',
   languageLabel: '言語',
   modeNav: 'モード選択',
   modes: {
@@ -24,6 +25,7 @@ export const ja = {
     box: 'ダイス',
     pos16: '16² pos',
     amida: 'あみだ',
+    nested: '二重四角',
   } as Record<Mode, string>,
   modeSamples: {
     edges: ['標準'],
@@ -35,6 +37,7 @@ export const ja = {
     box: ['グラデ', '45°'],
     pos16: ['境界表示', '9近傍＋接続線'],
     amida: ['別色'],
+    nested: ['塗り', 'ボーダー'],
   } as Record<Mode, string[]>,
 
   notation: {
@@ -75,6 +78,7 @@ export const ja = {
       triSplit: '象限の塗り状態',
       pos16: '4x4 位置→位置',
       amida: '横線と経路',
+      nested: '外と内の区画',
     } as Record<Mode, string>,
     none: 'なし',
     edgesDetail: (a: number, b: number, c: number, d: number) =>
@@ -89,6 +93,7 @@ export const ja = {
       end: number
     ) =>
       `横線 上:${rungs[0]} 中:${rungs[1]} 下:${rungs[2]} / 開始:${start} → 終了:${end}`,
+    nestedDetail: (outer: string, inner: string) => `外:${outer} / 内:${inner}`,
   },
 
   // 0=左上, 1=右上, 2=左下, 3=右下 (2bit のコーナー符号順)
@@ -136,6 +141,11 @@ export const ja = {
       colored: '別色',
       hidden: '非表示',
     } as Record<AmidaRailMode, string>,
+    nestedStyle: '描き方',
+    nestedStyles: {
+      fill: '塗り',
+      border: 'ボーダーのみ',
+    } as Record<NestedStyle, string>,
   },
 
   legend: {
@@ -194,6 +204,13 @@ export const ja = {
       count: '横線4択³ × 開始位置4択 = 4³ × 4 = 256通り。',
       rails:
         '横線にも経路にも触れない縦棒は、通常色／別色／非表示を選択できます。',
+    },
+    nested: {
+      title: '二重四角 凡例',
+      outer: '外側の台形 (上位4bit、上→右→下→左)',
+      inner: '内側の直角二等辺三角形 (下位4bit、上→右→下→左)',
+      merged: '同じ向きの外と内が両方 1 なら大きな三角形',
+      note: '2^4 (外) × 2^4 (内) = 256通り。塗り／ボーダーのみを選択できます。',
     },
     triSplit: {
       title: 'ポリゴン 凡例',

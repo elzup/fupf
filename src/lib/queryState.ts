@@ -46,6 +46,7 @@ const PARAMS: Partial<Record<keyof AppState, [string, Codec]>> = {
   asterCross: ['cross', bool],
   boxEdgeColor: ['edgeColor', text],
   amidaRailMode: ['rail', text],
+  nestedStyle: ['style', text],
   pos16ShowLine: ['line', bool],
   pos16ShowNeighborhood: ['neighborhood', bool],
   pos16ShowBoundary: ['boundary', bool],

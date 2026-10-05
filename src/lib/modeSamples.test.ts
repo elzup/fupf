@@ -47,6 +47,10 @@ describe('mode samples', () => {
         pos16ShowBoundary: false,
       },
     ])
+    expect(MODE_SAMPLE_PRESETS.nested).toEqual([
+      { nestedStyle: 'fill' },
+      { nestedStyle: 'border' },
+    ])
     expect(MODE_SAMPLE_PRESETS.amida[0]).toMatchObject({
       amidaRailMode: 'colored',
     })

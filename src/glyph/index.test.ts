@@ -11,6 +11,7 @@ const MODES: GlyphMode[] = [
   'box',
   'pos16',
   'amida',
+  'nested',
 ]
 
 describe('renderGlyph', () => {

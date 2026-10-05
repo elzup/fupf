@@ -17,6 +17,7 @@ interface PreviewProps {
   asterCross: boolean
   boxEdgeColor: AppState['boxEdgeColor']
   amidaRailMode: AppState['amidaRailMode']
+  nestedStyle: AppState['nestedStyle']
   notationStyle: AppState['notationStyle']
   colorScheme: ColorScheme
   pos16ShowLine: boolean

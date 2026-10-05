@@ -5,6 +5,7 @@ import {
   amidaDetail,
   asterDirections,
   glyphDetail,
+  nestedDetail,
   pos16Detail,
 } from './glyphDetails'
 
@@ -35,6 +36,13 @@ describe('pos16Detail', () => {
     expect(pos16Detail(0b11111111)).toBe('15→15')
   })
 })
+describe('nestedDetail', () => {
+  it('lists outer and inner sides clockwise from the top', () => {
+    expect(nestedDetail(0b01100011, ja)).toBe('外:右 下 / 内:下 左')
+    expect(nestedDetail(0b10000000, en)).toBe('outer: top / inner: none')
+  })
+})
+
 describe('glyphDetail', () => {
   it('describes each mode in the given language', () => {
     expect(glyphDetail('edges', 0b01101100, ja)).toBe('上1 右2 下3 左0')

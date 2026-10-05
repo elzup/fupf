@@ -5,6 +5,7 @@ import type {
   BoxEdgeColor,
   PolygonVariant,
   GlyphMode,
+  NestedStyle,
   GlyphThemeName,
 } from 'fupf-glyph'
 
@@ -13,6 +14,7 @@ export type {
   AsterFillColor,
   AsterFillMode,
   BoxEdgeColor,
+  NestedStyle,
   PolygonVariant,
 }
 import type { Lang } from '../i18n'
@@ -35,6 +37,7 @@ export interface AppState {
   asterCross: boolean
   boxEdgeColor: BoxEdgeColor
   amidaRailMode: AmidaRailMode
+  nestedStyle: NestedStyle
   notationStyle: NotationStyle
   colorScheme: ColorScheme
   emphasizeSingleBit: boolean

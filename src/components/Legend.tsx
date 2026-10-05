@@ -390,6 +390,56 @@ export function Legend({ currentMode, currentSymbolSet }: LegendProps) {
     )
   }
 
+  if (currentMode === 'nested') {
+    return (
+      <div className="legend">
+        <h2>{l.nested.title}</h2>
+        <div className="legend-item">
+          <span
+            style={{
+              display: 'inline-block',
+              width: 14,
+              height: 14,
+              background: 'currentColor',
+              clipPath: 'polygon(0 0,100% 0,75% 25%,25% 25%)',
+            }}
+          />
+          <span>{l.nested.outer}</span>
+        </div>
+        <div className="legend-item">
+          <span
+            style={{
+              display: 'inline-block',
+              width: 14,
+              height: 14,
+              background: 'currentColor',
+              clipPath: 'polygon(25% 25%,75% 25%,50% 50%)',
+            }}
+          />
+          <span>{l.nested.inner}</span>
+        </div>
+        <div className="legend-item">
+          <span
+            style={{
+              display: 'inline-block',
+              width: 14,
+              height: 14,
+              background: 'currentColor',
+              clipPath: 'polygon(0 0,100% 0,50% 50%)',
+            }}
+          />
+          <span>{l.nested.merged}</span>
+        </div>
+        <div
+          className="legend-item"
+          style={{ marginTop: 8, color: 'var(--muted)' }}
+        >
+          {l.nested.note}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="legend">
       <h2>{l.triSplit.title}</h2>

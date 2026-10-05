@@ -14,6 +14,7 @@ interface GridCellProps {
   asterCross: boolean
   boxEdgeColor: AppState['boxEdgeColor']
   amidaRailMode: AppState['amidaRailMode']
+  nestedStyle: AppState['nestedStyle']
   notationStyle: AppState['notationStyle']
   colorScheme: ColorScheme
   emphasizeSingleBit: boolean

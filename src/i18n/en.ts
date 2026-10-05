@@ -2,7 +2,7 @@ import type { Messages } from './ja'
 
 export const en: Messages = {
   description:
-    '4 elements × 2 bits = 8 bits = 256 pattern glyphs, drawn as Border, Tile, Polygon, Corner path, Dot + line, Aster, Dice, 16² pos and Amida.',
+    '4 elements × 2 bits = 8 bits = 256 pattern glyphs, drawn as Border, Tile, Polygon, Corner path, Dot + line, Aster, Dice, 16² pos, Amida and Nested square.',
   languageLabel: 'Language',
   modeNav: 'Mode',
   modes: {
@@ -15,6 +15,7 @@ export const en: Messages = {
     box: 'Dice',
     pos16: '16² pos',
     amida: 'Amida',
+    nested: 'Nested square',
   },
   modeSamples: {
     edges: ['Default'],
@@ -26,6 +27,7 @@ export const en: Messages = {
     box: ['Gradient', '45°'],
     pos16: ['Boundary', 'Neighborhood + line'],
     amida: ['Colored rails'],
+    nested: ['Fill', 'Border'],
   },
 
   notation: {
@@ -66,6 +68,7 @@ export const en: Messages = {
       triSplit: 'Quadrant fill',
       pos16: '4x4 position → position',
       amida: 'Rungs and route',
+      nested: 'Outer and inner sections',
     },
     none: 'none',
     edgesDetail: (a, b, c, d) => `T${a} R${b} B${c} L${d}`,
@@ -73,6 +76,7 @@ export const en: Messages = {
     dotLineDetail: (dots, from, to) => `dots: ${dots} / line: ${from}→${to}`,
     amidaDetail: (rungs, start, end) =>
       `rungs top:${rungs[0]} mid:${rungs[1]} bottom:${rungs[2]} / start:${start} → end:${end}`,
+    nestedDetail: (outer, inner) => `outer: ${outer} / inner: ${inner}`,
   },
 
   corners: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
@@ -107,6 +111,8 @@ export const en: Messages = {
     pos16ShowBoundary: 'Show neighborhood boundary',
     amidaRailMode: 'Unused rails',
     amidaRailModes: { normal: 'Normal', colored: 'Colored', hidden: 'Hidden' },
+    nestedStyle: 'Style',
+    nestedStyles: { fill: 'Fill', border: 'Border only' },
   },
 
   legend: {
@@ -167,6 +173,13 @@ export const en: Messages = {
       count: '4 rung choices³ × 4 starts = 4³ × 4 = 256 patterns.',
       rails:
         'Rails touched by neither a rung nor the route can be normal, colored or hidden.',
+    },
+    nested: {
+      title: 'Nested square legend',
+      outer: 'Outer trapezoids (upper 4 bits, top → right → bottom → left)',
+      inner: 'Inner right isosceles triangles (lower 4 bits, same order)',
+      merged: 'Outer and inner on the same side merge into one large triangle',
+      note: '2^4 (outer) × 2^4 (inner) = 256 patterns. Drawn filled or as borders only.',
     },
     triSplit: {
       title: 'Polygon legend',

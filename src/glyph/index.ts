@@ -3,6 +3,7 @@ import { renderAster, type AsterOptions } from './modes/aster.js'
 import { renderBox, type BoxOptions } from './modes/box.js'
 import { renderDotLine, type DotLineOptions } from './modes/dotLine.js'
 import { renderEdges, type EdgesOptions } from './modes/edges.js'
+import { renderNested, type NestedOptions } from './modes/nested.js'
 import { renderPath, type PathOptions } from './modes/path.js'
 import { renderPos16, type Pos16Options } from './modes/pos16.js'
 import { renderSymbols, type SymbolsOptions } from './modes/symbols.js'
@@ -19,6 +20,7 @@ interface GlyphOptionsMap {
   box: BoxOptions
   pos16: Pos16Options
   amida: AmidaOptions
+  nested: NestedOptions
 }
 
 export type GlyphMode = keyof GlyphOptionsMap
@@ -47,17 +49,20 @@ export function renderGlyph(index: number, options: GlyphOptions): GlyphResult {
       return renderPos16(index, options)
     case 'amida':
       return renderAmida(index, options)
+    case 'nested':
+      return renderNested(index, options)
   }
 }
 
 export { renderAmida, renderAster, renderBox, renderDotLine, renderEdges }
-export { renderPath, renderPos16, renderSymbols, renderTriSplit }
+export { renderNested, renderPath, renderPos16, renderSymbols, renderTriSplit }
 export type {
   AmidaOptions,
   AsterOptions,
   BoxOptions,
   DotLineOptions,
   EdgesOptions,
+  NestedOptions,
   PathOptions,
   Pos16Options,
   SymbolsOptions,

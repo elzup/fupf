@@ -55,6 +55,7 @@ describe('isValidMode', () => {
     expect(isValidMode('box')).toBe(true)
     expect(isValidMode('pos16')).toBe(true)
     expect(isValidMode('amida')).toBe(true)
+    expect(isValidMode('nested')).toBe(true)
   })
   it('rejects invalid modes', () => {
     expect(isValidMode('invalid')).toBe(false)

@@ -60,6 +60,7 @@ export default function App() {
           asterCross={state.asterCross}
           boxEdgeColor={state.boxEdgeColor}
           amidaRailMode={state.amidaRailMode}
+          nestedStyle={state.nestedStyle}
           notationStyle={state.notationStyle}
           colorScheme={state.colorScheme}
           emphasizeSingleBit={state.emphasizeSingleBit}

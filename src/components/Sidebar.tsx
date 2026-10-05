@@ -25,6 +25,7 @@ export function Sidebar({ state, onUpdate }: SidebarProps) {
         asterCross={state.asterCross}
         boxEdgeColor={state.boxEdgeColor}
         amidaRailMode={state.amidaRailMode}
+        nestedStyle={state.nestedStyle}
         notationStyle={state.notationStyle}
         colorScheme={state.colorScheme}
         pos16ShowLine={state.pos16ShowLine}
@@ -41,6 +42,7 @@ export function Sidebar({ state, onUpdate }: SidebarProps) {
         asterCross={state.asterCross}
         boxEdgeColor={state.boxEdgeColor}
         amidaRailMode={state.amidaRailMode}
+        nestedStyle={state.nestedStyle}
         pos16ShowLine={state.pos16ShowLine}
         pos16ShowNeighborhood={state.pos16ShowNeighborhood}
         pos16ShowBoundary={state.pos16ShowBoundary}
@@ -54,6 +56,7 @@ export function Sidebar({ state, onUpdate }: SidebarProps) {
         onAsterCrossChange={(value) => onUpdate({ asterCross: value })}
         onBoxEdgeColorChange={(value) => onUpdate({ boxEdgeColor: value })}
         onAmidaRailModeChange={(value) => onUpdate({ amidaRailMode: value })}
+        onNestedStyleChange={(value) => onUpdate({ nestedStyle: value })}
         onPos16ShowLineChange={(value) => onUpdate({ pos16ShowLine: value })}
         onPos16ShowNeighborhoodChange={(value) =>
           onUpdate({ pos16ShowNeighborhood: value })

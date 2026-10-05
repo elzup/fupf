@@ -48,7 +48,7 @@ describe('App', () => {
     expect(screen.getByLabelText('bit7')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: '前ページ' })).toBeNull()
     expect(screen.queryByRole('button', { name: '次ページ' })).toBeNull()
-    expect(document.querySelectorAll('.mode-sample')).toHaveLength(17)
+    expect(document.querySelectorAll('.mode-sample')).toHaveLength(19)
     expect(
       document.querySelectorAll('.mode-sample[data-mode="symbols"]')
     ).toHaveLength(4)
@@ -63,6 +63,9 @@ describe('App', () => {
     ).toHaveLength(2)
     expect(
       document.querySelectorAll('.mode-sample[data-mode="pos16"]')
+    ).toHaveLength(2)
+    expect(
+      document.querySelectorAll('.mode-sample[data-mode="nested"]')
     ).toHaveLength(2)
     expect(
       document.querySelector('.mode-sample[data-mode="aster"]')

@@ -18,6 +18,7 @@ export const MODE_SAMPLE_INDICES: Record<Mode, number> = {
   box: MODE_SAMPLE_INDEX,
   pos16: MODE_SAMPLE_INDEX,
   amida: MODE_SAMPLE_INDEX,
+  nested: MODE_SAMPLE_INDEX,
 }
 
 export const MODE_SAMPLE_PRESETS: Record<Mode, ModeSamplePreset[]> = {
@@ -45,6 +46,7 @@ export const MODE_SAMPLE_PRESETS: Record<Mode, ModeSamplePreset[]> = {
     },
   ],
   amida: [{ amidaRailMode: 'colored' }],
+  nested: [{ nestedStyle: 'fill' }, { nestedStyle: 'border' }],
 }
 
 export function renderModeSamples(mode: Mode): string[] {

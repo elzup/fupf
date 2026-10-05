@@ -3,9 +3,14 @@ import type {
   AppState,
   ColorScheme,
   Mode,
+  NestedStyle,
   PolygonVariant,
 } from './types'
-import { COLOR_SCHEMES, POS16_OPTIONS_VERSION } from './constants'
+import {
+  COLOR_SCHEMES,
+  NESTED_STYLES,
+  POS16_OPTIONS_VERSION,
+} from './constants'
 import { isLang } from '../i18n'
 
 export function popcount(n: number): number {
@@ -48,6 +53,7 @@ export function isValidMode(value: unknown): value is Mode {
       'box',
       'pos16',
       'amida',
+      'nested',
     ].includes(value)
   )
 }
@@ -67,6 +73,10 @@ function isValidAmidaRailMode(value: unknown): value is AmidaRailMode {
   return (
     typeof value === 'string' && ['normal', 'colored', 'hidden'].includes(value)
   )
+}
+
+function isValidNestedStyle(value: unknown): value is NestedStyle {
+  return NESTED_STYLES.includes(value as NestedStyle)
 }
 
 export function loadState(partial: unknown): Partial<AppState> {
@@ -90,6 +100,7 @@ export function loadState(partial: unknown): Partial<AppState> {
     result.boxEdgeColor = s.boxEdgeColor as AppState['boxEdgeColor']
   if (isValidAmidaRailMode(s.amidaRailMode))
     result.amidaRailMode = s.amidaRailMode
+  if (isValidNestedStyle(s.nestedStyle)) result.nestedStyle = s.nestedStyle
   if (typeof s.notationStyle === 'string')
     result.notationStyle = s.notationStyle as AppState['notationStyle']
   if (isValidColorScheme(s.colorScheme)) result.colorScheme = s.colorScheme

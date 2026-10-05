@@ -22,6 +22,13 @@ export function pos16Detail(index: number): string {
   return `${start}→${end}`
 }
 
+// 上位 4bit = 外、下位 4bit = 内。どちらも上→右→下→左
+export function nestedDetail(index: number, m: Messages): string {
+  const sides = (nibble: number) =>
+    m.arms.filter((_, k) => (nibble >> (3 - k)) & 1).join(' ') || m.preview.none
+  return m.preview.nestedDetail(sides(index >> 4), sides(index & 0x0f))
+}
+
 function dotLineDetail(index: number, m: Messages): string {
   const dotBits = (index >> 4) & 0x0f
   const dots =
@@ -67,6 +74,8 @@ export function glyphDetail(mode: Mode, index: number, m: Messages): string {
       return triSplitDetail(index, m)
     case 'pos16':
       return pos16Detail(index)
+    case 'nested':
+      return nestedDetail(index, m)
     case 'amida':
       return amidaDetail(index, m)
   }

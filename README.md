@@ -35,6 +35,7 @@ Labels in parentheses are the names shown in the UI.
 - **Dice** (ダイス): `4^4 box type` — a cross shape (a die net with one face missing). For each of the top/right/bottom/left cells, pick one of its four corners and connect them into a closed loop. Edge coloring can be solid / 45° / position / gradient.
 - **16² pos**: `16^2 pos type` — pick a start and an end from the 16 positions of a 4×4 grid and draw a directed line. Upper 4 bits = start, lower 4 bits = end.
 - **Amida** (あみだ): `4^3 * 4 amida type` — four vertical bars; in each of the top/middle/bottom rows choose "no rung / 1–2 / 2–3 / 3–4", then trace the path from one of four start positions. Rungs not taken are highlighted, and bars touched by neither a rung nor the path can be drawn normally, in another color, or hidden.
+- **Nested square** (二重四角): `2^4 * 2^4 nested type` — an outer and an inner square, both cut by the diagonals. Upper 4 bits fill the outer trapezoids, lower 4 bits the inner right isosceles triangles (each top → right → bottom → left); when both are on for a side they merge into one large triangle. Drawn filled or as borders only.
 
 ## Library
 

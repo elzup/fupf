@@ -6,6 +6,7 @@ import type {
   BoxEdgeColor,
   ColorScheme,
   Mode,
+  NestedStyle,
   NotationStyle,
   PolygonVariant,
 } from './types'
@@ -23,6 +24,7 @@ export const MODES: Mode[] = [
   'box',
   'pos16',
   'amida',
+  'nested',
 ]
 
 export const DEFAULT_STATE: AppState = {
@@ -38,6 +40,7 @@ export const DEFAULT_STATE: AppState = {
   asterCross: true,
   boxEdgeColor: 'single',
   amidaRailMode: 'normal',
+  nestedStyle: 'fill',
   notationStyle: 'default',
   colorScheme: 'basic',
   emphasizeSingleBit: false,
@@ -65,6 +68,8 @@ export const POLYGON_VARIANTS: PolygonVariant[] = [
 export const BOX_EDGE_COLORS: BoxEdgeColor[] = ['single', 'angle', 'xy', 'grad']
 
 export const AMIDA_RAIL_MODES: AmidaRailMode[] = ['normal', 'colored', 'hidden']
+
+export const NESTED_STYLES: NestedStyle[] = ['fill', 'border']
 
 export const ASTER_FILL_MODES: AsterFillMode[] = ['none', 'alpha', 'solid']
 

@@ -44,6 +44,14 @@ describe('queryToState', () => {
     })
   })
 
+  it('keeps the nested style in the query', () => {
+    expect(queryToState('mode=nested&style=border')).toEqual({
+      currentMode: 'nested',
+      nestedStyle: 'border',
+    })
+    expect(queryToState('style=dashed')).toEqual({})
+  })
+
   it('ignores unknown keys and invalid values', () => {
     expect(
       queryToState(
